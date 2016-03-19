@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Redirects the user to the about page
+Route::get('/about', function () {
+   return view('about');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -33,5 +38,8 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
+
+    Route::get('auth/socialLogin', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/socialLogin/callback', 'Auth\AuthController@handleProviderCallback');
     Route::get('/home', 'HomeController@index');
 });
