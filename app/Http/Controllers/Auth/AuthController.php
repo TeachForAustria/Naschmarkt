@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Input;
+use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -68,5 +70,28 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Redirect the user to the GitHub authentication page.
+     *
+     * @return Response
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::driver(Input::get("type"))->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return Response
+     */
+    public function handleProviderCallback()
+    {
+        $user = Socialite::driver(Input::get("type"))->user();
+
+        $user->token;
+        return view('welcome');
     }
 }

@@ -35,4 +35,16 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id' => '981765445194772',
+        'client_secret' => '315542e5463db8278d03d1a5032db45c',
+        'redirect' => 'http://naschmarkt.com/auth/socialLogin/callback?type=facebook',
+    ],
+
+    'google' => [
+        'client_id' => '446019621107-06m0s9eniskr68i1d6plk1cb1snh8bt4.apps.googleusercontent.com',
+        'client_secret' => 'h9JnE7n6Bw5lka8x1aWGv2pO',
+        'redirect' => 'http://naschmarkt.com/auth/socialLogin/callback?type=google',
+    ],
+
 ];

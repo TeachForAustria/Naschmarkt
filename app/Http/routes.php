@@ -33,5 +33,8 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
+
+    Route::get('auth/socialLogin', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/socialLogin/callback', 'Auth\AuthController@handleProviderCallback');
     Route::get('/home', 'HomeController@index');
 });
