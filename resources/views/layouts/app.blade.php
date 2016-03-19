@@ -18,10 +18,14 @@
     <style>
         body {
             font-family: 'Lato';
+            background-color: #5bc0de;
         }
 
         .fa-btn {
             margin-right: 6px;
+        }
+        .glyphicon-heart {
+            margin-right: 5px;
         }
     </style>
 </head>
