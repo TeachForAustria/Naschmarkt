@@ -2,75 +2,6 @@
 
 @section('content')
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip({
-                placement: 'top'
-            });
-            /* end dot nav */
-
-            /* activate the invisible button */
-            $(".image-preview-input").click(function () {
-                $("#invisibleButton").trigger("click");
-
-
-            });
-
-            /* get the path of the file from the invisible button */
-            $("#invisibleButton").change(function() {
-                var fullPath = document.getElementById('invisibleButton').value;
-                if (fullPath) {
-                    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-                    var filename = fullPath.substring(startIndex);
-                    if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-                        filename = filename.substring(1);
-                    }
-                    //alert(filename);
-                    $('#uploadFilePath').attr("placeholder",filename);
-                    filename = "";
-                }
-            });
-
-
-
-        });
-    </script>
-
-    <style>
-        /*table layout - last column*/
-        table tr td:last-child {
-            white-space: nowrap;
-            width: 1px;
-            text-align:right;
-        }
-
-        /* layout.css Style */
-        .upload-drop-zone {
-            height: 200px;
-            border-width: 2px;
-            margin-bottom: 20px;
-        }
-
-        /* skin.css Style*/
-        .upload-drop-zone {
-            color: #F7F7F9;
-            border-style: dashed;
-            border-color: #F7F7F9;
-            line-height: 200px;
-            text-align: center
-        }
-
-        .upload-drop-zone.drop {
-            color: #FFFFFF;
-            border-color: #FFFFFF;
-        }
-
-        #uploadContainer {
-            border-radius: 20px;
-            background-color: rgba(255,255,255,0.15);
-        }
-    </style>
-
     <div class="container"> <br />
         <div class="row">
             <!-- the invisible button o.O -->
@@ -104,7 +35,7 @@
                         <br />
 
                         <!-- Drop Zone -->
-                        <div class="upload-drop-zone" id="drop-zone"> Or drag and drop files here </div>
+                        <div class="upload-drop-zone" id="drop-zone" style="background-color: rgba(255,255,255,0.15)"> Or drag and drop files here </div>
                         <br />
 
                         <!-- Progress Bar -->

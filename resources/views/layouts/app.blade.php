@@ -12,8 +12,8 @@
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
     <!-- upload -->
-    <link href="../upload/uploadStyle.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript" src="../upload/uploadFunctions.js"></script>
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('uploadStyle.css') }}">
+    <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
 
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>

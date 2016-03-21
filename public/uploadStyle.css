@@ -1,0 +1,33 @@
+
+/*table layout - last column*/
+table tr td:last-child {
+    white-space: nowrap;
+    width: 1px;
+    text-align:right;
+}
+
+/* layout.css Style */
+.upload-drop-zone {
+    height: 200px;
+    border-width: 2px;
+    margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+    color: #F7F7F9;
+    border-style: dashed;
+    border-color: #F7F7F9;
+    line-height: 200px;
+    text-align: center
+}
+
+.upload-drop-zone.drop {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+#uploadContainer {
+    border-radius: 20px;
+    background-color: rgba(255,255,255,0.15);
+}
