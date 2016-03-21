@@ -7,6 +7,14 @@
 
     <title>Naschmarkt</title>
 
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- upload -->
+    <link href="../upload/uploadStyle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../upload/uploadFunctions.js"></script>
+
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
@@ -59,6 +67,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
+                        <li><a href="{{ url('/upload') }}">Upload</a></li>
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else

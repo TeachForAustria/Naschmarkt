@@ -17,7 +17,12 @@ Route::get('/', function () {
 
 //Redirects the user to the about page
 Route::get('/about', function () {
-   return view('about');
+    return view('about');
+});
+
+//upload page
+Route::get('/upload', function() {
+    return view('upload');
 });
 
 /*
