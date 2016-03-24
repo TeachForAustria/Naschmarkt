@@ -30,18 +30,18 @@ Route::get('/about', function () {
 Route::group(['middleware' => 'web'], function () {
     // manually add auth routes since we don't want to allow user registration
     // Login/Logout
-    Route::get('login', 'App\Http\Controllers\Auth\AuthController@showLoginForm');
-    Route::post('login', 'App\Http\Controllers\Auth\AuthController@login');
-    Route::get('logout', 'App\Http\Controllers\Auth\AuthController@logout');
+    Route::get('login', 'Auth\AuthController@showLoginForm');
+    Route::post('login', 'Auth\AuthController@login');
+    Route::get('logout', 'Auth\AuthController@logout');
 
     // Registration
-    Route::get('register', 'App\Http\Controllers\Auth\AuthController@showRegistrationForm');
-    Route::post('register', 'App\Http\Controllers\Auth\AuthController@register');
+    Route::get('register', 'Auth\AuthController@showRegistrationForm');
+    Route::post('register', 'Auth\AuthController@register');
 
     // Password Reset
-    Route::get('password/reset/{token?}', 'App\Http\Controllers\Auth\PasswordController@showResetForm');
-    Route::post('password/email', 'App\Http\Controllers\Auth\PasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'App\Http\Controllers\Auth\PasswordController@reset');
+    Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'Auth\PasswordController@reset');
 
 
     Route::get('auth/socialLogin', 'Auth\AuthController@redirectToProvider');
@@ -52,7 +52,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'AppController@index');
 
     //upload page
-    Route::get('/upload', function() {
-        return view('upload');
-    });
+    Route::get('/upload', 'AppController@upload');
 });
