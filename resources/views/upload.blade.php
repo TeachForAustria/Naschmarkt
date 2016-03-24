@@ -10,7 +10,7 @@
             <div class="col-md-7" id="uploadContainer">
                 &nbsp;
                 <div class="panel panel-default" style="background-color: transparent; border: 0px;">
-                    <div class="panel-heading" style="background-color: transparent; border: 0px; color: #FFFFFF; font-size: 400%">Upload files<small> </small></div>
+                    <div class="panel-heading bannerText" style="background-color: transparent; border: 0px; color: #FFFFFF; font-size: 400%">Upload files<small> </small></div>
                     <div class="panel-body">
                         <div class="input-group image-preview">
                             <input placeholder="" type="text" class="form-control image-preview-filename" disabled="disabled" id="uploadFilePath">

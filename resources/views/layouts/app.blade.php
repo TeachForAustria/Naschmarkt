@@ -12,7 +12,7 @@
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
     <!-- upload -->
-    <link type="text/css" rel="stylesheet" href="{{ URL::asset('uploadStyle.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ URL::asset('style.css') }}">
     <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
 
     <!-- Fonts -->
@@ -67,6 +67,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
+                        <!-- upload should be moved below in the else,
+                        this way it can only be accessed when logged in -->
                         <li><a href="{{ url('/upload') }}">Upload</a></li>
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>

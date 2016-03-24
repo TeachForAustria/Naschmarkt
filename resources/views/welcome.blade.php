@@ -2,10 +2,6 @@
 
 @section('content')
     <style>
-       .jumbotron {
-           width: auto;
-           height: 500px;
-       }
         .bannerText {
             font-size: 20px;
         }
