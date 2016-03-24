@@ -11,18 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 //Redirects the user to the about page
 Route::get('/about', function () {
     return view('about');
-});
-
-//upload page
-Route::get('/upload', function() {
-    return view('upload');
 });
 
 /*
@@ -36,15 +27,32 @@ Route::get('/upload', function() {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-
-});
-
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+    // manually add auth routes since we don't want to allow user registration
+    // Login/Logout
+    Route::get('login', 'App\Http\Controllers\Auth\AuthController@showLoginForm');
+    Route::post('login', 'App\Http\Controllers\Auth\AuthController@login');
+    Route::get('logout', 'App\Http\Controllers\Auth\AuthController@logout');
+
+    // Registration
+    Route::get('register', 'App\Http\Controllers\Auth\AuthController@showRegistrationForm');
+    Route::post('register', 'App\Http\Controllers\Auth\AuthController@register');
+
+    // Password Reset
+    Route::get('password/reset/{token?}', 'App\Http\Controllers\Auth\PasswordController@showResetForm');
+    Route::post('password/email', 'App\Http\Controllers\Auth\PasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'App\Http\Controllers\Auth\PasswordController@reset');
 
 
     Route::get('auth/socialLogin', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/socialLogin/callback', 'Auth\AuthController@handleProviderCallback');
-    Route::get('/home', 'HomeController@index');
+
+    // application routes
+    // the auth middleware is being applied within the AppController anyway, so we don't need to add it here
+    Route::get('/', 'AppController@index');
+
+    //upload page
+    Route::get('/upload', function() {
+        return view('upload');
+    });
 });
