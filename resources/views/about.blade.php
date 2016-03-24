@@ -30,13 +30,15 @@ telephone numbers, email, address, etc.-->
             Should also be replaced with usefull values-->
             <div class="row content">
                 <div class="col-xs-12 col-sm-4">
-                    <div class="text">Tel.: 0699 123 467 84</div>
+                    <div class="text"><span class="glyphicon glyphicon-phone glyphicon-spacer"></span> Tel.: 0699 123 467 84</div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
-                    <div class="text"> Kontakt: Mr.Mockup </div>
+                    <a href="http://www.der-naschmarkt.at">
+                        <div class="text"><span class="glyphicon glyphicon-user glyphicon-spacer"></span> Kontakt: Mr.Mockup </div>
+                    </a>
                 </div>
                 <div class="col-xs-12 col-sm-4">
-                    <div class="text"> E-Mail: foo@bar.com </div>
+                        <div class="text"><span class="glyphicon glyphicon-envelope glyphicon-spacer"></span> E-Mail: foo@bar.com </div>
                 </div>
             </div>
 
