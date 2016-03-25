@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Gate;
 use App\User;
 use Illuminate\Support\Facades\Input;
 use Laravel\Socialite\Facades\Socialite;
@@ -93,5 +94,23 @@ class AuthController extends Controller
 
         $user->token;
         return view('welcome');
+    }
+
+    public function showRegistrationForm()
+    {
+        if(Gate::denies('register-user')) {
+            abort(403);
+        }
+
+        parent::showRegistrationForm();
+    }
+
+    public function postRegister(Request $request)
+    {
+        if(Gate::denies('register-user')) {
+            abort(403);
+        }
+
+        parent::postRegister($request);
     }
 }

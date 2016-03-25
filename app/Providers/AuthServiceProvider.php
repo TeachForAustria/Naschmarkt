@@ -27,5 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
 
         //
+        $gate->define('register-user', function ($user) {
+            return $user->is_staff;
+        });
     }
 }
