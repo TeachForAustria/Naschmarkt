@@ -7,10 +7,6 @@
 
     <title>Naschmarkt</title>
 
-    <!-- jQuery -->
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-
     <!-- upload -->
     <link type="text/css" rel="stylesheet" href="{{ URL::asset('style.css') }}">
     <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
@@ -20,25 +16,10 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-
-    <style>
-        body {
-            font-family: 'Lato';
-            background-color: #5bc0de;
-        }
-
-        .fa-btn {
-            margin-right: 6px;
-        }
-        .glyphicon-heart {
-            margin-right: 5px;
-        }
-    </style>
+    <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container">
             <div class="navbar-header">
 
@@ -66,13 +47,10 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <!-- upload should be moved below in the else,
-                        this way it can only be accessed when logged in -->
+                    @if (Auth::check())
                         <li><a href="{{ url('/upload') }}">Upload</a></li>
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
