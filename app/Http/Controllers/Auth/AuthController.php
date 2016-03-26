@@ -82,7 +82,7 @@ class AuthController extends Controller
         $user = new User;
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->is_staff = $data['is_staff'];
+        $user->is_staff = (isset($data['is_staff']) && $data['is_staff'] == 'yes') ? true : false;
         $user->activation_token = $activationToken;
         $user->save();
 
