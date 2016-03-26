@@ -8,7 +8,6 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    {{ $user->username }}
                 </div>
             </div>
         </div>
