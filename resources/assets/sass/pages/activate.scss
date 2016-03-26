@@ -1,0 +1,25 @@
+@import '../theme';
+
+#password-form .well {
+  margin-bottom: 0;
+}
+
+.activate-panel {
+  .btn {
+	text-align: left;
+
+	> i {
+	  margin-right: 24px;
+	}
+  }
+
+  .facebook-btn {
+	background-color: $facebook-color;
+	border-color: darken($facebook-color, 5%);
+  }
+
+  .google-btn {
+	background-color: $google-color;
+	border-color: darken($google-color, 5%);
+  }
+}
