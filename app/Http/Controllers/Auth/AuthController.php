@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\SocialLogin;
 use Gate;
 use App\User;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
+
+
+/**
+ * Type of callback
+ * either connect account or login account
+ *
+ * @var string
+ */
 
 class AuthController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -40,7 +53,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => ['logout', 'redirectToProvider','handleProviderCallback']]);
     }
 
     /**
@@ -74,26 +87,66 @@ class AuthController extends Controller
     }
 
     /**
-     * Redirect the user to the GitHub authentication page.
+     * Redirect the user to the Provider's authentication page.
      *
      * @return Response
      */
     public function redirectToProvider()
     {
-        return Socialite::driver(Input::get("type"))->redirect();
+        $provider = Input::get("provider");
+
+        $config = Config::get('services.' . $provider);
+
+        $config['redirect'] = 'http://naschmarkt.com/auth/socialLogin/callback?provider=' . $provider . "&type=" . Input::get("type");
+
+        return Socialite::buildProvider(
+            'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
+        )->redirect();
     }
 
     /**
-     * Obtain the user information from GitHub.
+     * Obtain the user information from the Provider.
+     * either login in or connect to an existing account
      *
      * @return Response
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver(Input::get("type"))->user();
 
-        $user->token;
-        return view('welcome');
+        $provider = Input::get('provider');
+        $type = Input::get('type');
+
+        $config = Config::get('services.' . $provider);
+
+        $config['redirect'] = 'http://naschmarkt.com/auth/socialLogin/callback?provider=' . $provider . "&type=" . Input::get("type");
+
+        $provider_user = Socialite::buildProvider(
+            'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
+        )->user();
+
+        if ($type == 'login') {
+
+            $social_login = SocialLogin::where('provider_id', $provider_user->getId())->where('provider', $provider)->first();
+            if ($social_login === null) {
+                abort(404, 'No associated user not found');
+            } else {
+                Auth::login($social_login->user);
+                return view('welcome');
+            }
+        } elseif ($type == 'connect') {
+
+            $new_socialLogin = new SocialLogin();
+
+            $new_socialLogin->user_id = Auth::user()->id;
+            $new_socialLogin->provider_id = $provider_user->getId();
+            $new_socialLogin->provider = $provider;
+
+            $new_socialLogin->save();
+
+            return view('welcome');
+        }
+
+        return '';
     }
 
     public function showRegistrationForm()
