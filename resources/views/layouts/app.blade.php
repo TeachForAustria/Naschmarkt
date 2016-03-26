@@ -7,16 +7,13 @@
 
     <title>Naschmarkt</title>
 
-    <!-- upload -->
-    <link type="text/css" rel="stylesheet" href="{{ URL::asset('style.css') }}">
-    <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
-
     <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
     <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
+    @yield('stylesheets')
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-inverse navbar-static-top">
@@ -49,13 +46,13 @@
                     <!-- Authentication Links -->
                     @if (Auth::check())
                         <li><a href="{{ url('/upload') }}">Upload</a></li>
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                        @can('register-user')
+                            <li><a href="{{ url('/register') }}">Register</a></li>
+                        @endcan
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
-
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
@@ -71,6 +68,7 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>

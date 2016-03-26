@@ -43,11 +43,17 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\PasswordController@reset');
 
-
+    // Login via social networks
     Route::get('auth/socialLogin', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/socialLogin/callback', 'Auth\AuthController@handleProviderCallback');
 
+    // Account Activation
+    Route::get('activate', 'Auth\AuthController@showActivationForm');
+    Route::post('activate', 'Auth\AuthController@postActivate');
+
+    //
     // application routes
+    //
     // the auth middleware is being applied within the AppController anyway, so we don't need to add it here
     Route::get('/', 'AppController@index');
 
