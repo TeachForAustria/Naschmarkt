@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\SocialLogin;
+use App\User;
+use Auth;
+use Config;
 use Gate;
 
-use App\User;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Hash;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Laravel\Socialite\Facades\Socialite;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Mail;
+use Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -181,7 +180,7 @@ class AuthController extends Controller
     /**
      * disconnect social login from currently logged in user
      *
-     * @return profile View
+     * @return Response
      */
     public function disconnectSocialLogin(){
 
@@ -193,7 +192,7 @@ class AuthController extends Controller
 
     /**
      * Displays the registration form.
-     * @return View
+     * @return Response
      */
     public function showRegistrationForm()
     {
