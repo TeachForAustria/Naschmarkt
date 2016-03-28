@@ -35,16 +35,24 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    // production
+    //'facebook' => [
+    //    'client_id' => '981765445194772',
+    //    'client_secret' => '315542e5463db8278d03d1a5032db45c',
+    //    'redirect' => '',
+    //],
+
+    // test
     'facebook' => [
-        'client_id' => '981765445194772',
-        'client_secret' => '315542e5463db8278d03d1a5032db45c',
-        'redirect' => '',
+        'client_id' => '991792504192066',
+        'client_secret' => '99f9b6015f610f6a4105b51f820e6fc1',
+        'redirect' => 'http://localhost:8000/auth/socialLogin/callback?provider=%s&type=%s',
     ],
 
     'google' => [
         'client_id' => '446019621107-06m0s9eniskr68i1d6plk1cb1snh8bt4.apps.googleusercontent.com',
         'client_secret' => 'h9JnE7n6Bw5lka8x1aWGv2pO',
-        'redirect' => '',
+        'redirect' => 'http://localhost:8000/auth/socialLogin/callback?provider=%s&type=%s',
     ],
 
 ];

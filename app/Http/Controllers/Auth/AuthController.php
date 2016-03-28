@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -114,7 +115,7 @@ class AuthController extends Controller
 
         $config = Config::get('services.' . $provider);
 
-        $config['redirect'] = 'http://naschmarkt.com/auth/socialLogin/callback?provider=' . $provider . "&type=" . Input::get("type");
+        $config['redirect'] = sprintf($config['redirect'], $provider, Input::get("type"));
 
         return Socialite::buildProvider(
             'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
@@ -135,7 +136,7 @@ class AuthController extends Controller
 
         $config = Config::get('services.' . $provider);
 
-        $config['redirect'] = 'http://naschmarkt.com/auth/socialLogin/callback?provider=' . $provider . "&type=" . Input::get("type");
+        $config['redirect'] = sprintf($config['redirect'], $provider, Input::get("type"));
 
         $provider_user = Socialite::buildProvider(
             'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
