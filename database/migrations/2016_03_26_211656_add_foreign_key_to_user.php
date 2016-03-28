@@ -14,7 +14,6 @@ class AddForeignKeyToUser extends Migration
     {
         Schema::table('social_logins', function($table)
         {
-            $table->increments('id')->change();
             $table->string('provider_id', 200)->unique();
         });
     }
@@ -27,7 +26,6 @@ class AddForeignKeyToUser extends Migration
     public function down()
     {
         Schema::table('social_logins', function ($table) {
-            $table->bigInteger('id')->change();
             $table->dropColumn('provider_id');
         });
     }
