@@ -80,7 +80,6 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            //'password' => 'required|confirmed|min:6',
         ]);
     }
 
@@ -188,18 +187,18 @@ class AuthController extends Controller
      */
     public function showRegistrationForm()
     {
-        //if(Gate::denies('register-user')) {
-        //    abort(403);
-        //}
+        if(Gate::denies('register-user')) {
+            abort(403);
+        }
 
         return view('auth.register');
     }
 
     public function postRegister(Request $request)
     {
-        //if(Gate::denies('register-user')) {
-        //    abort(403);
-        //}
+        if(Gate::denies('register-user')) {
+            abort(403);
+        }
 
         $this->register($request);
     }
