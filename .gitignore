@@ -8,3 +8,6 @@
 
 # astha
 *.bak
+
+# OS X
+.DS_STORE
