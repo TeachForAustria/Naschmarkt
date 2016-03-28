@@ -11,3 +11,6 @@
 
 # OS X
 .DS_STORE
+
+# laravel ide helper
+_ide_helper.php
