@@ -112,10 +112,16 @@ class AuthController extends Controller
     public function redirectToProvider()
     {
         $provider = Input::get("provider");
+        if($provider !== 'facebook' || $provider !== 'google')
+            abort(400);
+
+        $type = Input::get("type");
+        if($type !== 'connect' || $type !== 'login')
+            abort(400);
 
         $config = Config::get('services.' . $provider);
 
-        $config['redirect'] = sprintf($config['redirect'], $provider, Input::get("type"));
+        $config['redirect'] = sprintf($config['redirect'], $provider, $type);
 
         return Socialite::buildProvider(
             'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
@@ -132,12 +138,13 @@ class AuthController extends Controller
     {
 
         $provider = Input::get('provider');
+        if($provider !== 'facebook' || $provider !== 'google')
+            abort(400);
+
         $type = Input::get('type');
 
         $config = Config::get('services.' . $provider);
-
-        $config['redirect'] = sprintf($config['redirect'], $provider, Input::get("type"));
-
+        $config['redirect'] = sprintf($config['redirect'], $provider, $type);
         $provider_user = Socialite::buildProvider(
             'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
         )->user();
@@ -164,6 +171,8 @@ class AuthController extends Controller
             $new_socialLogin->save();
 
             return redirect('/user/' . $user->id);
+        } else {
+            abort(400);
         }
 
         return '';
