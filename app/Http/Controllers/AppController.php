@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\User;
 use Illuminate\Http\Request;
 
 class AppController extends Controller
@@ -30,5 +31,11 @@ class AppController extends Controller
     public function upload()
     {
         return view('upload');
+    }
+
+    public function profile($user_id){
+        $user = User::find($user_id);
+
+        return view('profile', compact('user'));
     }
 }

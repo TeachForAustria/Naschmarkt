@@ -18,7 +18,6 @@ body {
 table tr td:last-child {
   white-space: nowrap;
   width: 1px;
-  text-align:right;
 }
 
 /* layout.css Style */
@@ -114,4 +113,15 @@ table tr td:last-child {
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
+}
+
+.userThRight{
+  padding: 10px;
+  text-align: left;
+}
+
+.userThLeft{
+  padding: 10px;
+  text-align: right;
+  font-weight: bold;
 }

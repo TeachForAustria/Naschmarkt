@@ -43,9 +43,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\PasswordController@reset');
 
-    // Login via social networks
+    // Login/Connect via social networks
     Route::get('auth/socialLogin', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/socialLogin/callback', 'Auth\AuthController@handleProviderCallback');
+
+    // Disconnect User
+    Route::get('/auth/socialLogin/disconnect', 'Auth\AuthController@disconnectSocialLogin');
 
     // Account Activation
     Route::get('activate', 'Auth\AuthController@showActivationForm');
@@ -59,4 +62,9 @@ Route::group(['middleware' => 'web'], function () {
 
     //upload page
     Route::get('/upload', 'AppController@upload');
+
+
+    //profile page
+    Route::get('/user/{user}', 'AppController@profile');
+
 });

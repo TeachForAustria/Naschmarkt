@@ -65,6 +65,7 @@ class AuthController extends Controller
             'create',
             'redirectToProvider',
             'handleProviderCallback',
+            'disconnectSocialLogin',
         ]]);
     }
 
@@ -148,22 +149,37 @@ class AuthController extends Controller
                 abort(404, 'No associated user not found');
             } else {
                 Auth::login($social_login->user);
-                return view('welcome');
+                return redirect($this->redirectTo);
             }
         } elseif ($type == 'connect') {
 
             $new_socialLogin = new SocialLogin();
 
-            $new_socialLogin->user_id = Auth::user()->id;
+            $user = User::find(Auth::user()->id);
+
+            $new_socialLogin->user_id = $user->id;
             $new_socialLogin->provider_id = $provider_user->getId();
             $new_socialLogin->provider = $provider;
 
             $new_socialLogin->save();
 
-            return view('welcome');
+            return redirect('/user/' . $user->id);
         }
 
         return '';
+    }
+
+    /**
+     * disconnect social login from currently logged in user
+     *
+     * @return profile View
+     */
+    public function disconnectSocialLogin(){
+
+        $user = User::find(Auth::user()->id);
+        $user->sociallogins()->where('provider', Input::get('type'))->delete();
+
+        return redirect('/user/' . $user->id);
     }
 
     /**
@@ -172,18 +188,18 @@ class AuthController extends Controller
      */
     public function showRegistrationForm()
     {
-        if(Gate::denies('register-user')) {
-            abort(403);
-        }
+        //if(Gate::denies('register-user')) {
+        //    abort(403);
+        //}
 
         return view('auth.register');
     }
 
     public function postRegister(Request $request)
     {
-        if(Gate::denies('register-user')) {
-            abort(403);
-        }
+        //if(Gate::denies('register-user')) {
+        //    abort(403);
+        //}
 
         $this->register($request);
     }
