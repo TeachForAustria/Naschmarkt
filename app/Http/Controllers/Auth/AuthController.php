@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Response;
 use Validator;
 
 
@@ -182,7 +183,7 @@ class AuthController extends Controller
     /**
      * disconnect social login from currently logged in user
      *
-     * @return profile View
+     * @return Response
      */
     public function disconnectSocialLogin(){
 
@@ -194,7 +195,7 @@ class AuthController extends Controller
 
     /**
      * Displays the registration form.
-     * @return View
+     * @return Response
      */
     public function showRegistrationForm()
     {

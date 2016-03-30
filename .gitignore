@@ -9,5 +9,8 @@
 # astha
 *.bak
 
-# laravel phpstorm helper
+# OS X
+.DS_STORE
+
+# laravel ide helper
 _ide_helper.php
