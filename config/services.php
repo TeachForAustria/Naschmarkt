@@ -50,8 +50,8 @@ return [
     ],
 
     'google' => [
-        'client_id' => '446019621107-06m0s9eniskr68i1d6plk1cb1snh8bt4.apps.googleusercontent.com',
-        'client_secret' => 'h9JnE7n6Bw5lka8x1aWGv2pO',
+        'client_id' => '1021102618453-d40neoq2b0dnfhf9d06pkrh2fjs18g0h.apps.googleusercontent.com',
+        'client_secret' => 'AdIEAg22C7pktMpCSCWRibxw',
         'redirect' => 'http://localhost:8000/auth/socialLogin/callback?provider=%s&type=%s',
     ],
 

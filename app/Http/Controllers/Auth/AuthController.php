@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\SocialLogin;
-use Gate;
-
 use App\User;
-use Illuminate\Support\Facades\Config;
+use Gate;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Validator;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 
 /**
@@ -112,11 +109,11 @@ class AuthController extends Controller
     public function redirectToProvider()
     {
         $provider = Input::get("provider");
-        if($provider !== 'facebook' || $provider !== 'google')
+        if($provider !== 'facebook' && $provider !== 'google')
             abort(400);
 
         $type = Input::get("type");
-        if($type !== 'connect' || $type !== 'login')
+        if($type !== 'connect' && $type !== 'login')
             abort(400);
 
         $config = Config::get('services.' . $provider);
@@ -138,7 +135,7 @@ class AuthController extends Controller
     {
 
         $provider = Input::get('provider');
-        if($provider !== 'facebook' || $provider !== 'google')
+        if($provider !== 'facebook' && $provider !== 'google')
             abort(400);
 
         $type = Input::get('type');
@@ -159,6 +156,10 @@ class AuthController extends Controller
                 return redirect($this->redirectTo);
             }
         } elseif ($type == 'connect') {
+
+            if(SocialLogin::where('provider_id', $provider_user->getId()) !== null){
+                abort(400, ucfirst($provider) . " account already connected");
+            }
 
             $new_socialLogin = new SocialLogin();
 
