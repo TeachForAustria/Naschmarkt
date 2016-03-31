@@ -109,11 +109,11 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        $provider = Input::get("provider");
+        $provider = Input::get('provider');
         if($provider !== 'facebook' && $provider !== 'google')
             abort(400);
 
-        $type = Input::get("type");
+        $type = Input::get('type');
         if($type !== 'connect' && $type !== 'login')
             abort(400);
 
@@ -157,14 +157,14 @@ class AuthController extends Controller
                 return redirect($this->redirectTo);
             }
         } elseif ($type == 'connect') {
-
-            if(SocialLogin::where('provider_id', $provider_user->getId()) !== null){
+            
+            if(SocialLogin::whereUserId(Auth::user()->id)->whereProvider($provider)->first() !== null){
                 abort(400, ucfirst($provider) . " account already connected");
             }
 
             $new_socialLogin = new SocialLogin();
 
-            $user = User::find(Auth::user()->id);
+            $user = Auth::user();
 
             $new_socialLogin->user_id = $user->id;
             $new_socialLogin->provider_id = $provider_user->getId();
