@@ -1,11 +1,12 @@
 @extends('layouts.app')
-
+@section('stylesheets')
+    <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
+@endsection
 @section('content')
 
     <div class="container"> <br />
         <div class="row">
-            <!-- the invisible button o.O -->
-            <input type="file" style="visibility: hidden" accept="image/png, image/jpeg, image/gif" name="input-file-preview" id="invisibleButton"/>
+
 
             <div class="col-md-7" id="uploadContainer">
                 &nbsp;
@@ -33,16 +34,25 @@
                         <img src="http://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com">
                         -->
                         <br />
+                        <!-- Drop Zone
+                        <div class="upload-drop-zone"> Or drag and drop files here </div>
+                        <br /> -->
 
-                        <!-- Drop Zone -->
-                        <div class="upload-drop-zone" id="drop-zone" style="background-color: rgba(255,255,255,0.15)"> Or drag and drop files here </div>
-                        <br />
-
-                        <!-- Progress Bar -->
+                        <!-- Progress Bar
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"> <span class="sr-only">0% Complete</span> </div>
-                        </div>
+                        </div> -->
                         <br />
+
+
+                        {!! Form::open(array('url'=>'apply/upload','method'=>'POST', 'files'=>true)) !!}
+                        <!-- the invisible button o.O -->
+                        <input name="file" type="file" style="visibility: hidden" accept="image/png, image/jpeg, image/gif" name="input-file-preview" id="invisibleButton"/>
+                        {!! Form::submit('Submit', array('class'=>'send-btn')) !!}
+
+                        {!! Form::close() !!}
+
+
 
                     </div>
                 </div>

@@ -62,6 +62,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //upload page
     Route::get('/upload', 'AppController@upload');
+    Route::post('apply/upload', 'UploadController@upload');
 
 
     //profile page
