@@ -5,17 +5,17 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\SocialLogin;
 use App\User;
+use Auth;
+use Config;
 use Gate;
+use Hash;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Response;
+use Mail;
 use Validator;
 
 
@@ -188,7 +188,7 @@ class AuthController extends Controller
     public function disconnectSocialLogin(){
 
         $user = User::find(Auth::user()->id);
-        $user->sociallogins()->where('provider', Input::get('type'))->delete();
+        $user->socialLogins()->where('provider', Input::get('type'))->delete();
 
         return redirect('/user/' . $user->id);
     }
