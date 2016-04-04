@@ -13,7 +13,9 @@
 
     <!-- Styles -->
     <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('css/cloud.css') }}" rel="stylesheet">
     @yield('stylesheets')
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-inverse navbar-static-top">
@@ -45,6 +47,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::check())
+                        <li><a href="{{ url('/cloud') }}"> Wordcloud </a></li>
                         <li><a href="{{ url('/upload') }}">Upload</a></li>
                         @can('register-user')
                             <li><a href="{{ url('/register') }}">Register</a></li>
@@ -70,6 +73,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('jqcloud-1.0.4.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('cloud.js') }}"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>

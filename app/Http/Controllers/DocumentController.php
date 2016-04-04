@@ -24,6 +24,8 @@ class DocumentController extends Controller
         return view('upload');
     }
 
+
+
     public function uploadDocument(Request $request)
     {
         //which formats are allowed
