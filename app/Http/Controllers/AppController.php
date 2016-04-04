@@ -33,6 +33,11 @@ class AppController extends Controller
         return view('upload');
     }
 
+    public function cloud()
+    {
+        return view('cloud');
+    }
+
     public function profile($user_id){
         $user = User::find($user_id);
 
