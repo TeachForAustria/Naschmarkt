@@ -15,16 +15,19 @@ namespace App{
  * @property integer $id
  * @property integer $version
  * @property integer $document_id
- * @property mixed $content
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $uuid
+ * @property string $extension
  * @property-read \App\Document $document
  * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereVersion($value)
  * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereDocumentId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereContent($value)
  * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereUuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereExtension($value)
+ * @mixin \Eloquent
  */
 	class ConcreteDocument extends \Eloquent {}
 }
@@ -50,6 +53,7 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\Document whereOwnerId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Document whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Document whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class Document extends \Eloquent {}
 }
@@ -58,6 +62,7 @@ namespace App{
 /**
  * App\DocumentTag
  *
+ * @mixin \Eloquent
  */
 	class DocumentTag extends \Eloquent {}
 }
@@ -79,6 +84,7 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\SocialLogin whereProvider($value)
  * @method static \Illuminate\Database\Query\Builder|\App\SocialLogin whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\SocialLogin whereProviderId($value)
+ * @mixin \Eloquent
  */
 	class SocialLogin extends \Eloquent {}
 }
@@ -92,6 +98,7 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Document[] $documents
  * @method static \Illuminate\Database\Query\Builder|\App\Tag whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Tag whereValue($value)
+ * @mixin \Eloquent
  */
 	class Tag extends \Eloquent {}
 }
@@ -120,6 +127,7 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereIsStaff($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereActivationToken($value)
+ * @mixin \Eloquent
  */
 	class User extends \Eloquent {}
 }
