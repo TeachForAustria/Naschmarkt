@@ -203,7 +203,8 @@ return [
         'URL'        => Illuminate\Support\Facades\URL::class,
         'Validator'  => Illuminate\Support\Facades\Validator::class,
         'View'       => Illuminate\Support\Facades\View::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
+        'Input'      => Illuminate\Support\Facades\Input::class,
 
     ],
 
