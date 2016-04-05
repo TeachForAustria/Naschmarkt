@@ -3,44 +3,33 @@ telephone numbers, email, address, etc.-->
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">About Naschmarkt</div>
 
-    <div class="container-fluid">
-        <div class="main">
+                    <div class="panel-body">
 
-            <!-- Headline -->
-            <div class="row">
-                <div class="col-xs-12 col-sm-4"></div>
-                <div class="col-xs-12 col-sm-4">
-                    <div class="bannerText">About Naschmarkt</div>
-                </div>
-                <div class="col-xs-12 col-sm-4"></div>
-            </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-3"> <img src="{{ URL::asset('Vogel.png') }}"></div>
+                                <div class="col-md-9">
+                                    <div class="aboutText">
+                                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod sea takimata sanctus est Lorem .
+                                    </div>
+                                    <ul>
+                                        <li>  Kontakt: Abigal</li>
+                                        <li>  Email: abi@gail.com </li>
+                                        <li>  TelNr.: 0699 184 456 87</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- picture of company contact -->
-            <div class="row">
-                <div class="col-xs-12 col-sm-4"></div>
-                <div class="col-xs-12 col-sm-4">
-                    <!-- should be replaced with image of the company contact -->
-                    <img class="center-block" src={{ URL::asset("Vogel.png") }}> </img>
-                </div>
-                <div class="col-xs-12 col-sm-4"></div>
-            </div>
-
-            <!-- contact information
-            Should also be replaced with usefull values-->
-            <div class="row content">
-                <div class="col-xs-12 col-sm-4">
-                    <div class="text"><span class="glyphicon glyphicon-phone glyphicon-spacer"></span> Tel.: 0699 123 467 84</div>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                    <a href="http://www.der-naschmarkt.at">
-                        <div class="text"><span class="glyphicon glyphicon-user glyphicon-spacer"></span> Kontakt: Mr.Mockup </div>
-                    </a>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                        <div class="text"><span class="glyphicon glyphicon-envelope glyphicon-spacer"></span> E-Mail: foo@bar.com </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- maybe add a google maps field with the hq address here -->
+        </div>
+    </div>
 @endsection
