@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('css/cloud.css') }}" rel="stylesheet">
+    <!--<link href="{{ URL::asset('css/cloud.css') }}" rel="stylesheet">-->
     @yield('stylesheets')
 
 </head>
