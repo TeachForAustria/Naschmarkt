@@ -17,5 +17,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
+        'is_staff' => false,
     ];
+});
+
+$factory->defineAs(App\User::class, 'staff', function ($faker) use ($factory) {
+    $user = $factory->raw(App\User::class);
+
+    return array_merge($user, ['is_staff' => true]);
 });
