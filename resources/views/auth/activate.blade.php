@@ -37,8 +37,8 @@
                             </div>
                         </div>
 
-                        <a class="btn btn-primary btn-lg btn-block facebook-btn" role="button" href="#"><i class="fa fa-facebook"></i> Facebook</a>
-                        <a class="btn btn-primary btn-lg btn-block google-btn" role="button" href="#"><i class="fa fa-google"></i>Google</a>
+                        <a class="btn btn-primary btn-lg btn-block facebook-btn" role="button" href="{{ url('/auth/socialLogin?provider=facebook&type=connect') }}"><i class="fa fa-facebook"></i> Facebook</a>
+                        <a class="btn btn-primary btn-lg btn-block google-btn" role="button" href="{{ url('/auth/socialLogin?provider=google&type=connect') }}"><i class="fa fa-google"></i>Google</a>
                     </div>
                 </div>
             </div>
