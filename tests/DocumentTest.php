@@ -19,7 +19,7 @@ class DocumentTest extends TestCase
             ->actingAs($user)
             ->visit('/upload')
             ->attach('storage/test_files/file_upload.txt', 'file')
-            ->press('Upload')
+            ->press('Hochladen')
             ->seePageIs('/upload')
             ->seeInDatabase('documents', [
                 'name' => 'file_upload.txt',
