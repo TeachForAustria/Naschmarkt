@@ -8,16 +8,9 @@ $(document).ready(function () {
     });
     /* end dot nav */
 
-    /* activate the invisible button */
-    $(".image-preview-input").click(function () {
-        $("#invisibleButton").trigger("click");
-
-
-    });
-
     /* get the path of the file from the invisible button */
-    $("#invisibleButton").change(function () {
-        var fullPath = document.getElementById('invisibleButton').value;
+    $("#browseButton").change(function () {
+        var fullPath = document.getElementById('browseButton').value;
         if (fullPath) {
             var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
             var filename = fullPath.substring(startIndex);
@@ -25,7 +18,7 @@ $(document).ready(function () {
                 filename = filename.substring(1);
             }
             //alert(filename);
-            $('#uploadFilePath').attr("placeholder", filename);
+            $('#fileName').attr("placeholder", filename);
             filename = "";
         }
     });
