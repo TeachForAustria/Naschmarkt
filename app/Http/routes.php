@@ -68,6 +68,9 @@ Route::group(['middleware' => 'web'], function () {
     //wordcloud page
     Route::get('/cloud', 'AppController@cloud');
 
+    //search page
+    Route::get('/search','AppController@search');
+
     //profile page
     Route::get('/user/{user}', 'AppController@profile');
 

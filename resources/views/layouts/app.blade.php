@@ -47,6 +47,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::check())
+                        <li><a href="{{ url('/search') }}"> Search </a></li>
                         <li><a href="{{ url('/cloud') }}"> Wordcloud </a></li>
                         <li><a href="{{ url('/upload') }}">Upload</a></li>
                         @can('register-user')
