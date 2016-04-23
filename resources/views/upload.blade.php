@@ -23,7 +23,7 @@
                             {!! csrf_field() !!}
                             <!-- name -->
                             <div class="form-group">
-                                <label class="col-md-2 control-label">Name*</label>
+                                <label class="col-md-2 control-label">Titel*</label>
 
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" name="title" />
@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Beschreibung</label>
                                 <div class="col-md-8">
-                                    <textarea class="form-control" rows="4" id="description"></textarea>
+                                    <textarea class="form-control" rows="4" name="description"></textarea>
                                 </div>
                             </div>
 

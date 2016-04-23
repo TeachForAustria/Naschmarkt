@@ -38,15 +38,15 @@ class DocumentController extends Controller
 
         //When file does not match allowedExtensions
         if($validator->fails()) {
-            return redirect('upload');
+            return redirect('upload')->with('error', 'Uploaded file is not valid');
         } else if(!$file->isValid()){
             // sending back with error message.
-            return redirect('upload')->with('error', 'uploaded file is not valid');
+            return redirect('upload')->with('error', 'Uploaded file is not valid');
         } else {
             //create the document
             $document = new Document();
-            $document->name = $file->getClientOriginalName();
-            $document->description = '';
+            $document->name = $request->input('title'); //$file->getClientOriginalName();
+            $document->description = $request->input('description');
             $document->owner_id = Auth::user()->id;
             $document->save();
 
