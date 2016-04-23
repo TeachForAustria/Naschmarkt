@@ -1,35 +1,17 @@
 @extends('layouts.app')
 @push('stylesheets')
     <link href="{{ URL::asset('css/upload.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('bootstrap-tagsinput-0.8.0/src/bootstrap-tagsinput.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('bootstrap-tagsinput-0.8.0/src/bootstrap-tagsinput-typeahead.css') }}" rel="stylesheet">
-
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
-    <link rel="stylesheet" href="{{ URL::asset('tagsinput/dist/bootstrap-tagsinput.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/themes/github.css">
-    <link rel="stylesheet" href="{{ URL::asset('tagsinput/assets/bsTagsInput.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/tagsinput/dist/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/tagsinput/assets/bsTagsInput.css') }}">
 @endpush
-@section('content')
 
+@push('scripts')
     <script src="{{ URL::asset('uploadFunctions.js') }}"></script>
-    <script src="{{ URL::asset('bootstrap-tagsinput-0.8.0/src/bootstrap-tagsinput.js') }}"></script>
-    <script src="{{ URL::asset('bootstrap-tagsinput-0.8.0/src/bootstrap-tagsinput-angular.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsinput/assets/bsTagsInput.js') }}"></script>
+@endpush
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="{{ URL::asset('tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ URL::asset('tagsinput/dist/bootstrap-tagsinput-angular.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/js/rainbow.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/js/language/generic.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/js/language/html.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/js/language/javascript.js"></script>
-    <script src="{{ URL::asset('tagsinput/assets/bsTagsInput.js') }}"></script>
-    <script src="{{ URL::asset('tagsinput/assets/bsTagsInput_bs3.css') }}"></script>
-
-
+@section('content')
     <div class="container"><br/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
