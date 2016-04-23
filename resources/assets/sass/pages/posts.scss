@@ -1,0 +1,26 @@
+@import '../theme';
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+.post {
+
+  .post-title {
+	color: $brand-primary;
+	margin-top: 8px;
+	margin-bottom: 8px;
+  }
+
+  .tiles {
+	color: grey;
+	border-left: 1px solid $panel-default-border;
+	.row {
+	  padding-top: 5px;
+	  padding-bottom: 5px;
+	}
+
+  }
+
+  i {
+	width: 20px;
+	//color: $gray;
+  }
+}

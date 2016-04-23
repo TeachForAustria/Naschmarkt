@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Tags*</label>
                                 <div class="col-md-8">
-                                    <input type="text" value="2016" data-role="tagsinput" />
+                                    <input type="text" value="2016" data-role="tagsinput" name="tags" />
                                     <!--<input type="text" value="Wird, Noch ,Ge&auml;ndert" class="form-control" name="title" />-->
                                     <span class="help-block">
                                         Mindestens 3 Tags, um die Suche zu erleichtern.

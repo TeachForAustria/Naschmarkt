@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ConcreteDocument;
 use App\Document;
+use App\Tag;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -48,14 +49,29 @@ class DocumentController extends Controller
             $document->owner_id = Auth::user()->id;
             $document->save();
 
+            // create and save concrete document
             $concreteDocument = new ConcreteDocument();
             $concreteDocument->generateUuid();
             $concreteDocument->extension = $file->guessExtension();
             $document->concreteDocuments()->save($concreteDocument);
-
             $concreteDocument->writeContent(fopen($file->getRealPath(), 'r'));
+
+            // save tags
+            foreach(explode(',', $request->input('tags')) as $tag) {
+                $tagModel = Tag::firstOrCreate([
+                    'value' => $tag
+                ]);
+                $document->tags()->save($tagModel);
+            }
 
             return redirect('upload');
         }
+    }
+
+    public function showPostsView()
+    {
+        return view('posts', [
+            'posts' => Document::with('tags', 'owner')->get()
+        ]);
     }
 }

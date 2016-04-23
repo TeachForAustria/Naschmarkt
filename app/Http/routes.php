@@ -74,4 +74,7 @@ Route::group(['middleware' => 'web'], function () {
     //profile page
     Route::get('/user/{user}', 'AppController@profile');
 
+    // posts
+    Route::get('/posts', 'DocumentController@showPostsView');
+
 });
