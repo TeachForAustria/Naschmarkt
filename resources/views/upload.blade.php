@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('stylesheets')
+@push('stylesheets')
     <link href="{{ URL::asset('css/upload.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('bootstrap-tagsinput-0.8.0/src/bootstrap-tagsinput.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('bootstrap-tagsinput-0.8.0/src/bootstrap-tagsinput-typeahead.css') }}" rel="stylesheet">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ URL::asset('tagsinput/dist/bootstrap-tagsinput.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/themes/github.css">
     <link rel="stylesheet" href="{{ URL::asset('tagsinput/assets/bsTagsInput.css') }}">
-@endsection
+@endpush
 @section('content')
 
     <script src="{{ URL::asset('uploadFunctions.js') }}"></script>

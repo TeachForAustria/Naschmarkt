@@ -14,7 +14,7 @@
     <!-- Styles -->
     <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
     <!--<link href="{{ URL::asset('css/cloud.css') }}" rel="stylesheet">-->
-    @yield('stylesheets')
+    @stack('stylesheets')
 
 </head>
 <body id="app-layout">
@@ -76,6 +76,7 @@
     <script type="text/javascript" src="{{ URL::asset('uploadFunctions.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('jqcloud-1.0.4.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('cloud.js') }}"></script>
+    @stack('scripts')
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>

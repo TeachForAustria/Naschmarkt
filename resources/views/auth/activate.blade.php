@@ -1,8 +1,7 @@
 @extends('layouts.app')
-
-@section('stylesheets')
+@push('stylesheets')
     <link href="{{ URL::asset('css/pages/activate.css') }}" rel="stylesheet">
-@endsection
+@endpush
 
 @section('content')
     <div class="container">
