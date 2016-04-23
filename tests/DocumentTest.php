@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * A basic test example.
      *
@@ -38,6 +40,6 @@ class DocumentTest extends TestCase
             ]);
 
         $concreteDocument = $model = App\ConcreteDocument::where('document_id', $document->id)->firstOrFail();
-        $this->assertEquals(Storage::get($concreteDocument->uuid . '.' . $concreteDocument->extension), 'foobar');
+        $this->assertEquals($concreteDocument->readContent(), 'foobar');
     }
 }

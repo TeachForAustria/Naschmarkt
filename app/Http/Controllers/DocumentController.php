@@ -24,8 +24,6 @@ class DocumentController extends Controller
         return view('upload');
     }
 
-
-
     public function uploadDocument(Request $request)
     {
         //which formats are allowed
@@ -51,11 +49,11 @@ class DocumentController extends Controller
             $document->save();
 
             $concreteDocument = new ConcreteDocument();
-            $concreteDocument->uuid = Uuid::uuid4();
+            $concreteDocument->generateUuid();
             $concreteDocument->extension = $file->guessExtension();
             $document->concreteDocuments()->save($concreteDocument);
 
-            Storage::put($concreteDocument->uuid . '.' . $concreteDocument->extension, fopen($file->getRealPath(), 'r'));
+            $concreteDocument->writeContent(fopen($file->getRealPath(), 'r'));
 
             return redirect('upload');
         }
