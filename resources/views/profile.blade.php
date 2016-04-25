@@ -9,53 +9,57 @@
 
                     <div class="panel-body">
 
+                        <form class="form-horizontal">
 
-                        <table style="width: 30%">
-                            <tr>
-                                <td class="userThLeft">Username</td>
-                                <td class="userThRight">{{ $user->name }} </td>
-                            </tr>
-                            <tr>
-                                <td class="userThLeft">Email</td>
-                                <td class="userThRight">{{ $user->email }} </td>
-                            </tr>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Username</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">{{ $user->name }}</p>
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">{{ $user->email }}</p>
+                                </div>
+                            </div>
 
-                            @if(Auth::user()==$user)
-                                <tr>
-                                    <td class="userThLeft">Facebook</td>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Facebook</label>
+                                <div class="col-sm-10">
 
-                                    <td class="userThRight">
-                                        @if($user->sociallogins()->where('provider', 'facebook')->first() === null)
-                                            <a href="{{ url('/auth/socialLogin?provider=facebook&type=connect') }}">
-                                                <input class="btn" type="button" value="Connect" />
-                                            </a>
-                                        @else
-                                            <a href="{{ url('/auth/socialLogin/disconnect?provider=facebook') }}">
-                                                <input class="btn" type="button" value="Disconnect" />
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
+                                    @if($user->sociallogins()->where('provider', 'facebook')->first() === null)
+                                        <a href="{{ url('/auth/socialLogin?provider=facebook&type=connect') }}">
+                                            <input class="btn" type="button" value="Connect" />
+                                        </a>
+                                    @else
+                                        <a href="{{ url('/auth/socialLogin/disconnect?provider=facebook') }}">
+                                            <input class="btn" type="button" value="Disconnect" />
+                                        </a>
+                                    @endif
 
-                                    <td class="userThLeft">Google+</td>
+                                </div>
+                            </div>
 
-                                    <td class="userThRight">
-                                        @if($user->sociallogins()->where('provider', 'google')->first() === null)
-                                            <a href="{{ url('/auth/socialLogin?provider=google&type=connect') }}">
-                                                <input class="btn" type="button" value="Connect" />
-                                            </a>
-                                        @else
-                                            <a href="{{ url('/auth/socialLogin/disconnect?provider=google') }}">
-                                                <input class="btn" type="button" value="Disconnect" />
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endif
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Google+</label>
+                                <div class="col-sm-10">
 
-                        </table>
+                                    @if($user->sociallogins()->where('provider', 'google')->first() === null)
+                                        <a href="{{ url('/auth/socialLogin?provider=google&type=connect') }}">
+                                            <input class="btn" type="button" value="Connect" />
+                                        </a>
+                                    @else
+                                        <a href="{{ url('/auth/socialLogin/disconnect?provider=google') }}">
+                                            <input class="btn" type="button" value="Disconnect" />
+                                        </a>
+                                    @endif
+
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

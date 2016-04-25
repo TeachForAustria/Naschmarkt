@@ -8,7 +8,7 @@ class Post extends Model
 {
     public function owner()
     {
-        return $this->belongsTo('App\Post', 'owner_id');
+        return $this->belongsTo('App\User', 'owner_id');
     }
 
     public function documents()
