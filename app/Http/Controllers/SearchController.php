@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\ConcreteDocument;
 use App\Document;
 use App\Http\Requests;
+use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -49,17 +50,17 @@ class SearchController extends Controller{
             }
         }
 
-        $documents = Document::all();
-        echo $documents.ob_get_length();
+        $posts = Post::all();
+        echo $posts.ob_get_length();
 
-        foreach($documents as $document){
+        foreach($posts as $post){
             echo "looping documents";
-            foreach($document->tags as $current_tag){
+            foreach($post->tags as $current_tag){
                 echo "looping tags";
                 foreach($filtered_tags as $filtered_tag){
                     echo "filtering tags";
                     if($current_tag->id === $filtered_tag->id){
-                        echo $document;
+                        echo $post;
                     }
 
                 }
