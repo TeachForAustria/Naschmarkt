@@ -11,6 +11,6 @@ class Tag extends Model
 
     public function documents()
     {
-        return $this->belongsToMany('App\Document');
+        return $this->belongsToMany('App\Post');
     }
 }

@@ -25,21 +25,24 @@ class DocumentTest extends TestCase
             ->attach('storage/test_files/file_upload.txt', 'file')
             ->press('Hochladen')
             ->seePageIs('/upload')
-            ->seeInDatabase('documents', [
+            ->seeInDatabase('posts', [
                 'name' => 'test file',
                 'owner_id' => $user->id,
                 'description' => 'some text here'
             ]);
 
-        $document = App\Document::where('name', 'test file')->firstOrFail();
+        $post = App\Post::where('name', 'test file')->firstOrFail();
+
+        $document = $post->documents()->first();
+
         $this
-            ->seeInDatabase('concrete_documents', [
+            ->seeInDatabase('document_versions', [
                 'document_id' => $document->id,
                 'extension' => 'txt',
                 'version' => 0
             ]);
 
-        $concreteDocument = $model = App\ConcreteDocument::where('document_id', $document->id)->firstOrFail();
+        $concreteDocument = $model = App\DocumentVersion::where('document_id', $document->id)->firstOrFail();
         $this->assertEquals($concreteDocument->readContent(), 'foobar');
     }
 }

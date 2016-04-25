@@ -18,9 +18,15 @@ class CreatePostsTableAddCommentsTable extends Migration
             $table->increments('id');
             $table->integer('post_id')->unsigned();
             $table->string('name');
+            $table->timestamps();
         });
 
         Schema::rename('concrete_documents', 'document_versions');
+        Schema::rename('document_tag', 'post_tag');
+
+        Schema::table('post_tag', function ($table) {
+            $table->renameColumn('document_id', 'post_id');
+        });
     }
 
     /**
@@ -32,5 +38,11 @@ class CreatePostsTableAddCommentsTable extends Migration
     {
         Schema::drop('documents');
         Schema::rename('posts', 'documents');
+        Schema::rename('document_versions', 'concrete_documents');
+        Schema::rename('post_tag', 'document_tag');
+
+        Schema::table('document_tag', function ($table) {
+            $table->renameColumn('post_id', 'document_id');
+        });
     }
 }

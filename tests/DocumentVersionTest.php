@@ -4,7 +4,7 @@ class ConcreteDocumentTest extends TestCase
 {
     public function testWriteContent()
     {
-        $concreteDocument = new \App\ConcreteDocument();
+        $concreteDocument = new \App\DocumentVersion();
         $concreteDocument->generateUuid();
         $concreteDocument->extension = 'txt';
         $concreteDocument->writeContent('foobar');
@@ -13,7 +13,7 @@ class ConcreteDocumentTest extends TestCase
     }
 
     public function testReadContent() {
-        $concreteDocument = new \App\ConcreteDocument();
+        $concreteDocument = new \App\DocumentVersion();
         $concreteDocument->generateUuid();
         $concreteDocument->extension = 'txt';
         Storage::put($concreteDocument->uuid . '.' . $concreteDocument->extension, 'foobar');

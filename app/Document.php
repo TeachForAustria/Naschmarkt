@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
 {
-    public function owner()
+    public function post()
     {
-        return $this->belongsTo('App\User', 'owner_id');
+        return $this->belongsTo('App\Post', 'post_id');
     }
 
-    public function concreteDocuments()
+    public function documentVersions()
     {
-        return $this->hasMany('App\ConcreteDocument');
+        return $this->hasMany('App\DocumentVersion');
     }
 
     public function tags()

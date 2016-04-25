@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ConcreteDocument;
 use App\Document;
+use App\DocumentVersion;
+use App\Post;
 use App\Tag;
 use Auth;
 use Illuminate\Http\Request;
@@ -28,7 +30,7 @@ class DocumentController extends Controller
     public function uploadDocument(Request $request)
     {
         //which formats are allowed
-        $allowedExtensions = "pdf,txt,html,docx,zip,jpg,jpeg,png,gif";
+        $allowedExtensions = "pdf,txt,html,docx,doc,zip,jpg,jpeg,png,gif";
         $rules = array('file' => 'required|mimes:'.$allowedExtensions);
         $validator = Validator::make($request->all(), $rules);
 
@@ -43,25 +45,31 @@ class DocumentController extends Controller
             return redirect('upload')->with('error', 'Uploaded file is not valid');
         } else {
             //create the document
+            $post = new Post();
+            $post->name = $request->input('title'); //$file->getClientOriginalName();
+            $post->description = $request->input('description');
+            $post->owner_id = Auth::user()->id;
+            $post->save();
+
+            //create and save document
             $document = new Document();
-            $document->name = $request->input('title'); //$file->getClientOriginalName();
-            $document->description = $request->input('description');
-            $document->owner_id = Auth::user()->id;
-            $document->save();
+            $document->name = $file->getClientOriginalName();
+            $post->documents()->save($document);
+
 
             // create and save concrete document
-            $concreteDocument = new ConcreteDocument();
-            $concreteDocument->generateUuid();
-            $concreteDocument->extension = $file->guessExtension();
-            $document->concreteDocuments()->save($concreteDocument);
-            $concreteDocument->writeContent(fopen($file->getRealPath(), 'r'));
+            $documentVersion = new DocumentVersion();
+            $documentVersion->generateUuid();
+            $documentVersion->extension = $file->guessExtension();
+            $document->documentVersions()->save($documentVersion);
+            $documentVersion->writeContent(fopen($file->getRealPath(), 'r'));
 
             // save tags
             foreach(explode(',', $request->input('tags')) as $tag) {
                 $tagModel = Tag::firstOrCreate([
                     'value' => $tag
                 ]);
-                $document->tags()->save($tagModel);
+                $post->tags()->save($tagModel);
             }
 
             return redirect('upload');
@@ -71,7 +79,7 @@ class DocumentController extends Controller
     public function showPostsView()
     {
         return view('posts', [
-            'posts' => Document::with('tags', 'owner')->get()
+            'posts' => Post::with('tags', 'owner')->get()
         ]);
     }
 }
