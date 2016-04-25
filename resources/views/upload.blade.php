@@ -67,6 +67,44 @@
                                 </div>
                             </div>
 
+                            <br/>
+
+                            <hr>
+
+                            <!-- presetTags -->
+                            <button type="button" class="btn btn-default" id="toggleTags"><i class="fa fa-plus-square-o fa-lg" style="padding-right: 5px" aria-hidden="true"></i> Vorhandene Tags</button>
+                            <br><br>
+                            <div id="presetTags" style="display: none">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#fachliches">Fachliches</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">Inhaltliches</a></li>
+                                    <li><a data-toggle="tab" href="#menu2">Programmbezogenes</a></li>
+                                    <li><a data-toggle="tab" href="#menu3">Bildung-Schulsysteme-LehrerInnenberuf</a></li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="fachliches" class="tab-pane fade in active">
+                                        <!--<h4>Fachliches</h4>-->
+                                        <div id="printFachliches"></div>
+                                    </div>
+
+                                    <div id="menu1" class="tab-pane fade">
+                                        <!--<h4>Inhaltliches</h4>-->
+                                        <div id="printInhaltliches"></div>
+                                    </div>
+
+                                    <div id="menu2" class="tab-pane fade">
+                                        <!--<h4>Programmbezogenes</h4>-->
+                                        <div id="printProgrammbezogenes"></div>
+                                    </div>
+
+                                    <div id="menu3" class="tab-pane fade">
+                                        <!--<h4>Bildung-Schulsysteme-LehrerInnenberuf</h4>-->
+                                        <div id="printBildung"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- End presetTags -->
+
                             <!-- help-block -->
                             <br/><br/>
                             <span class="help-block">
@@ -77,6 +115,5 @@
                 </div>
             </div>
         </div>
-    </div>
     </div> <!-- /container -->
 @endsection
