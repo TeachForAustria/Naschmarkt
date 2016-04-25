@@ -1,4 +1,6 @@
 var elixir = require('laravel-elixir');
+var gulp = require('gulp');
+var phplint = require('phplint').lint;
 
 /*
  |--------------------------------------------------------------------------
@@ -14,5 +16,6 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix
         .sass('app.scss')
-        .sass('pages/activate.scss', 'public/css/pages');
+        .sass('pages/activate.scss', 'public/css/pages')
+        .sass('pages/posts.scss', 'public/css/pages');
 });
