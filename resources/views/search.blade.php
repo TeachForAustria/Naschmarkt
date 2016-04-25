@@ -10,15 +10,21 @@
 
                     <!-- Body -->
                     <div class="panel-body">
-                        <div class="form-horizontal">
+                        <form action="/search" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                            {!! csrf_field() !!}
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="searchQuery">
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-default">Search</button>
+                                    <button type="submit" class="btn btn-default" name="search">Search</button>
                                 </div>
                             </div>
-                        </div>
+
+                        </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

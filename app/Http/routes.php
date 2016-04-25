@@ -70,6 +70,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //search page
     Route::get('/search','AppController@search');
+    Route::post('/search', 'SearchController@searchForQuery');
 
     //profile page
     Route::get('/user/{user}', 'AppController@profile');
