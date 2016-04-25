@@ -8,6 +8,7 @@
 
 # astha
 *.bak
+*.lock
 
 # OS X
 .DS_STORE

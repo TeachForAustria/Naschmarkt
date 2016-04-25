@@ -31,7 +31,7 @@
                                                 <input class="btn" type="button" value="Connect" />
                                             </a>
                                         @else
-                                            <a href="{{ url('/auth/socialLogin/disconnect?type=facebook') }}">
+                                            <a href="{{ url('/auth/socialLogin/disconnect?provider=facebook') }}">
                                                 <input class="btn" type="button" value="Disconnect" />
                                             </a>
                                         @endif
@@ -47,7 +47,7 @@
                                                 <input class="btn" type="button" value="Connect" />
                                             </a>
                                         @else
-                                            <a href="{{ url('/auth/socialLogin/disconnect?type=google') }}">
+                                            <a href="{{ url('/auth/socialLogin/disconnect?provider=google') }}">
                                                 <input class="btn" type="button" value="Disconnect" />
                                             </a>
                                         @endif

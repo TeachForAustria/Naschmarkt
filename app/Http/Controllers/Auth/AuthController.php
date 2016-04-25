@@ -109,18 +109,27 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
+        //get input parameter 'provider' from url
         $provider = Input::get('provider');
+        //test if valid provider was given (facebook or google)
         if($provider !== 'facebook' && $provider !== 'google')
             abort(400);
 
+        //get input parameter 'type' from url
         $type = Input::get('type');
+        //test if valid type was given (connect account or login account)
         if($type !== 'connect' && $type !== 'login')
             abort(400);
 
+        //get config from config/services as services.'provider' (services.facebook or services.google)
+        //this returns and array with client_id, client_secret and redirect.
         $config = Config::get('services.' . $provider);
 
+        //change redirect url. in redirect the url has 2 %s's which are exchanged with sprintf(...) to the provider name and type of connection
         $config['redirect'] = sprintf($config['redirect'], $provider, $type);
 
+        //This is the socialite library file SocialiteManager.php.
+        //It's a generic way of generating the Driver for any provider.
         return Socialite::buildProvider(
             'Laravel\Socialite\Two\\'. ucfirst($provider).'Provider', $config
         )->redirect();
@@ -134,13 +143,20 @@ class AuthController extends Controller
      */
     public function handleProviderCallback()
     {
-
+        //get input parameter 'provider' from url
         $provider = Input::get('provider');
+        //test if valid provider was given (facebook or google)
         if($provider !== 'facebook' && $provider !== 'google')
             abort(400);
 
+        //get input parameter 'type' from url
         $type = Input::get('type');
+        //test if valid type was given (connect account or login account)
+        if($type !== 'connect' && $type !== 'login')
+            abort(400);
 
+        //same as method above for creating the driver.
+        //here we need the created user from it.
         $config = Config::get('services.' . $provider);
         $config['redirect'] = sprintf($config['redirect'], $provider, $type);
         $provider_user = Socialite::buildProvider(
@@ -149,27 +165,37 @@ class AuthController extends Controller
 
         if ($type == 'login') {
 
+            //get SocialLogin from Database.
             $social_login = SocialLogin::where('provider_id', $provider_user->getId())->where('provider', $provider)->first();
+            //check if it exists.
             if ($social_login === null) {
                 abort(404, 'No associated user not found');
             } else {
+                //if it exists login the associated user found
                 Auth::login($social_login->user);
                 return redirect($this->redirectTo);
             }
         } elseif ($type == 'connect') {
-            
+
+            //check if account is already connected
             if(SocialLogin::whereUserId(Auth::user()->id)->whereProvider($provider)->first() !== null){
                 abort(400, ucfirst($provider) . " account already connected");
             }
 
-            $new_socialLogin = new SocialLogin();
-
+            //get current user
             $user = Auth::user();
 
+            //create new SocialLogin
+            $new_socialLogin = new SocialLogin();
+
+            //set user id from the current user
             $new_socialLogin->user_id = $user->id;
+            //set provider id from provider user
             $new_socialLogin->provider_id = $provider_user->getId();
+            //set provider string. (google or facebook)
             $new_socialLogin->provider = $provider;
 
+            //save SocialLogin
             $new_socialLogin->save();
 
             return redirect('/user/' . $user->id);
@@ -187,9 +213,12 @@ class AuthController extends Controller
      */
     public function disconnectSocialLogin(){
 
+        //get current user
         $user = User::find(Auth::user()->id);
-        $user->socialLogins()->where('provider', Input::get('type'))->delete();
+        //delete SocialLogin from given url Parameter
+        $user->socialLogins()->where('provider', Input::get('provider'))->delete();
 
+        //redirect back user's page
         return redirect('/user/' . $user->id);
     }
 
