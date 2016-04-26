@@ -32,7 +32,7 @@
                             <span>{{ $post->created_at->format('d. m. Y') }}</span>
                         </div>
                         <div class="col-sm-3">
-                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i></strong>
+                            <strong><i class="fa fa-repeat" aria-hidden="true"></i></strong>
                             <span>{{ $post->updated_at->format('d. m. Y') }}</span>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="row">
-                                            <div class="col-sm-12 file-name"><strong><a href="#">{{ $document->name }}</a></strong></div>
+                                            <div class="col-sm-12 file-name"><strong><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>{{ $document->name }}</a></strong></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-2 file-info">
@@ -64,7 +64,7 @@
                                         <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $document->created_at->format('d. m. Y') }}
                                     </div>
                                     <div class="col-sm-1 file-info">
-                                        <i class="fa fa-refresh" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
+                                        <i class="fa fa-repeat" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
                                     </div>
                                     <div class="col-sm-3 file-info">
                                         <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
