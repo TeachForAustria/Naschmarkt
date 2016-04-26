@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @push('stylesheets')
     <link href="{{ URL::asset('css/upload.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('lib/tagsinput/dist/bootstrap-tagsinput.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('lib/tagsinput/assets/bsTagsInput.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
 @endpush
 
 @push('scripts')
     <script src="{{ URL::asset('uploadFunctions.js') }}"></script>
-    <script src="{{ URL::asset('lib/tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/tagsinput/assets/bsTagsInput.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
 @endpush
 
 @section('content')

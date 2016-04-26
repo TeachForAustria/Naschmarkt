@@ -16,5 +16,6 @@ elixir(function(mix) {
     mix
         .sass('app.scss')
         .sass('pages/activate.scss', 'public/css/pages')
-        .sass('pages/posts.scss', 'public/css/pages');
+        .sass('pages/posts.scss', 'public/css/pages')
+        .sass('pages/post.scss', 'public/css/pages');
 });

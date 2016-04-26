@@ -1,37 +1,59 @@
 @extends('layouts.app')
 @push('stylesheets')
-    <link href="{{ URL::asset('css/pages/posts.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('css/pages/posts.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput-typeahead.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput-typeahead.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/assets/makeTypeahead.js') }}"></script>
 @endpush
 
 @section('content')
 
-    <!-- This is the searchbar -->
+
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <!-- Header -->
                     <div class="panel-heading">Search</div>
-
-                    <!-- Body -->
                     <div class="panel-body">
                         <form action="/search" method="POST" class="form-horizontal" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control" name="searchQuery">
+                                    <input id="searchQuery" type="text"  data-role="tagsinput" name="searchQuery" class="form-control">
                                 </div>
                                 <div class="col-md-2">
                                     <button type="submit" class="btn btn-default" name="search">Search</button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+<!-- AJAX SHIT
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel-heading">
+                    <div class="panel-body">
+                        <div class="col-md-10">
+                            <input id="searchBar" type="text" class="form-control" name="searchQuery">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
 
     <div class="container">
         @foreach($posts as $post)
@@ -40,7 +62,7 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <div class="row">
-                                <div class="col-sm-12"><h4 class="post-title"><a href="#">{{ $post->name }}</a></h4></div>
+                                <div class="col-sm-12"><h4 class="post-title"><a href="{{ Url::to('/posts/' . $post->id) }}">{{ $post->name }}</a></h4></div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">

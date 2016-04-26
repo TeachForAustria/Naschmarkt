@@ -82,4 +82,11 @@ class DocumentController extends Controller
             'posts' => Post::with('tags', 'owner')->get()
         ]);
     }
+
+    public function showViewPostView($id)
+    {
+        return view('posts.view', [
+            'post' => Post::with('documents.documentVersions')->findOrFail($id)
+        ]);
+    }
 }

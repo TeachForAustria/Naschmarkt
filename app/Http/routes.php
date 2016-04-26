@@ -69,7 +69,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/cloud', 'AppController@cloud');
 
     //search page
-    Route::get('/search','AppController@search');
     Route::post('/search', 'SearchController@searchForQuery');
 
     //profile page
@@ -77,5 +76,9 @@ Route::group(['middleware' => 'web'], function () {
 
     // posts
     Route::get('/posts', 'DocumentController@showPostsView');
+
+    // Route::post('/posts', 'SearchController@searchForQuery');
+
+    Route::get('/posts/{id}', 'DocumentController@showViewPostView');
 
 });
