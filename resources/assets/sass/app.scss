@@ -2,6 +2,13 @@
 @import "theme";
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+h1, h2, h3, h4, h5, h6 {
+  .badge {
+    vertical-align: middle;
+    margin-top: -0.5em;
+  }
+}
+
 body {
   font-family: 'Lato';
   //background-color: #5bc0de;
