@@ -17,33 +17,36 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-9">
-                    <h3>Beschreibung</h3>
-                    <p>{{ $post->description }}</p>
-                </div>
-                <div class="col-sm-3 stats">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-user" aria-hidden="true"></i>Hochgeladen von</strong>
+                <div class="panel panel-default stats">
+                    <div class="panel-body">
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-user" aria-hidden="true"></i></strong>
                             <span>{{ $post->owner->name }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-line-chart" aria-hidden="true"></i>Zugriffe</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-line-chart" aria-hidden="true"></i></strong>
                             <span>{{ $post->access_count }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i>Hochgeladen am</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i></strong>
                             <span>{{ $post->created_at->format('d. m. Y') }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i>Zuletzt ge&auml;ndert am</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i></strong>
                             <span>{{ $post->updated_at->format('d. m. Y') }}</span>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                    <h3>Beschreibung</h3>
+                    <div class="panel panel-default">
+                        <div class="panel-body description">
+                            <p>{{ $post->description }}</p>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
                     <h3>Dateien <span class="badge">{{ $post->documents->count() }}</span></h3>
                     <div class="files panel panel-default">
                         @foreach($post->documents->all() as $document)
@@ -70,10 +73,8 @@
                             </div>
                         @endforeach
                     </div>
-                </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
                     <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>
                     <div class="tags">
                         @foreach($post->tags->all() as $tag)
@@ -81,7 +82,6 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 @endsection
