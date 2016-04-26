@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <div class="row">
-                                <div class="col-sm-12"><h4 class="post-title"><a href="#">{{ $post->name }}</a></h4></div>
+                                <div class="col-sm-12"><h4 class="post-title"><a href="{{ Url::to('/posts/' . $post->id) }}">{{ $post->name }}</a></h4></div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
