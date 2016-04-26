@@ -77,5 +77,6 @@ Route::group(['middleware' => 'web'], function () {
 
     // posts
     Route::get('/posts', 'DocumentController@showPostsView');
+    Route::get('/posts/{id}', 'DocumentController@showViewPostView');
 
 });
