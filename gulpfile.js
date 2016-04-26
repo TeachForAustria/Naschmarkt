@@ -1,6 +1,5 @@
 var elixir = require('laravel-elixir');
 var gulp = require('gulp');
-var phplint = require('phplint').lint;
 
 /*
  |--------------------------------------------------------------------------
