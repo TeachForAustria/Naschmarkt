@@ -16,7 +16,7 @@ var word_array = [
     {text: "Neue Mittelschule", weight: 7},
     {text: "Hauptschule", weight: 7},
     {text: "Informatik", weight: 7},
-    {text: "Naschmarkt", weight: 30, link: "http://der-naschmarkt.at"},
+    {text: "Naschmarkt", weight: 30, link: '/posts?searchQuery=test'},
     {text: "Lernen", weight: 10},
     {text: "Verwaltung", weight: 6},
     {text: "Ausflüge", weight: 6},

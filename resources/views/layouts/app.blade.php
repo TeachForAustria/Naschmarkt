@@ -18,6 +18,9 @@
 
 </head>
 <body id="app-layout">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -48,7 +51,7 @@
                     <!-- Authentication Links -->
                     @if (Auth::check())
                         <li><a href="{{ url('/posts') }}"> Posts </a></li>
-                        <li><a href="{{ url('/search') }}"> Search </a></li>
+                        <!-- <li><a href="{{ url('/search') }}"> Search </a></li> -->
                         <li><a href="{{ url('/cloud') }}"> Wordcloud </a></li>
                         <li><a href="{{ url('/upload') }}">Upload</a></li>
                         @can('register-user')
