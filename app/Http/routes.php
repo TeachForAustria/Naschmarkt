@@ -76,6 +76,9 @@ Route::group(['middleware' => 'web'], function () {
 
     // posts
     Route::get('/posts', 'DocumentController@showPostsView');
+
     // Route::post('/posts', 'SearchController@searchForQuery');
+
+    Route::get('/posts/{id}', 'DocumentController@showViewPostView');
 
 });
