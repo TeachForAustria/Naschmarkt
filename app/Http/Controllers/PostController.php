@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 use Storage;
 use Validator;
 
-class DocumentController extends Controller
+class PostController extends Controller
 {
     public function __construct()
     {

@@ -4,20 +4,20 @@ class ConcreteDocumentTest extends TestCase
 {
     public function testWriteContent()
     {
-        $concreteDocument = new \App\DocumentVersion();
-        $concreteDocument->generateUuid();
-        $concreteDocument->extension = 'txt';
-        $concreteDocument->writeContent('foobar');
+        $documentVersion = new \App\DocumentVersion();
+        $documentVersion->generateUuid();
+        $documentVersion->extension = 'txt';
+        $documentVersion->writeContent('foobar');
 
-        $this->assertEquals('foobar', Storage::get($concreteDocument->uuid . '.' . $concreteDocument->extension));
+        $this->assertEquals('foobar', Storage::get($documentVersion->uuid . '.' . $documentVersion->extension));
     }
 
     public function testReadContent() {
-        $concreteDocument = new \App\DocumentVersion();
-        $concreteDocument->generateUuid();
-        $concreteDocument->extension = 'txt';
-        Storage::put($concreteDocument->uuid . '.' . $concreteDocument->extension, 'foobar');
+        $documentVersion = new \App\DocumentVersion();
+        $documentVersion->generateUuid();
+        $documentVersion->extension = 'txt';
+        Storage::put($documentVersion->uuid . '.' . $documentVersion->extension, 'foobar');
 
-        $this->assertEquals('foobar', $concreteDocument->readContent());
+        $this->assertEquals('foobar', $documentVersion->readContent());
     }
 }
