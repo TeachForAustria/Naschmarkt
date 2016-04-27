@@ -30,9 +30,9 @@ class SearchController extends Controller{
     public function searchForQuery(Request $request){
 
         // Save the query string
-        $query = $request->input('searchQuery');
+        $full_query = $request->input('searchQuery');
 
-        if($query === ""){
+        if($full_query === ""){
 
             return view('posts', [
                 'posts' => Post::with('tags', 'owner')->get()
@@ -40,66 +40,12 @@ class SearchController extends Controller{
 
         }else {
 
-            // Split the query string into the tag values
-            $tag_values_queried = explode(",", $query);
 
-            // Get all Tags from the database
-            $actual_tags = Tag::all();
-
-            // The tags that are found in the db will be saved to this
-            $filtered_tags = array();
-
-            // Loop through the values and check if some match
-            foreach ($tag_values_queried as $current_tag_value) {
-
-                // loop through all tags that exists in the DB
-                foreach ($actual_tags as $actual_tag) {
-
-                    // If entered tag exists in the DB, add it to
-                    // the filtered tags array
-                    if ($actual_tag->value === $current_tag_value) {
-                        array_push($filtered_tags, $actual_tag);
-                    }
-
-                }
-            }
-
-            // Get all current posts
-            $posts_queried = Post::all();
-
-            // The queried posts will be saved here
-            $posts = array();
-
-            // Loop through all existing posts
-            foreach ($posts_queried as $post) {
-
-                // Set controlling var false
-                $display_this_post = false;
-
-                // Loop through all the tags the current post has
-                foreach ($post->tags as $current_tag) {
-
-                    // Loop through all the tags the were filtered earlier
-                    foreach ($filtered_tags as $filtered_tag) {
-
-                        // Check if there is a match with the current tag
-                        // of the post, if there is, then the controlling
-                        // variable is set to true, meaning the post will
-                        // be displayed
-                        if ($current_tag->id === $filtered_tag->id) {
-                            $display_this_post = true;
-                        }
-
-                    }
-                }
-
-                // If the contolling condition is true,
-                // the current post will be pushed to the
-                // array that is later returned to the page
-                if ($display_this_post === true) {
-                    array_push($posts, $post);
-                }
-            }
+            //build with the function query for finding the tags
+            $posts = Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
+                //select tags where value is in an array with each query
+                $query->whereIn('value', explode(",", $full_query));
+            })->get();
 
 
             //only if checkbox is checked files will be searched
@@ -126,31 +72,27 @@ class SearchController extends Controller{
                         try{
 
                             //match content of file to query
-                            if(stripos($this->$read_method($document_version), $query) !== false){
+                            if(stripos($this->$read_method($document_version), $full_query) !== false){
                                 //push the document to the found documents
-                                array_push($full_text_found_documents, $document_version->document->post);
+
+                                $posts = $posts->add($document_version->document->post);
                             }
 
                         } catch (\Exception $e){
-                            // if Exception occurs, the Document is misformated and it is just not checked.
+                            // if Exception occurs, the Document is misformatted and it is just not checked.
                         }
 
                     }
 
                 }
-
-                //merge arrays
-                $posts = array_merge($posts, $full_text_found_documents);
-
-                //delete all duplicates
-                $posts = array_unique($posts);
             }
 
 
             // Return the posts view with the
             // filtered posts as parameter
             return view('posts', [
-                'posts' => $posts]);
+                'posts' => $posts
+            ]);
 
         }
 
