@@ -61,8 +61,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'AppController@index');
 
     //upload page
-    Route::get('/upload', 'DocumentController@showUploadView');
-    Route::post('/upload', 'DocumentController@uploadDocument');
+    Route::get('/upload', 'PostController@showUploadView');
+    Route::post('/upload', 'PostController@uploadDocument');
 
 
     //wordcloud page
@@ -75,10 +75,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/user/{user}', 'AppController@profile');
 
     // posts
-    Route::get('/posts', 'DocumentController@showPostsView');
+    Route::get('/posts', 'PostController@showPostsView');
 
     // Route::post('/posts', 'SearchController@searchForQuery');
 
-    Route::get('/posts/{id}', 'DocumentController@showViewPostView');
+    Route::get('/posts/{id}', 'PostController@showViewPostView');
 
 });

@@ -5,31 +5,51 @@ i {
   padding-right: 5px;
 }
 
+.page-header {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 .stats {
-  > .list-group > .list-group-item {
-	border-right: 0;
-	border-left: 0;
-	border-top: 0;
-	border-radius: 0;
-	border-bottom: 1px solid $list-group-border;
-	margin-bottom: 0;
-	display: flex;
-  	flex-direction: column;
+  @media(min-width: $screen-sm-min) {
+	text-align: center;
+  }
 
-	i {
-	  padding-right: 0;
-	  width: 20px;
-	}
+  margin-bottom: 35px;
+  border-color: lighten($light-blue, 35%);
 
-	span {
-	  padding-left: 25px;
-	}
+  > .panel-body {
+	background-color: lighten($light-blue, 40%);
+	padding: 7px;
+
+	color: $gray-dark;
+  }
+
+  i {
+	padding-right: 0;
+	width: 20px;
   }
 }
 
+.description {
+  font-size: 16px;
+  min-height: 200px;
+}
+
 .files {
-  .file-info {
-	text-align: center;
+  .file-name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
+
+  @media(min-width: $screen-sm-min) {
+	.file-info {
+	  text-align: center;
+	  padding-left: 5px;
+	  padding-right: 5px;
+	}
   }
 
   .file-info-right {

@@ -17,41 +17,44 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-9">
-                    <h3>Beschreibung</h3>
-                    <p>{{ $post->description }}</p>
-                </div>
-                <div class="col-sm-3 stats">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-user" aria-hidden="true"></i>Hochgeladen von</strong>
+                <div class="panel panel-default stats">
+                    <div class="panel-body">
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-user" aria-hidden="true"></i></strong>
                             <span>{{ $post->owner->name }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-line-chart" aria-hidden="true"></i>Zugriffe</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-line-chart" aria-hidden="true"></i></strong>
                             <span>{{ $post->access_count }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i>Hochgeladen am</strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-clock-o" aria-hidden="true"></i></strong>
                             <span>{{ $post->created_at->format('d. m. Y') }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong><i class="fa fa-file" aria-hidden="true"></i>Dateien</strong>
-                            <span>{{ $post->documents->count() }}</span>
-                        </li>
-                    </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong><i class="fa fa-repeat" aria-hidden="true"></i></strong>
+                            <span>{{ $post->updated_at->format('d. m. Y') }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    <h3>Dateien</h3>
+                    <h3>Beschreibung</h3>
+                    <div class="panel panel-default">
+                        <div class="panel-body description">
+                            <p>{{ $post->description }}</p>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                    <h3>Dateien <span class="badge">{{ $post->documents->count() }}</span></h3>
                     <div class="files panel panel-default">
                         @foreach($post->documents->all() as $document)
                             <div class="panel-body post">
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <div class="row">
-                                            <div class="col-sm-12"><strong><a href="#">{{ $document->name }}</a></strong></div>
+                                            <div class="col-sm-12 file-name"><strong><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>{{ $document->name }}</a></strong></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-2 file-info">
@@ -61,70 +64,24 @@
                                         <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $document->created_at->format('d. m. Y') }}
                                     </div>
                                     <div class="col-sm-1 file-info">
-                                        <i class="fa fa-refresh" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
+                                        <i class="fa fa-repeat" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
                                     </div>
-                                    <div class="col-sm-2 file-info">
+                                    <div class="col-sm-3 file-info">
                                         <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
-                                    </div>
-                                    <div class="col-sm-2 file-info">
-                                        <a href="#"><i class="fa fa-caret-left" aria-hidden="true"></i> Details</a>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    <h3>Tags</h3>
+                    <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>
                     <div class="tags">
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-info">Info</span>
+                        @foreach($post->tags->all() as $tag)
+                            <span class="label label-info">{{ $tag->value }}</span>
+                        @endforeach
                     </div>
                 </div>
-            </div>
         </div>
-        {{-- @foreach($posts as $post)
-            <div class="panel panel-default col-sm-10 col-sm-offset-1">
-                <div class="panel-body post">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <div class="row">
-                                <div class="col-sm-12"><h4 class="post-title"><a href="#">{{ $post->name }}</a></h4></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    @foreach($post->tags->take(4) as $tag)
-                                        <span class="label label-info">{{ $tag->value }}</span>
-                                    @endforeach
-
-                                    @if($post->tags->count() > 4)
-                                        <span class="badge">+{{ $post->tags->count() - 4 }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-5 tiles">
-                            <div class="row">
-                                <div class="col-xs-7"><i class="fa fa-user" aria-hidden="true"></i>{{ $post->owner->name }}</div>
-                                <div class="col-xs-5"><i class="fa fa-line-chart" aria-hidden="true"></i> {{ $post->access_count }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-7"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->format('d. m. Y') }}</div>
-                                <div class="col-xs-5"><i class="fa fa-file" aria-hidden="true"></i> 1</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach --}}
     </div>
 @endsection

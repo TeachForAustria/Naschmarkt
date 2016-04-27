@@ -10,7 +10,28 @@
 
 namespace App{
 /**
- * App\ConcreteDocument
+ * App\Document
+ *
+ * @property integer $id
+ * @property integer $post_id
+ * @property string $name
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Post $post
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\DocumentVersion[] $documentVersions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
+ * @method static \Illuminate\Database\Query\Builder|\App\Document whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Document wherePostId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Document whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Document whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Document whereUpdatedAt($value)
+ */
+	class Document extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\DocumentVersion
  *
  * @property integer $id
  * @property integer $version
@@ -20,21 +41,20 @@ namespace App{
  * @property string $uuid
  * @property string $extension
  * @property-read \App\Document $document
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereVersion($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereDocumentId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereUuid($value)
- * @method static \Illuminate\Database\Query\Builder|\App\ConcreteDocument whereExtension($value)
- * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereVersion($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereUuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\DocumentVersion whereExtension($value)
  */
-	class ConcreteDocument extends \Eloquent {}
+	class DocumentVersion extends \Eloquent {}
 }
 
 namespace App{
 /**
- * App\Document
+ * App\Post
  *
  * @property integer $id
  * @property string $name
@@ -44,27 +64,17 @@ namespace App{
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\User $owner
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\ConcreteDocument[] $concreteDocuments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Document[] $documents
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereAccessCount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereOwnerId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Document whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereAccessCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereOwnerId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Post whereUpdatedAt($value)
  */
-	class Document extends \Eloquent {}
-}
-
-namespace App{
-/**
- * App\DocumentTag
- *
- * @mixin \Eloquent
- */
-	class DocumentTag extends \Eloquent {}
+	class Post extends \Eloquent {}
 }
 
 namespace App{
@@ -84,7 +94,6 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\SocialLogin whereProvider($value)
  * @method static \Illuminate\Database\Query\Builder|\App\SocialLogin whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\SocialLogin whereProviderId($value)
- * @mixin \Eloquent
  */
 	class SocialLogin extends \Eloquent {}
 }
@@ -95,10 +104,9 @@ namespace App{
  *
  * @property integer $id
  * @property string $value
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Document[] $documents
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $documents
  * @method static \Illuminate\Database\Query\Builder|\App\Tag whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Tag whereValue($value)
- * @mixin \Eloquent
  */
 	class Tag extends \Eloquent {}
 }
@@ -127,7 +135,6 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereIsStaff($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereActivationToken($value)
- * @mixin \Eloquent
  */
 	class User extends \Eloquent {}
 }

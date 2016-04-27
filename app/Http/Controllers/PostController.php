@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 use Storage;
 use Validator;
 
-class DocumentController extends Controller
+class PostController extends Controller
 {
     public function __construct()
     {
@@ -85,8 +85,12 @@ class DocumentController extends Controller
 
     public function showViewPostView($id)
     {
+        $post = Post::with('documents.documentVersions')->findOrFail($id);
+        $post->access_count++;
+        $post->save();
+
         return view('posts.view', [
-            'post' => Post::with('documents.documentVersions')->findOrFail($id)
+            'post' => $post
         ]);
     }
 }
