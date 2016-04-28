@@ -41,12 +41,20 @@ class SearchController extends Controller{
         }else {
 
 
-            //build with the function query for finding the tags
+            /*
+             * Tag Search
+             */
+
+            //build posts collection with the function for query building that finds all posts from the tags
             $posts = Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
                 //select tags where value is in an array with each query
                 $query->whereIn('value', explode(",", $full_query));
             })->get();
 
+
+            /*
+             * Full Text Search
+             */
 
             //only if checkbox is checked files will be searched
             if (Input::get('fullTextSearch') === 'yes') {
@@ -73,8 +81,7 @@ class SearchController extends Controller{
 
                             //match content of file to query
                             if(stripos($this->$read_method($document_version), $full_query) !== false){
-                                //push the document to the found documents
-
+                                //add the document to the found posts
                                 $posts = $posts->add($document_version->document->post);
                             }
 
@@ -85,6 +92,9 @@ class SearchController extends Controller{
                     }
 
                 }
+
+                //delete all duplicates from the collection
+                $posts = $posts->unique();
             }
 
 
