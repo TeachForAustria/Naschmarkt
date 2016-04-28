@@ -1,23 +1,21 @@
-
-var usableTags = new Bloodhound({
+var tags = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: {
-        url: "test.json",
-    filter: function(list) {
-        return $.map(list, function(usableTag) {
-            return { name: usableTag }; });
+        url: 'test.json',
+        filter: function(list) {
+            return $.map(list, function(tagname) {
+                return { name: tagname }; });
+        }
     }
-}
 });
-usableTags.initialize();
+tags.initialize();
 
 $('#searchQuery').tagsinput({
     typeaheadjs: {
-        name: 'usableTags',
+        name: 'tags',
         displayKey: 'name',
         valueKey: 'name',
-        source: usableTags.ttAdapter()
+        source: tags.ttAdapter()
     }
 });
-
