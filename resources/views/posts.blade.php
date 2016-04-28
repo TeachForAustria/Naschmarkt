@@ -26,26 +26,19 @@
                                 {!! csrf_field() !!}
                                 <div class="form-group">
                                     <div class="col-md-10">
-                                        <input id="searchQuery" type="text"  data-role="tagsinput" name="searchQuery" class="form-control">
+                                        <input id="searchQuery" data-role="tagsinput" type="text"  name="searchQuery" class="form-control">
                                     </div>
                                     <div class="col-md-2">
                                         <button type="submit" class="btn btn-default" name="search">Search</button>
                                     </div>
                                 </div>
-
+                                <div class="col-md-2">
+                                    <label>
+                                        <input name="fullTextSearch" type="checkbox" value="yes" checked="checked"> Volltextsuche
+                                    </label>
+                                </div>
                             </form>
                         </div>
-
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-default" name="search">Search</button>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <label>
-                                    <input name="fullTextSearch" type="checkbox" value="yes" checked="checked"> Volltextsuche
-                                </label>
-                            </div>
 
                         </form>
 

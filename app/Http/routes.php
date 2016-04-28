@@ -70,12 +70,16 @@ Route::group(['middleware' => 'web'], function () {
 
     //search page
     Route::post('/search', 'SearchController@searchForQuery');
+    Route::get('/search/{tag}', 'SearchController@searchForTag');
 
     //profile page
     Route::get('/user/{user}', 'AppController@profile');
 
     // posts
     Route::get('/posts', 'PostController@showPostsView');
+
+    // cloud controller
+    Route::get('cloudController', 'CloudController@showTagsView');
 
     // Route::post('/posts', 'SearchController@searchForQuery');
 
