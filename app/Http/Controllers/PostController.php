@@ -93,4 +93,43 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
+    public function deletePost($idToDelete)
+    {
+        //Find the post with the given id
+        $posts = Post::all();
+        $postToDelete = null;
+        foreach ($posts as $post)
+        {
+            if ($post->id == $idToDelete)
+            {
+                $postToDelete = $post;
+                break;
+            }
+        }
+
+        //delete documents of post
+        $documents = $postToDelete->documents;
+        foreach ($documents as $document)
+        {
+            //versions
+            $docVersions = $document->documentVersions;
+            foreach ($docVersions as $docVersion)
+            {
+                $docVersion->delete();
+            }
+            $document->delete();
+        }
+
+        //delete tags
+        $tags = $postToDelete->tags;
+        foreach ($tags as $tag)
+        {
+            $tag->delete();
+        }
+
+        $postToDelete->delete();
+
+        return redirect('posts');
+    }
 }

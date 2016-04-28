@@ -76,9 +76,9 @@ Route::group(['middleware' => 'web'], function () {
 
     // posts
     Route::get('/posts', 'PostController@showPostsView');
+    Route::get('/posts/deletePost/{post}', 'PostController@deletePost');
 
     // Route::post('/posts', 'SearchController@searchForQuery');
-
     Route::get('/posts/{id}', 'PostController@showViewPostView');
 
 });
