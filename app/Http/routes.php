@@ -58,7 +58,9 @@ Route::group(['middleware' => 'web'], function () {
     // application routes
     //
     // the auth middleware is being applied within the AppController anyway, so we don't need to add it here
-    Route::get('/', 'AppController@index');
+
+    // Redirect / to the wordcloud, can be changed though
+    Route::get('/', 'AppController@cloud');
 
     //upload page
     Route::get('/upload', 'PostController@showUploadView');
@@ -70,6 +72,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //search page
     Route::post('/search', 'SearchController@searchForQuery');
+    Route::get('/search/{tag}', 'SearchController@searchForTag');
 
     //profile page
     Route::get('/user/{user}', 'AppController@profile');
@@ -77,6 +80,9 @@ Route::group(['middleware' => 'web'], function () {
     // posts
     Route::get('/posts', 'PostController@showPostsView');
     Route::get('/posts/deletePost/{post}', 'PostController@deletePost');
+
+    // cloud controller
+    Route::get('cloudController', 'CloudController@showTagsView');
 
     // Route::post('/posts', 'SearchController@searchForQuery');
     Route::get('/posts/{id}', 'PostController@showViewPostView');
