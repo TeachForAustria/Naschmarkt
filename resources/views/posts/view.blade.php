@@ -12,7 +12,8 @@
                 </ul>
 
                 <div class="page-header">
-                    @if(Auth::user()->name == $post->owner->name)
+                    <!-- edit/delete only if user is either the owner or a staff -->
+                    @if(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)
                         <a href="{{'/posts/deletePost/' . $post->id}}"><button class="btn btn-warning pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i>L&ouml;schen</button></a>
                         <button class="btn btn-warning pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
                     @endif
