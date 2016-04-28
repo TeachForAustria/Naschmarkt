@@ -44,11 +44,6 @@
                                 <label class="col-md-2 control-label">Tags*</label>
                                 <div class="col-md-8">
                                     <input type="text" value="2016" data-role="tagsinput" name="tags" />
-                                    <!--<input type="text" value="Wird, Noch ,Ge&auml;ndert" class="form-control" name="title" />-->
-                                    <span class="help-block">
-                                        Mindestens 3 Tags, um die Suche zu erleichtern.
-                                    </span>
-
                                 </div>
                             </div>
 
@@ -62,7 +57,8 @@
 
 
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
+                                <label class="col-md-2 control-label"> </label>
+                                <div class="col-md-8">
                                     <button type="submit" class="btn btn-default">Hochladen</button>
                                 </div>
                             </div>
