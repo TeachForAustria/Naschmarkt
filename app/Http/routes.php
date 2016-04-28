@@ -58,7 +58,9 @@ Route::group(['middleware' => 'web'], function () {
     // application routes
     //
     // the auth middleware is being applied within the AppController anyway, so we don't need to add it here
-    Route::get('/', 'AppController@index');
+
+    // Redirect / to the wordcloud, can be changed though
+    Route::get('/', 'AppController@cloud');
 
     //upload page
     Route::get('/upload', 'PostController@showUploadView');
