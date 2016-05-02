@@ -10,7 +10,7 @@
                 {!! csrf_field() !!}
                 <div class="row">
                     <ul class="pager">
-                        <li class="previous"><a href="{{ URL::to('/posts') }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Posts</a></li>
+                        <li class="previous"><a href="{{ URL::to('/posts/' . $post->id) }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Post</a></li>
                     </ul>
 
                     <div class="page-header">

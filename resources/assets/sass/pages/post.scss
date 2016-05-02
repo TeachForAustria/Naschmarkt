@@ -11,6 +11,10 @@ i {
   padding-bottom: 0;
 }
 
+.delete-button {
+  margin-left: 10px;
+}
+
 .stats {
   @media(min-width: $screen-sm-min) {
 	text-align: center;
