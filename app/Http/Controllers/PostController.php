@@ -106,6 +106,10 @@ class PostController extends Controller
     {
         $post = Post::with('documents.documentVersions')->findOrFail($id);
 
+        if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
+            abort(403);
+        }
+
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -114,6 +118,11 @@ class PostController extends Controller
     public function update($id, Request $request)
     {
         $post = Post::findOrFail($id);
+
+        if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
+            abort(403);
+        }
+
         # TODO: validation
         $post->name = $request->input('title');
         $post->description = $request->input('description');
@@ -125,15 +134,10 @@ class PostController extends Controller
     public function deletePost($idToDelete)
     {
         //Find the post with the given id
-        $posts = Post::all();
-        $postToDelete = null;
-        foreach ($posts as $post)
-        {
-            if ($post->id == $idToDelete)
-            {
-                $postToDelete = $post;
-                break;
-            }
+        $post = Post::findOrFail($idToDelete);
+
+        if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
+            abort(403);
         }
 
         //delete documents of post
