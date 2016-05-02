@@ -64,8 +64,16 @@ class PostController extends Controller
             $document->documentVersions()->save($documentVersion);
             $documentVersion->writeContent(fopen($file->getRealPath(), 'r'));
 
+            // add tags from checkboxes
+            $tagsFromCB = "";
+            if($request->get('givenTags') != null) {
+                foreach ($request->get('givenTags') as $givenTag) {
+                    $tagsFromCB = $tagsFromCB . $givenTag . ',';
+                }
+            }
+
             // save tags
-            foreach(explode(',', $request->input('tags')) as $tag) {
+            foreach(explode(',', $tagsFromCB . ($request->input('tags'))) as $tag) {
                 $tagModel = Tag::firstOrCreate([
                     'value' => $tag
                 ]);

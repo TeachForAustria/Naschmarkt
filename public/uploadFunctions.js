@@ -32,28 +32,28 @@ $(document).ready(function () {
     var next = '';
     for (var i = 0; i < fachlich.length / 2; i++) {
         next = fachlich[Math.round(fachlich.length / 2) + i];
-        printF += '<tr><td style="width: 50%"><div style="height: 5px" class="checkbox"><label><input type="checkbox" name="' + fachlich[i] + '" class="myCheckBox" value="">' + fachlich[i] + '</label></div></td>';
+        printF += '<tr><td style="width: 50%"><div style="height: 5px" class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="' + fachlich[i] + '">' + fachlich[i] + '</label></div></td>';
         if (next != undefined)
-            printF += '<td style="width: 50%"><div style="height: 5px" class="checkbox"><label><input type="checkbox" name="' + next + '" class="myCheckBox" value="">' + next + '</label></div></td></tr>';
+            printF += '<td style="width: 50%"><div style="height: 5px" class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="' + next + '">' + next + '</label></div></td></tr>';
     }
 
     $("#printFachliches").html(printF + '</table>');
 
     var printI = '';
     for (var i = 0; i < inhaltliches.length; i++) {
-        printI = printI + ('<div class="checkbox"><label><input type="checkbox" name="'+inhaltliches[i]+'" class="myCheckBox" value="">' + inhaltliches[i] + '</label></div>');
+        printI = printI + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+inhaltliches[i]+'">' + inhaltliches[i] + '</label></div>');
     }
     $("#printInhaltliches").html(printI);
 
     var printP = '';
     for (var i = 0; i < programmbezogenes.length; i++) {
-        printP = printP + ('<div class="checkbox"><label><input type="checkbox" name="'+programmbezogenes[i]+'" class="myCheckBox" value="">' + programmbezogenes[i] + '</label></div>');
+        printP = printP + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+programmbezogenes[i]+'">' + programmbezogenes[i] + '</label></div>');
     }
     $("#printProgrammbezogenes").html(printP);
 
     var printB = '';
     for (var i = 0; i < bildung.length; i++) {
-        printB = printB + ('<div class="checkbox"><label><input type="checkbox" name="'+bildung[i]+'" class="myCheckBox" value="">' + bildung[i] + '</label></div>');
+        printB = printB + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+bildung[i]+'">' + bildung[i] + '</label></div>');
     }
     $("#printBildung").html(printB);
 });
