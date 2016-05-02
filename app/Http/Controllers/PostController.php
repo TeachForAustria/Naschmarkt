@@ -46,7 +46,7 @@ class PostController extends Controller
         } else {
             //create the document
             $post = new Post();
-            $post->name = $request->input('title'); //$file->getClientOriginalName();
+            $post->name = $request->input('title');
             $post->description = $request->input('description');
             $post->owner_id = Auth::user()->id;
             $post->save();
@@ -100,6 +100,26 @@ class PostController extends Controller
         return view('posts.view', [
             'post' => $post
         ]);
+    }
+
+    public function showEditPostView($id)
+    {
+        $post = Post::with('documents.documentVersions')->findOrFail($id);
+
+        return view('posts.edit', [
+            'post' => $post
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $post = Post::findOrFail($id);
+        # TODO: validation
+        $post->name = $request->input('title');
+        $post->description = $request->input('description');
+        $post->setTags(explode(',', $request->input('tags')));
+        $post->save();
+        return redirect('/posts/' . $id);
     }
 
     public function deletePost($idToDelete)

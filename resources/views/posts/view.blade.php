@@ -15,7 +15,7 @@
                     <!-- edit/delete only if user is either the owner or a staff -->
                     @if(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)
                         <a href="{{'/posts/deletePost/' . $post->id}}"><button class="btn btn-danger pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i>L&ouml;schen</button></a>
-                        <button class="btn btn-warning pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
+                        <a href="{{ URL::to('/posts/' . $post->id . '/edit') }}" class="btn btn-warning pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</a>
                     @endif
                     <h2>{{ $post->name }}</h2>
                 </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="row">
                     <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>
-                    <div class="tags">
+                    <div class="tags-lg">
                         @foreach($post->tags->all() as $tag)
                             <span class="label label-info">{{ $tag->value }}</span>
                         @endforeach

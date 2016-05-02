@@ -20,4 +20,13 @@ class Post extends Model
     {
         return $this->belongsToMany('App\Tag');
     }
+
+    public function setTags($tags) {
+        $tags = array_map(function($tag) {
+            return Tag::firstOrCreate([
+                'value' => $tag
+            ])->id;
+        }, $tags);
+        $this->tags()->sync($tags);
+    }
 }

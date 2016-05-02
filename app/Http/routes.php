@@ -86,6 +86,8 @@ Route::group(['middleware' => 'web'], function () {
 
     // Route::post('/posts', 'SearchController@searchForQuery');
     Route::get('/posts/{id}', 'PostController@showViewPostView');
+    Route::post('/posts/{id}', 'PostController@update');
+    Route::get('/posts/{id}/edit', 'PostController@showEditPostView');
 
     // documents
     Route::get('/documents/{id}', 'DocumentController@getFileDownload');
