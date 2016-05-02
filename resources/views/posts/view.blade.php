@@ -71,7 +71,7 @@
                                         <i class="fa fa-repeat" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
                                     </div>
                                     <div class="col-sm-3 file-info">
-                                        <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
+                                        <a href="{{ URL::to('/documents/' . $document->id) }}"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
                                     </div>
                                 </div>
                             </div>
