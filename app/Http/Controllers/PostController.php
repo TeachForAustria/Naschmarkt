@@ -134,9 +134,9 @@ class PostController extends Controller
     public function deletePost($idToDelete)
     {
         //Find the post with the given id
-        $post = Post::findOrFail($idToDelete);
+        $postToDelete = Post::findOrFail($idToDelete);
 
-        if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
+        if(!(Auth::user()->name == $postToDelete->owner->name or Auth::user()->is_staff)) {
             abort(403);
         }
 
