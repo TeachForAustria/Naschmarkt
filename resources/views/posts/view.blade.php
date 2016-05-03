@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2 file-info">
-                                        <i class="fa fa-folder-open" aria-hidden="true"></i> Unknown
+                                        <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $document->documentversions->last()->filesize() }}
                                     </div>
                                     <div class="col-sm-2 file-info">
                                         <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $document->created_at->format('d. m. Y') }}
