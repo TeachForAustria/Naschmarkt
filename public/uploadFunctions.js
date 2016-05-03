@@ -57,13 +57,14 @@ $(document).ready(function () {
     }
     $("#printBildung").html(printB);
 
-    $("#invisibleButton").change(function(){
+    $("#addFiles").click(function(){
 
-        var myFile = $('#invisibleButton').prop('files[]');
+        var parentDiv = $("#invisibleButton").parent();
+
+        $(parentDiv).append('<input name="files[]" multiple="multiple" type="file" />')
 
         console.log(myFile.name);
 
-        $("#appendFiles").appendChild(myFile.name);
     });
 });
 

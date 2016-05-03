@@ -31,6 +31,9 @@ class PostController extends Controller
     {
 
 
+
+        //TODO fix validation
+
         /*
         //which formats are allowed
         $allowedExtensions = "pdf,txt,html,docx,doc,zip,jpg,jpeg,png,gif";
@@ -51,8 +54,10 @@ class PostController extends Controller
             }
         }
 
-        //When file does not match allowedExtensions
 
+        //TODO fix validation
+
+        //When file does not match allowedExtensions
 
         /*
         if($validator->fails()) {

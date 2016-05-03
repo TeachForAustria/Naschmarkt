@@ -16,49 +16,33 @@
 @section('content')
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Search</div>
-                        <div class="panel-body">
-                            <form action="/search" method="POST" class="form-horizontal" enctype="multipart/form-data">
-                                {!! csrf_field() !!}
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        <input id="searchQuery" data-role="tagsinput" type="text"  name="searchQuery" class="form-control">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-default" name="search">Search</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>
-                                        <input name="fullTextSearch" type="checkbox" value="yes"> Volltextsuche
-                                    </label>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<!-- AJAX SHIT
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="panel-heading">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Search</div>
                     <div class="panel-body">
-                        <div class="col-md-10">
-                            <input id="searchBar" type="text" class="form-control" name="searchQuery">
-                        </div>
+                        <form action="/search" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                            {!! csrf_field() !!}
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input id="searchQuery" data-role="tagsinput" type="text"  name="searchQuery" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-default" name="search">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    <input name="fullTextSearch" type="checkbox" value="yes"> Volltextsuche
+                                </label>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
--->
 
     <div class="container">
         @foreach($posts as $post)
@@ -88,7 +72,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-7"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->format('d. m. Y') }}</div>
-                                <div class="col-xs-5"><i class="fa fa-file" aria-hidden="true"></i> 1</div>
+                                <div class="col-xs-5"><i class="fa fa-file" aria-hidden="true"></i> {{ count($post->documents) }}</div>
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @push('stylesheets')
-    <link href="{{ URL::asset('css/upload.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
+<link href="{{ URL::asset('css/upload.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
 @endpush
 
 @push('scripts')
-    <script src="{{ URL::asset('uploadFunctions.js') }}"></script>
-    <script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
+<script src="{{ URL::asset('uploadFunctions.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
 @endpush
 
 @section('content')
@@ -22,7 +22,7 @@
                     <div class="panel-body col-sm-offset-1">
                         <form action="/upload" method="POST" enctype="multipart/form-data" class="form-horizontal">
                             {!! csrf_field() !!}
-                            <!-- name -->
+                                    <!-- name -->
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Titel*</label>
 
@@ -51,8 +51,11 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Datei*</label>
                                 <div class="col-md-8">
-                                    <input name="file" type="file" id="invisibleButton" />
+                                    <input name="files[]" multiple="multiple" type="file" id="invisibleButton" />
                                 </div>
+
+                                <input type="button" id="addFiles" value="Add File" />
+
                             </div>
 
 
