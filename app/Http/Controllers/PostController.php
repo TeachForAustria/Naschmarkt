@@ -27,23 +27,39 @@ class PostController extends Controller
         return view('upload');
     }
 
-    public function uploadDocument(Request $request)
+    public function uploadPost(Request $request)
     {
+
+
+        /*
         //which formats are allowed
         $allowedExtensions = "pdf,txt,html,docx,doc,zip,jpg,jpeg,png,gif";
-        $rules = array('file' => 'required|mimes:'.$allowedExtensions);
+        $rules = array('files[]' => 'required|mimes:'.$allowedExtensions);
+
+
         $validator = Validator::make($request->all(), $rules);
+        */
+
 
         // get file
-        $file = $request->file('file');
+        $files = $request->file('files');
+
+        foreach ($files as $file) {
+            if(!$file->isValid()){
+                // sending back with error message.
+                return redirect('upload')->with('error', 'Uploaded file is not valid');
+            }
+        }
 
         //When file does not match allowedExtensions
+
+
+        /*
         if($validator->fails()) {
             return redirect('upload')->with('error', 'Uploaded file is not valid');
-        } else if(!$file->isValid()){
-            // sending back with error message.
-            return redirect('upload')->with('error', 'Uploaded file is not valid');
         } else {
+        */
+
             //create the document
             $post = new Post();
             $post->name = $request->input('title'); //$file->getClientOriginalName();
@@ -51,18 +67,22 @@ class PostController extends Controller
             $post->owner_id = Auth::user()->id;
             $post->save();
 
-            //create and save document
-            $document = new Document();
-            $document->name = $file->getClientOriginalName();
-            $post->documents()->save($document);
+
+            foreach ($files as $file) {
+                //create and save document
+                $document = new Document();
+                $document->name = $file->getClientOriginalName();
+                $post->documents()->save($document);
 
 
-            // create and save concrete document
-            $documentVersion = new DocumentVersion();
-            $documentVersion->generateUuid();
-            $documentVersion->extension = $file->guessExtension();
-            $document->documentVersions()->save($documentVersion);
-            $documentVersion->writeContent(fopen($file->getRealPath(), 'r'));
+                // create and save document version
+                $documentVersion = new DocumentVersion();
+                $documentVersion->generateUuid();
+                $documentVersion->extension = $file->guessExtension();
+                $document->documentVersions()->save($documentVersion);
+                $documentVersion->writeContent(fopen($file->getRealPath(), 'r'));
+
+            }
 
             // save tags
             foreach(explode(',', $request->input('tags')) as $tag) {
@@ -73,7 +93,7 @@ class PostController extends Controller
             }
 
             return redirect('upload');
-        }
+        //}
     }
 
     public function showPostsView()
@@ -119,13 +139,6 @@ class PostController extends Controller
                 $docVersion->delete();
             }
             $document->delete();
-        }
-
-        //delete tags
-        $tags = $postToDelete->tags;
-        foreach ($tags as $tag)
-        {
-            $tag->delete();
         }
 
         $postToDelete->delete();

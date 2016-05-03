@@ -64,7 +64,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //upload page
     Route::get('/upload', 'PostController@showUploadView');
-    Route::post('/upload', 'PostController@uploadDocument');
+    Route::post('/upload', 'PostController@uploadPost');
 
 
     //wordcloud page
