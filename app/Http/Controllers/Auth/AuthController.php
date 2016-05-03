@@ -7,6 +7,7 @@ use App\SocialLogin;
 use App\User;
 use Auth;
 use Config;
+use Cookie;
 use Gate;
 use Hash;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -141,7 +142,7 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
         //get input parameter 'provider' from url
         $provider = Input::get('provider');
@@ -176,14 +177,20 @@ class AuthController extends Controller
                 return redirect($this->redirectTo);
             }
         } elseif ($type == 'connect') {
-
-            //check if account is already connected
-            if(SocialLogin::whereUserId(Auth::user()->id)->whereProvider($provider)->first() !== null){
-                abort(400, ucfirst($provider) . " account already connected");
+            if(Auth::check()) {
+                $user = Auth::user();
+            } else {
+                echo $request->cookie('activation_token');
+                $user = User
+                    ::where('activation_token', $request->cookie('activation_token'))
+                    ->where('id', $request->cookie('activation_id'))
+                    ->firstOrFail();
             }
 
-            //get current user
-            $user = Auth::user();
+            //check if account is already connected
+            if(SocialLogin::whereUserId($user->id)->whereProvider($provider)->first() !== null){
+                abort(400, ucfirst($provider) . " account already connected");
+            }
 
             //create new SocialLogin
             $new_socialLogin = new SocialLogin();
@@ -197,6 +204,10 @@ class AuthController extends Controller
 
             //save SocialLogin
             $new_socialLogin->save();
+
+            if(!Auth::check()) {
+                Auth::login($user);
+            }
 
             return redirect('/user/' . $user->id);
         } else {
@@ -296,15 +307,14 @@ class AuthController extends Controller
             ->where('id', $request->input('id'))
             ->firstOrFail();
 
-        return view('auth.activate', [
-            'token' => $user->activation_token,
-            'id' => $user->id
-        ]);
+        return response(view('auth.activate'))
+            ->cookie('activation_token', $user->activation_token, 30)
+            ->cookie('activation_id', $user->id, 30);
     }
 
     public function postActivate(Request $request)
     {
-        $validator = $this->activationValidator($request->except(['token', 'id']));
+        $validator = $this->activationValidator($request->except(['id']));
 
         if($validator->fails()) {
             $this->throwValidationException(
@@ -314,8 +324,8 @@ class AuthController extends Controller
 
         // get the user
         $user = User
-            ::where('activation_token', $request->input('token'))
-            ->where('id', $request->input('id'))
+            ::where('activation_token', $request->cookie('activation_token'))
+            ->where('id', $request->cookie('activation_id'))
             ->firstOrFail();
 
         $user->password = Hash::make($request->input('password'));

@@ -29,13 +29,10 @@
                                         <label for="password-repeat">Passwort wiederholen</label>
                                         <input type="password" class="form-control" id="password-confirmation" name="password_confirmation" placeholder="donaudampfsschiffs...">
                                     </div>
-                                    <input type="hidden" name="token" value="{{ $token }}">
-                                    <input type="hidden" name="id" value="{{ $id }}">
                                     <button type="submit" class="btn btn-default">Speichern</button>
                                 </form>
                             </div>
                         </div>
-
                         <a class="btn btn-primary btn-lg btn-block facebook-btn" role="button" href="{{ url('/auth/socialLogin?provider=facebook&type=connect') }}"><i class="fa fa-facebook"></i> Facebook</a>
                         <a class="btn btn-primary btn-lg btn-block google-btn" role="button" href="{{ url('/auth/socialLogin?provider=google&type=connect') }}"><i class="fa fa-google"></i>Google</a>
                     </div>

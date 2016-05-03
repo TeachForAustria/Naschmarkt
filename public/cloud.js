@@ -1,88 +1,69 @@
 
-var tagsFromJson = null;
+var tagsFromJson = new Array();
 
 // Get all the tags from the test.json and return it in a callback
 // Returns an array of javascript objects
 function getWordArray(callback){
+
+    // Make new ajax get request for the json file containing the
+    // default tags
     $.ajax({
         url: 'test.json',
         type: 'GET',
         dataType: 'json',
     }).done(function(data) {
 
+        // Create a new array
         var tagArray = new Array();
 
+        // Loop through all items from the json file
         for (var i = 0; i < data.length; i++) {
+
+            var fontWeight;
+
+
+            // Randomise the fontweight of the tags in the cloud
+            var random = Math.floor((Math.random()*100)+1);
+            var countBigWords = 0;
+
+            if(random <= 60){
+                fontWeight = Math.floor((Math.random()*20)+1);
+            }else if(random <= 90 || random > 60){
+                fontWeight = Math.floor((Math.random()*25)+20);
+            }else if(random <=100 || random > 90 || countBigWords < 3){
+                fontWeight = Math.floor((Math.random()*30)+28);
+                countBigWords++;
+            }else{
+                fontWeight = 10;
+            }
+
+            // Save the current json item into an object
             var currentItem = {
-                    text: data[0],
-                    weight: 10,
-                    link: '/cloudController?query='+data[0]
+                    text: data[i],
+                    weight: fontWeight,
+                    link: '/cloudController?query='+data[i]
                 };
+
+            // Push into the existing array
             tagArray.push(currentItem);
         }
 
+        // Return the generated array as callback of the method
        callback(tagArray);
     });
 }
 
+//Print the wordcloud from json data
 getWordArray(function(response){
-    // should be the same as the word_array, doesnt work though
     // alert(response);
+
+    // Save the method response into an array
+    tagsFromJson = response;
+
+    // Wait for the DOM
     $(function()
     {
         // When DOM is ready, select the container element and call the jQCloud method, passing the array of words as the first argument.
-        $("#example").jQCloud(word_array);
+        $("#example").jQCloud(tagsFromJson);
     });
 });
-
-/*
- * Create an array of word objects, each representing a word in the cloud
- */
-var word_array = [
-    {text: "Andere Fremdsprachen", weight: Math.floor((Math.random()*30)+1), link: '/cloudController?query=Andere Fremdsprachen'},
-    {text: "Berufsorientierung", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Berufsorientierung'},
-    {text: "Bewegung und Sport", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Bewegung und Sport'},
-    {text: "Bildnerische Erziehung", weight:  Math.floor((Math.random()*30)+1), link: 'cloudController?query=Bildnerische Erziehung'},
-    {text: "Biologie und Umweltkunde", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Biologie und Umweltkunde'},
-    {text: "Chemie", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Chemie'},
-    {text: "Deutsch", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Deutsch'},
-    {text: "Ern&auml;hrung", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Ern&auml;hrung'},
-    {text: "Geographie und Wirtschaftskunde", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Geographie und Wirtschaftskunde'},
-    {text: "Geometrisches Zeichnen", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Geometrisches Zeichnen'},
-    {text: "Geschichte und Sozialkunde", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Geschichte und Sozialkunde'},
-    {text: "Informatik", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Informatik'},
-    {text: "Lerncoaching", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Lerncoaching'},
-    {text: "Mathematik", weight: Math.floor((Math.random()*30)+1), link: '/cloudController?query=Mathematik'},
-    {text: "Musikerziehung", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Musikerziehung'},
-    {text: "Phsysik", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Phsysik'},
-    {text: "Religion", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Religion'},
-    {text: "Technisches Werken", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Technisches'},
-    {text: "Textiles Werken", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Textiles Werken'},
-    {text: "Didaktik", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Didaktik'},
-    {text: "CRM", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=CRM'},
-    {text: "Jahresplan", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Jahresplan'},
-    {text: "Lesson plan", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Lesson plan'},
-    {text: "Soziale Kompetenz", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Soziale Kompetenz'},
-    {text: "Themenplan", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Themenplan'},
-    {text: "Unterichtsmaterial", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Unterichtsmaterial'},
-    {text: "Wochenplan", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Wochenplan'},
-    {text: "Sommerakademie", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Sommerakademie'},
-    {text: "Workshop", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Workshop'},
-    {text: "Seminar", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Seminar'},
-    {text: "Leadership", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Leadership'},
-    {text: "TfA-Vorlagen", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=TfA-Vorlagen'},
-    {text: "TfA-Hinweisen", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=TfA-Hinweisen'},
-    {text: "Arbeitsrecht", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Arbeitsrecht'},
-    {text: "Blog-Eintrag", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Blog-Eintrag'},
-    {text: "Fördermöglichkeiten", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Fördermöglichkeiten'},
-    {text: "Schulrecht", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Schulrecht'},
-    {text: "Studie", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Studie'},
-    {text: "Zeitungsartikel", weight: Math.floor((Math.random()*30)+1), link: 'cloudController?query=Zeitungsartikel'}
-    // ...as many words as you want
-];
-/*
-$(function() {
-    // When DOM is ready, select the container element and call the jQCloud method, passing the array of words as the first argument.
-    $("#example").jQCloud(word_array);
-});
-*/
