@@ -30,50 +30,52 @@ class PostController extends Controller
     public function uploadPost(Request $request)
     {
 
-
-
-        //TODO fix validation
-
-        /*
-        //which formats are allowed
-        $allowedExtensions = "pdf,txt,html,docx,doc,zip,jpg,jpeg,png,gif";
-        $rules = array('files[]' => 'required|mimes:'.$allowedExtensions);
-
-
-        $validator = Validator::make($request->all(), $rules);
-        */
-
-
         // get file
         $files = $request->file('files');
 
+
+        $validFileCount = 0;
+
         foreach ($files as $file) {
-            if(!$file->isValid()){
+
+            //which formats are allowed
+
+            //TODO fix validation
+
+            /*
+            $allowedExtensions = "pdf,txt,html,docx,doc,zip,jpg,jpeg,png,gif";
+            $rules = array('files' => 'required|mimes:'.$allowedExtensions);
+
+
+            $validator = Validator::make($request->all(), $rules);
+            */
+
+            if(isset($file) && $file->isValid()/* && !$validator->fails()*/) {
+                $validFileCount++;
+            } else {
                 // sending back with error message.
                 return redirect('upload')->with('error', 'Uploaded file is not valid');
             }
         }
 
-
-        //TODO fix validation
-
-        //When file does not match allowedExtensions
-
-        /*
-        if($validator->fails()) {
-            return redirect('upload')->with('error', 'Uploaded file is not valid');
-        } else {
-        */
-
-            //create the document
-            $post = new Post();
-            $post->name = $request->input('title');
-            $post->description = $request->input('description');
-            $post->owner_id = Auth::user()->id;
-            $post->save();
+        if($validFileCount === 0) {
+            return redirect('upload')->with('error', 'At least one file must be provided.');
+        }
 
 
-            foreach ($files as $file) {
+        //create the document
+        $post = new Post();
+        $post->name = $request->input('title');
+        $post->description = $request->input('description');
+        $post->owner_id = Auth::user()->id;
+        $post->save();
+
+
+        foreach ($files as $file) {
+
+
+            if(isset($file)) {
+
                 //create and save document
                 $document = new Document();
                 $document->name = $file->getClientOriginalName();
@@ -88,24 +90,28 @@ class PostController extends Controller
                 $documentVersion->writeContent(fopen($file->getRealPath(), 'r'));
 
             }
+        }
 
-            // add tags from checkboxes
-            $tagsFromCB = "";
-            if($request->get('givenTags') != null) {
-                foreach ($request->get('givenTags') as $givenTag) {
-                    $tagsFromCB = $tagsFromCB . $givenTag . ',';
-                }
+
+        // add tags from checkboxes
+        $tagsFromCB = "";
+        if($request->get('givenTags') != null) {
+            foreach ($request->get('givenTags') as $givenTag) {
+                $tagsFromCB = $tagsFromCB . $givenTag . ',';
             }
+        }
 
-            // save tags
-            foreach(explode(',', $tagsFromCB . ($request->input('tags'))) as $tag) {
-                $tagModel = Tag::firstOrCreate([
-                    'value' => $tag
-                ]);
-                $post->tags()->save($tagModel);
-            }
+        // save tags
+        foreach(explode(',', $tagsFromCB . ($request->input('tags'))) as $tag) {
+            $tagModel = Tag::firstOrCreate([
+                'value' => $tag
+            ]);
+            $post->tags()->save($tagModel);
+        }
 
-            return redirect('upload');
+        return view('posts', [
+            'posts' => Post::with('tags', 'owner')->get()
+        ]);
         //}
     }
 
