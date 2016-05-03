@@ -1,0 +1,16 @@
+WORDCLOUD:
+-mehrere Suchoptionen nach zb. views, auf gut glück, ...
+
+FILEUPLOAD:
+- Auswahl mehrerer Files gleichzeitig
+- Bei Hochladen von Google Docs Dateien auf Zugriffsrechte testen 
+
+SUCHFUNTKION:
+- Suchen in Excel Dateien
+- Post sortieren nach zB. letze Bearbeitung und Uploaddatum
+
+ALLGEMEIN - TYPEAHEAD:
+- Schon eingegebene Tags aus der Datenbank nehmen
+
+POSTS:
+- Auch einzelne Dokumente aus den Posts herauslöschen
