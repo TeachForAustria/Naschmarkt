@@ -9,9 +9,23 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.main-wrapper {
+  margin-bottom: 100px;
+}
+
 body {
   font-family: 'Lato';
   //background-color: #5bc0de;
+}
+
+.tags {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.tags-lg {
+  font-size: 1.5em;
+  margin-bottom: 20px;
 }
 
 .fa-btn {
@@ -189,5 +203,4 @@ div.jqcloud {
 /* for the lolz */
 
 div.jqcloud span { padding: 0; }
-
 

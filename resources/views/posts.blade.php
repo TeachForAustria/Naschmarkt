@@ -34,14 +34,11 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label>
-                                        <input name="fullTextSearch" type="checkbox" value="yes" checked="checked"> Volltextsuche
+                                        <input name="fullTextSearch" type="checkbox" value="yes"> Volltextsuche
                                     </label>
                                 </div>
                             </form>
                         </div>
-
-                        </form>
-
                     </div>
                 </div>
             </div>

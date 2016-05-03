@@ -11,6 +11,10 @@ i {
   padding-bottom: 0;
 }
 
+.delete-button {
+  margin-left: 10px;
+}
+
 .stats {
   @media(min-width: $screen-sm-min) {
 	text-align: center;
@@ -35,6 +39,7 @@ i {
 .description {
   font-size: 16px;
   min-height: 200px;
+  margin-bottom: 35px;
 }
 
 .files {
@@ -57,6 +62,16 @@ i {
   }
 }
 
-.tags {
-  font-size: 2em;
+.edit-title {
+  margin-bottom: 10px;
+  width: 400px !important;
+}
+
+.edit-description {
+  width: 100% !important;
+  min-height: 300px !important;
+}
+
+.bootstrap-tagsinput {
+  width: 100% !important;
 }

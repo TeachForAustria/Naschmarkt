@@ -14,8 +14,8 @@
                 <div class="page-header">
                     <!-- edit/delete only if user is either the owner or a staff -->
                     @if(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)
-                        <a href="{{'/posts/deletePost/' . $post->id}}"><button class="btn btn-warning pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i>L&ouml;schen</button></a>
-                        <button class="btn btn-warning pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
+                        <a href="{{'/posts/deletePost/' . $post->id}}" class="btn btn-danger pull-right delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i>L&ouml;schen</a>
+                        <a href="{{ URL::to('/posts/' . $post->id . '/edit') }}" class="btn btn-warning pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Bearbeiten</a>
                     @endif
                     <h2>{{ $post->name }}</h2>
                 </div>
@@ -71,7 +71,7 @@
                                         <i class="fa fa-repeat" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
                                     </div>
                                     <div class="col-sm-3 file-info">
-                                        <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
+                                        <a href="{{ URL::to('/documents/' . $document->id) }}"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="row">
                     <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>
-                    <div class="tags">
+                    <div class="tags-lg">
                         @foreach($post->tags->all() as $tag)
                             <span class="label label-info">{{ $tag->value }}</span>
                         @endforeach

@@ -62,7 +62,7 @@ class PostController extends Controller
 
             //create the document
             $post = new Post();
-            $post->name = $request->input('title'); //$file->getClientOriginalName();
+            $post->name = $request->input('title');
             $post->description = $request->input('description');
             $post->owner_id = Auth::user()->id;
             $post->save();
@@ -84,8 +84,16 @@ class PostController extends Controller
 
             }
 
+            // add tags from checkboxes
+            $tagsFromCB = "";
+            if($request->get('givenTags') != null) {
+                foreach ($request->get('givenTags') as $givenTag) {
+                    $tagsFromCB = $tagsFromCB . $givenTag . ',';
+                }
+            }
+
             // save tags
-            foreach(explode(',', $request->input('tags')) as $tag) {
+            foreach(explode(',', $tagsFromCB . ($request->input('tags'))) as $tag) {
                 $tagModel = Tag::firstOrCreate([
                     'value' => $tag
                 ]);
@@ -114,18 +122,42 @@ class PostController extends Controller
         ]);
     }
 
+    public function showEditPostView($id)
+    {
+        $post = Post::with('documents.documentVersions')->findOrFail($id);
+
+        if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
+            abort(403);
+        }
+
+        return view('posts.edit', [
+            'post' => $post
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $post = Post::findOrFail($id);
+
+        if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
+            abort(403);
+        }
+
+        # TODO: validation
+        $post->name = $request->input('title');
+        $post->description = $request->input('description');
+        $post->setTags(explode(',', $request->input('tags')));
+        $post->save();
+        return redirect('/posts/' . $id);
+    }
+
     public function deletePost($idToDelete)
     {
         //Find the post with the given id
-        $posts = Post::all();
-        $postToDelete = null;
-        foreach ($posts as $post)
-        {
-            if ($post->id == $idToDelete)
-            {
-                $postToDelete = $post;
-                break;
-            }
+        $postToDelete = Post::findOrFail($idToDelete);
+
+        if(!(Auth::user()->name == $postToDelete->owner->name or Auth::user()->is_staff)) {
+            abort(403);
         }
 
         //delete documents of post
