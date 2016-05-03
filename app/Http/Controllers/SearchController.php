@@ -18,7 +18,6 @@ use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
-use Mockery\CountValidator\Exception;
 use ZipArchive;
 
 class SearchController extends Controller{
@@ -40,12 +39,26 @@ class SearchController extends Controller{
 
         }else {
 
+            /*
+             * Title Search
+             */
+
+            $posts = Post::where('name', 'LIKE', '%' . $full_query . '%')->get();
+
+
+            /*
+             * Tag Search
+             */
+
             //build with the function query for finding the tags
-            $posts = Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
+            $posts = $posts->merge(Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
                 //select tags where value is in an array with each query
                 $query->whereIn('value', explode(",", $full_query));
-            })->get();
+            })->get());
 
+            /*
+             * Full Text Search
+             */
 
             //only if checkbox is checked files will be searched
             if (Input::get('fullTextSearch') === 'yes') {
@@ -72,8 +85,7 @@ class SearchController extends Controller{
 
                             //match content of file to query
                             if(stripos($this->$read_method($document_version), $full_query) !== false){
-                                //push the document to the found documents
-
+                                //add the document to the found posts
                                 $posts = $posts->add($document_version->document->post);
                             }
 
@@ -86,6 +98,8 @@ class SearchController extends Controller{
                 }
             }
 
+
+            $posts = $posts->unique();
 
             // Return the posts view with the
             // filtered posts as parameter
@@ -110,51 +124,15 @@ class SearchController extends Controller{
 
         }else {
 
-            //build with the function query for finding the tags
+            /*
+             * Tag Search
+             */
+
+            //build posts collection with the function for query building that finds all posts from the tags
             $posts = Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
                 //select tags where value is in an array with each query
                 $query->whereIn('value', explode(",", $full_query));
             })->get();
-
-
-            //only if checkbox is checked files will be searched
-            if (Input::get('fullTextSearch') === 'yes') {
-                $full_text_found_documents = array();
-
-                //get all document_versions
-                $document_versions = DocumentVersion::all();
-
-                //loop through them
-                foreach ($document_versions as $document_version) {
-
-                    //save the extension
-                    $extension = $document_version->extension;
-
-                    //valid extensions where read method exists
-                    $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
-
-                    if (in_array($extension, $checkExtension)) {
-
-                        //the method called is read_extension (read_doc, read_docx, read_pdf, read_txt, read_html)
-                        $read_method  = 'read_' . $extension;
-
-                        try{
-
-                            //match content of file to query
-                            if(stripos($this->$read_method($document_version), $full_query) !== false){
-                                //push the document to the found documents
-
-                                $posts = $posts->add($document_version->document->post);
-                            }
-
-                        } catch (\Exception $e){
-                            // if Exception occurs, the Document is misformatted and it is just not checked.
-                        }
-
-                    }
-
-                }
-            }
 
 
             // Return the posts view with the

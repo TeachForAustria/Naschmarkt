@@ -56,6 +56,16 @@ $(document).ready(function () {
         printB = printB + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+bildung[i]+'">' + bildung[i] + '</label></div>');
     }
     $("#printBildung").html(printB);
+
+    $("#addFiles").click(function(){
+
+        var parentDiv = $("#invisibleButton").parent();
+
+        $(parentDiv).append('<input name="files[]" multiple="multiple" type="file" />')
+
+        console.log(myFile.name);
+
+    });
 });
 
 /**
