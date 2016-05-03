@@ -20,43 +20,6 @@ var bildung = ["Arbeitsrecht", "Blog-Eintrag", "Fördermöglichkeiten", "Schulre
 
 
 $(document).ready(function () {
-
-    //Show/hide presetTags
-    $("#toggleTags").click(function () {
-        $("#presetTags").slideToggle();
-        $("i",this).toggleClass("fa-plus-square-o fa-minus-square-o")
-    });
-
-    //Print Checkboxes for tags
-    var printF = '<table style="width: 100%;" border="0px">';
-    var next = '';
-    for (var i = 0; i < fachlich.length / 2; i++) {
-        next = fachlich[Math.round(fachlich.length / 2) + i];
-        printF += '<tr><td style="width: 50%"><div style="height: 5px" class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="' + fachlich[i] + '">' + fachlich[i] + '</label></div></td>';
-        if (next != undefined)
-            printF += '<td style="width: 50%"><div style="height: 5px" class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="' + next + '">' + next + '</label></div></td></tr>';
-    }
-
-    $("#printFachliches").html(printF + '</table>');
-
-    var printI = '';
-    for (var i = 0; i < inhaltliches.length; i++) {
-        printI = printI + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+inhaltliches[i]+'">' + inhaltliches[i] + '</label></div>');
-    }
-    $("#printInhaltliches").html(printI);
-
-    var printP = '';
-    for (var i = 0; i < programmbezogenes.length; i++) {
-        printP = printP + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+programmbezogenes[i]+'">' + programmbezogenes[i] + '</label></div>');
-    }
-    $("#printProgrammbezogenes").html(printP);
-
-    var printB = '';
-    for (var i = 0; i < bildung.length; i++) {
-        printB = printB + ('<div class="checkbox"><label><input type="checkbox" name="givenTags[]" class="myCheckBox" value="'+bildung[i]+'">' + bildung[i] + '</label></div>');
-    }
-    $("#printBildung").html(printB);
-
     $("#addFiles").click(function(){
 
         var parentDiv = $("#invisibleButton").parent();

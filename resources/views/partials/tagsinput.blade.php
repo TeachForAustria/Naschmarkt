@@ -13,7 +13,7 @@
 
 <div class="help-block">
     <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        <i class="fa fa-plus fa-lg" aria-hidden="true"></i>Vorgeschlagene Tags
+        <i class="fa fa-plus fa-lg" aria-hidden="true"></i> Vorgeschlagene Tags
     </button>
     <div class="collapse" id="collapseExample">
         <div class="well">

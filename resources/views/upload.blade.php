@@ -54,7 +54,9 @@
                                     <input name="files[]" multiple="multiple" type="file" id="invisibleButton" />
                                 </div>
 
-                                <input type="button" id="addFiles" value="Add File" />
+                                <button class="btn btn-default" type="button" id="addFiles">
+                                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add File
+                                </button>
 
                             </div>
 
