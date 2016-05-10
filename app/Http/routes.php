@@ -83,6 +83,7 @@ Route::group(['middleware' => 'web'], function () {
 
     // cloud controller
     Route::get('cloudController', 'CloudController@showTagsView');
+    Route::get('/mostViewedTags', 'CloudController@filterMostViewed');
 
     // Route::post('/posts', 'SearchController@searchForQuery');
     Route::get('/posts/{id}', 'PostController@showViewPostView');

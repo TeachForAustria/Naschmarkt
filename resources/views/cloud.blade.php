@@ -6,9 +6,31 @@
 @endpush
 
 @section('content')
-    <div class="main">
+    <div class="container">
 
-        <div id="example" class="centered" style="height: 350px ;width: 50%;"></div>
+        <form action="" method="POST">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Sortieren</div>
+                            <div class="panel-body">
+                                <form action="/" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <select class="form-control" id="select">
+                                            <option value="1">Auf Gut Gl&uumlck</option>
+                                            <option value="2">Meist verwendet</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div id="example" class="centered" style="height: 350px ;width: 60%;"></div>
 
     </div>
 @endsection
