@@ -79,13 +79,42 @@
                     </div>
             </div>
             <div class="row">
-                    <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>
-                    <div class="tags-lg">
-                        @foreach($post->tags->all() as $tag)
-                            <span class="label label-info">{{ $tag->value }}</span>
-                        @endforeach
-                    </div>
+                <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>
+                <div class="tags-lg">
+                    @foreach($post->tags->all() as $tag)
+                        <span class="label label-info">{{ $tag->value }}</span>
+                    @endforeach
                 </div>
-        </div>
+            </div>
+
+            <div class="btn pull-right">
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.6";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                <?php
+                    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                    echo '<div class="fb-share-button" data-href="http://'.$actual_link.'" data-layout="button_count" data-mobile-iframe="true"></div>';
+                ?>
+
+            </div>
+
+            <style>
+                .btn-facebook {
+                    color: #fff;
+                    background-color: #4C67A1;
+                }
+                .btn-facebook:hover {
+                    color: #fff;
+                    background-color: #405D9B;
+                }
+                .btn-facebook:focus {
+                    color: #fff;
+                }
+            </style>
     </div>
 @endsection
