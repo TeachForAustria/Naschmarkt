@@ -51,10 +51,7 @@ class SearchController extends Controller{
              */
 
             //build with the function query for finding the tags
-            $posts = $posts->merge(Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
-                //select tags where value is in an array with each query
-                $query->whereIn('value', explode(",", $full_query));
-            })->get());
+            $posts = $posts->merge($this->searchForTag($full_query));
 
             /*
              * Full Text Search
@@ -62,8 +59,6 @@ class SearchController extends Controller{
 
             //only if checkbox is checked files will be searched
             if (Input::get('fullTextSearch') === 'yes') {
-                $full_text_found_documents = array();
-
                 //get all document_versions
                 $document_versions = DocumentVersion::all();
 
@@ -111,38 +106,12 @@ class SearchController extends Controller{
 
     }
 
-    public function searchForTag(Request $request, $tag){
+    public static function searchForTag($full_query){
 
-        // Save the query string
-        $full_query = $tag;
-
-        if($full_query === ""){
-
-            return view('posts', [
-                'posts' => Post::with('tags', 'owner')->get()
-            ]);
-
-        }else {
-
-            /*
-             * Tag Search
-             */
-
-            //build posts collection with the function for query building that finds all posts from the tags
-            $posts = Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
-                //select tags where value is in an array with each query
-                $query->whereIn('value', explode(",", $full_query));
-            })->get();
-
-
-            // Return the posts view with the
-            // filtered posts as parameter
-            return view('posts', [
-                'posts' => $posts
-            ]);
-
-        }
-
+        return Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
+            //select tags where value is in an array with each query
+            $query->whereIn('value', explode(",", $full_query));
+        })->get();
     }
 
     private function read_doc($document_version) {

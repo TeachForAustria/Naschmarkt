@@ -9,6 +9,7 @@ use App\DocumentVersion;
 use App\Http\Requests;
 use App\Post;
 use App\Tag;
+use DB;
 use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -35,60 +36,26 @@ class CloudController extends Controller
 
         $tagToSearch = $contents[1];
 
-        return redirect('search/' . $tagToSearch);
+        $posts = SearchController::searchForTag($tagToSearch);
+        
+        return view('posts', [
+            'posts' => $posts
+        ]);
 
     }
 
 
     public function filterMostViewed(Request $request)
     {
-
-        // Get all existing tags
-        $tags = Tag::all();
-
-        // Get all existing posts
-        $posts = Post::all();
+        // join post_tag and tags group them by the ID Order by count limit output by 50
+        $results = DB::select(DB::raw("SELECT COUNT(*) AS count, t.value FROM post_tag INNER JOIN tags AS t ON post_tag.tag_id = t.id GROUP BY t.id ORDER BY count DESC LIMIT 50"));
 
         $viewedTags = array();
 
-        $id = 0;
-
-        // loop through posts with tags and validate them
-        // against each other
-        foreach ($tags as $tag) {
-
-            $count = 0;
-            foreach ($posts as $post) {
-                $tagsInPost = $post->tags;
-
-                foreach ($tagsInPost as $ptags) {
-
-                    if ($ptags->value === $tag->value) {
-                        $count++;
-                    }
-                }
-            }
-
-            // Save the tags with posts to an array
-            if($count > 0){
-                $viewedTags[$id] =   $count .':' . $tag->value;
-                $id ++;
-            }
-
+        //push result to array
+        foreach ($results as $result){
+            array_push($viewedTags, $result->count . ':' . $result->value);
         }
-
-        // Sort the array
-        usort($viewedTags, function($a, $b){
-            $valueA = explode(':',$a)[0];
-            $valueB = explode(':',$b)[0];
-
-            if($valueA === $valueB){
-                return  0;
-            }
-
-            return ($valueA < $valueB) ? -1 : 1;
-
-        });
 
         return $viewedTags;
     }
