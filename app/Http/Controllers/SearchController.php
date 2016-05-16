@@ -64,32 +64,33 @@ class SearchController extends Controller{
 
                 //loop through them
                 foreach ($document_versions as $document_version) {
+                    if(!$posts->contains($document_version->document->post)) {
 
-                    //save the extension
-                    $extension = $document_version->extension;
+                        //save the extension
+                        $extension = $document_version->extension;
 
-                    //valid extensions where read method exists
-                    $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
+                        //valid extensions where read method exists
+                        $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
 
-                    if (in_array($extension, $checkExtension)) {
+                        if (in_array($extension, $checkExtension)) {
 
-                        //the method called is read_extension (read_doc, read_docx, read_pdf, read_txt, read_html)
-                        $read_method  = 'read_' . $extension;
+                            //the method called is read_extension (read_doc, read_docx, read_pdf, read_txt, read_html)
+                            $read_method = 'read_' . $extension;
 
-                        try{
+                            try {
 
-                            //match content of file to query
-                            if(stripos($this->$read_method($document_version), $full_query) !== false){
-                                //add the document to the found posts
-                                $posts = $posts->add($document_version->document->post);
+                                //match content of file to query
+                                if (stripos($this->$read_method($document_version), $full_query) !== false) {
+                                    //add the document to the found posts
+                                    $posts = $posts->add($document_version->document->post);
+                                }
+
+                            } catch (\Exception $e) {
+                                // if Exception occurs, the Document is misformatted and won't be checked.
                             }
 
-                        } catch (\Exception $e){
-                            // if Exception occurs, the Document is misformatted and it is just not checked.
                         }
-
                     }
-
                 }
             }
 

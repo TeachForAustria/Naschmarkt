@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\ConcreteDocument;
 use App\Document;
 use App\DocumentVersion;
 use App\Post;
 use App\Tag;
 use Auth;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Ramsey\Uuid\Uuid;
 use Storage;
-use Validator;
+use App\Http\Requests;
+use ZipArchive;
 
 class PostController extends Controller
 {
@@ -36,21 +33,23 @@ class PostController extends Controller
 
         $validFileCount = 0;
 
+
         foreach ($files as $file) {
 
-            //which formats are allowed
+            print_r($request->all());
 
-            //TODO fix validation
+            $rules = array(
+                'title' => 'required',
+                'tags' => 'required',
+            );
 
-            /*
-            $allowedExtensions = "pdf,txt,html,docx,doc,zip,jpg,jpeg,png,gif";
-            $rules = array('files' => 'required|mimes:'.$allowedExtensions);
+            foreach ($files as $key => $file){
+                $rules['files.'.$key] = 'required|max:51200';
+            }
 
+            $this->validate($request, $rules);
 
-            $validator = Validator::make($request->all(), $rules);
-            */
-
-            if(isset($file) && $file->isValid()/* && !$validator->fails()*/) {
+            if(isset($file) && $file->isValid()) {
                 $validFileCount++;
             } else {
                 // sending back with error message.
@@ -58,10 +57,10 @@ class PostController extends Controller
             }
         }
 
+
         if($validFileCount === 0) {
             return redirect('upload')->with('error', 'At least one file must be provided.');
         }
-
 
         //create the document
         $post = new Post();
@@ -187,5 +186,30 @@ class PostController extends Controller
         $postToDelete->delete();
 
         return redirect('posts');
+    }
+
+    public function getZipDownload(Post $post){
+
+        $documents = $post->documents;
+
+        $filename = storage_path() . '/app/' .'download.zip';
+
+        $zip = new ZipArchive();
+
+        if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+            exit("cannot open <$filename>\n");
+        }
+
+        foreach ($documents as $document) {
+
+            // this is a little bit hacky since we assume that no document version has been deleted
+            $documentVersion = $document->documentVersions()->where('version', $document->documentVersions()->count() - 1)->firstOrFail();
+
+            $zip->addFile(storage_path() . '/app/' . $documentVersion->uuid . '.' . $documentVersion->extension, $document->name);
+        }
+
+        $zip->close();
+
+        return response()->download($filename, str_replace(array(",", "."), "", str_replace(" ", "-", strtolower($post->name))) . '.zip')->deleteFileAfterSend(true);
     }
 }

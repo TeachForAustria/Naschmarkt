@@ -85,10 +85,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('cloudController', 'CloudController@showTagsView');
     Route::get('/mostViewedTags', 'CloudController@filterMostViewed');
 
-    // Route::post('/posts', 'SearchController@searchForQuery');
+    // post views
     Route::get('/posts/{id}', 'PostController@showViewPostView');
     Route::post('/posts/{id}', 'PostController@update');
     Route::get('/posts/{id}/edit', 'PostController@showEditPostView');
+    Route::get('/posts/download/{post}', 'PostController@getZipDownload');
 
     // documents
     Route::get('/documents/{id}', 'DocumentController@getFileDownload');

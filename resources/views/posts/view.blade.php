@@ -52,6 +52,9 @@
             </div>
             <div class="row">
                     <h3>Dateien <span class="badge">{{ $post->documents->count() }}</span></h3>
+                    @if($post->documents->count() > 2)
+                        <a href="{{ URL::to('/posts/download/' . $post->id) }}"><i class="fa fa-download" aria-hidden="true"></i> Dateien als zip herunterladen</a>
+                    @endif
                     <div class="files panel panel-default">
                         @foreach($post->documents->all() as $document)
                             <div class="panel-body post">
