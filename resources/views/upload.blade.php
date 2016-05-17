@@ -1,14 +1,13 @@
 @extends('layouts.app')
 @push('stylesheets')
-<link href="{{ URL::asset('css/upload.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
-<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
 @endpush
 
 @push('scripts')
-<script src="{{ URL::asset('uploadFunctions.js') }}"></script>
-<script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
-<script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
+    <script src="{{ URL::asset('uploadFunctions.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
 @endpush
 
 @section('content')
@@ -21,13 +20,19 @@
                     <!-- Body -->
                     <div class="panel-body col-sm-offset-1">
                         <form action="/upload" method="POST" enctype="multipart/form-data" class="form-horizontal">
-                            {!! csrf_field() !!}
-                                    <!-- name -->
-                            <div class="form-group">
+                        {!! csrf_field() !!}
+                        <!-- name -->
+                            <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label class="col-md-2 control-label">Titel*</label>
 
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" name="title" />
+                                    <input type="text" class="form-control" name="title" value="{{ old('title') }}"/>
+
+                                    @if ($errors->has('title'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('title') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -40,23 +45,37 @@
                             </div>
 
                             <!-- tags -->
-                            <div class="form-group">
+                            <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
                                 <label class="col-md-2 control-label">Tags*</label>
                                 <div class="col-md-8">
-                                    @include('partials.tagsinput')
+                                    @include('partials.tagsinput', array($errors))
+
+                                    @if ($errors->has('tags'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('tags') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 
                             <!-- file -->
-                            <div class="form-group">
+                            <div class="form-group{{ $errors->has('files.0') ? ' has-error' : '' }}">
                                 <label class="col-md-2 control-label">Datei*</label>
                                 <div class="col-md-8">
                                     <input name="files[]" multiple="multiple" type="file" id="invisibleButton" />
+
+                                    @if ($errors->has('files.0'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('files.0') }}</strong>
+                                        </span>
+                                    @endif
+
                                 </div>
 
                                 <button class="btn btn-default" type="button" id="addFiles">
                                     <i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add File
                                 </button>
+
 
                             </div>
 
@@ -68,12 +87,9 @@
                                 </div>
                             </div>
 
-                            <br/>
-
                             <hr>
 
                             <!-- help-block -->
-                            <br/><br/>
                             <span class="help-block">
                                 *Felder m&uuml;ssen ausgef&uuml;llt werden.
                             </span>

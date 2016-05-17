@@ -30,36 +30,38 @@ class PostController extends Controller
         // get file
         $files = $request->file('files');
 
-
-        $validFileCount = 0;
-
-
         foreach ($files as $file) {
 
-            print_r($request->all());
 
+            //this is how big each file can be
+            $file_size = 51200/count($files);
+
+            // rules for validating
             $rules = array(
                 'title' => 'required',
                 'tags' => 'required',
+                'files.0' => 'required|max:' . $file_size
             );
 
-            foreach ($files as $key => $file){
-                $rules['files.'.$key] = 'required|max:51200';
+            // Messages that are sent for validating
+            $messages = array(
+                'title.required' => 'Bitte Titel vergeben',
+                'tags.required' => 'Bitte Tags eingeben, damit der Post zugordnet werden kann anh&auml;ngen',
+                'files.0.required' => 'Mindestens eine Datei anh&auml;ngen'
+            );
+
+
+            foreach (array_slice($files, 1) as $key => $file){
+                $rules['files.'.$key] = 'max:' . $file_size;
+                $messages['files.'.$key.'max'] = 'Bitte nur Datein unter 50 MB hochladen';
             }
 
-            $this->validate($request, $rules);
+            $this->validate($request, $rules, $messages);
 
-            if(isset($file) && $file->isValid()) {
-                $validFileCount++;
-            } else {
+            if(!isset($file) || !$file->isValid()) {
                 // sending back with error message.
                 return redirect('upload')->with('error', 'Uploaded file is not valid');
             }
-        }
-
-
-        if($validFileCount === 0) {
-            return redirect('upload')->with('error', 'At least one file must be provided.');
         }
 
         //create the document
@@ -196,9 +198,7 @@ class PostController extends Controller
 
         $zip = new ZipArchive();
 
-        if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
-            exit("cannot open <$filename>\n");
-        }
+        $zip->open($filename, ZipArchive::CREATE);
 
         foreach ($documents as $document) {
 

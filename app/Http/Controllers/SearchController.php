@@ -78,7 +78,6 @@ class SearchController extends Controller{
                             $read_method = 'read_' . $extension;
 
                             try {
-
                                 //match content of file to query
                                 if (stripos($this->$read_method($document_version), $full_query) !== false) {
                                     //add the document to the found posts
