@@ -27,42 +27,9 @@ class PostController extends Controller
     public function uploadPost(Request $request)
     {
 
+        // TODO: file validation
         // get file
-        $files = $request->file('files');
-
-        foreach ($files as $file) {
-
-
-            //this is how big each file can be
-            $file_size = 51200/count($files);
-
-            // rules for validating
-            $rules = array(
-                'title' => 'required',
-                'tags' => 'required',
-                'files.0' => 'required|max:' . $file_size
-            );
-
-            // Messages that are sent for validating
-            $messages = array(
-                'title.required' => 'Bitte Titel vergeben',
-                'tags.required' => 'Bitte Tags eingeben, damit der Post zugordnet werden kann anh&auml;ngen',
-                'files.0.required' => 'Mindestens eine Datei anh&auml;ngen'
-            );
-
-
-            foreach (array_slice($files, 1) as $key => $file){
-                $rules['files.'.$key] = 'max:' . $file_size;
-                $messages['files.'.$key.'max'] = 'Bitte nur Datein unter 50 MB hochladen';
-            }
-
-            $this->validate($request, $rules, $messages);
-
-            if(!isset($file) || !$file->isValid()) {
-                // sending back with error message.
-                return redirect('upload')->with('error', 'Uploaded file is not valid');
-            }
-        }
+        $files = json_decode($request->input('files'), true);
 
         //create the document
         $post = new Post();
@@ -71,25 +38,22 @@ class PostController extends Controller
         $post->owner_id = Auth::user()->id;
         $post->save();
 
+        $tmp_dir = ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir();
 
         foreach ($files as $file) {
+            //create and save document
+            $document = new Document();
+            $document->name = $file['name'];
+            $post->documents()->save($document);
 
-
-            if(isset($file)) {
-
-                //create and save document
-                $document = new Document();
-                $document->name = $file->getClientOriginalName();
-                $post->documents()->save($document);
-
-
-                // create and save document version
-                $documentVersion = new DocumentVersion();
-                $documentVersion->generateUuid();
-                $documentVersion->extension = $file->guessExtension();
-                $document->documentVersions()->save($documentVersion);
-                $documentVersion->writeContent(fopen($file->getRealPath(), 'r'));
-
+            // create and save document version
+            $documentVersion = DocumentVersion::whereUuid($file['uuid'])->firstOrFail();
+            if($documentVersion->document_id !== null) {
+                // TODO: better error handling
+                abort(403);
+            } else {
+                $documentVersion->document_id = $document->id;
+                $documentVersion->save();
             }
         }
 
