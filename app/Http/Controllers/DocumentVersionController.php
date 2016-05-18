@@ -9,6 +9,11 @@ use App\Http\Requests;
 
 class DocumentVersionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function uploadFile(Request $request)
     {
         $file = $request->file('file');
