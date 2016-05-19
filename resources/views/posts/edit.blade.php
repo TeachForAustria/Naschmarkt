@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @push('stylesheets')
-<link href="{{ URL::asset('css/pages/post.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('css/pages/post.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ URL::asset('lib/dropzone/dropzone.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
+    <script src="{{ URL::asset('lib/dropzone/dropzone.js') }}"></script>
+    <script src="{{ URL::asset('js/fileinput.js') }}"></script>
 @endpush
 
 @section('content')

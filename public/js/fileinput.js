@@ -1,6 +1,7 @@
 (function(){
     var overwriteFile = null;
     var oldOverwriteFile = null;
+    var files = [];
     Dropzone.autoDiscover = false;
     var dropzone = new Dropzone("div#dropzone", {
         addRemoveLinks: false,
@@ -12,10 +13,16 @@
             });
 
             this.on("success", function(file, response) {
-                var filesElement = $('#files');
-                var files = JSON.parse(filesElement.val());
                 files.push(response);
-                filesElement.val(JSON.stringify(files));
+            });
+
+            this.on('removedfile', function(file) {
+                var i;
+                for(i = 0; i < files.length; i++) {
+                    if(files[i].name !== file.name)
+                        files.splice(i, 1);
+
+                }
             });
 
             var self = this;
@@ -39,5 +46,10 @@
         dropzone.removeFile(oldOverwriteFile);
         dropzone.addFile(overwriteFile);
         $('#file-exists-modal').modal('hide');
+    });
+
+    $("#form").submit( function() {
+        $('#files').val(JSON.stringify(files));
+        return true;
     });
 })();

@@ -39,7 +39,7 @@
                     <div class="panel-heading">Upload</div>
                     <!-- Body -->
                     <div class="panel-body col-sm-offset-1">
-                        <form action="/upload" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="/upload" method="POST" enctype="multipart/form-data" class="form-horizontal" id="form">
                         {!! csrf_field() !!}
                         <!-- name -->
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
