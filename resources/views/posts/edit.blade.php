@@ -9,12 +9,53 @@
     <script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
     <script src="{{ URL::asset('lib/dropzone/dropzone.js') }}"></script>
     <script src="{{ URL::asset('js/fileinput.js') }}"></script>
+    <script>
+        (function() {
+            var existingFiles = [];
+            @foreach($post->documents->all() as $document)
+                existingFiles.push({
+                    name: '{{ $document->name }}',
+                    size: '{{ $document->documentversions->last()->filesizeBytes() }}',
+                    accepted: true
+                });
+            @endforeach
+
+            var i;
+            for(i = 0; i < existingFiles.length; i++) {
+                // from: http://stackoverflow.com/questions/24009298/dropzone-js-display-existing-files-on-server
+                dropzone.options.addedfile.call(dropzone, existingFiles[i]);
+                dropzone.emit("added_existing", {
+                    name: '{{ $document->name }}',
+                    uuid: '{{ $document->documentversions->last()->uuid }}'
+                });
+                dropzone.emit("complete", existingFiles[i]);
+                dropzone.files.push(existingFiles[i]);
+            }
+        })()
+    </script>
 @endpush
 
 @section('content')
+    <div class="modal fade" id="file-exists-modal" tabindex="-1" role="dialog" aria-labelledby="fileExistsModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="fileExistsModal">Datei existiert bereits.</h4>
+                </div>
+                <div class="modal-body">
+                    Diese Datei existiert bereits. M&ouml;chtest du sie &uuml;berschreiben?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-primary" id="overwrite-file-modal">&Uuml;berschreiben</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="col-sm-10 col-sm-offset-1">
-            <form class="form-inline" action="{{ URL::to('/posts/' . $post->id) }}" method="POST">
+            <form class="form-inline" action="{{ URL::to('/posts/' . $post->id) }}" method="POST" id="form">
                 {!! csrf_field() !!}
                 <div class="row">
                     <ul class="pager">
@@ -53,32 +94,9 @@
                         <textarea class="form-control col-sm-12 edit-description" name="description">{{ $post->description }}</textarea>
                 </div>
                 <div class="row">
-                        <h3>Dateien <span class="badge">{{ $post->documents->count() }}</span></h3>
-                        <div class="files panel panel-default">
-                            @foreach($post->documents->all() as $document)
-                                <div class="panel-body post">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="row">
-                                                <div class="col-sm-12 file-name"><strong><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>{{ $document->name }}</a></strong></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 file-info">
-                                            <i class="fa fa-folder-open" aria-hidden="true"></i> Unknown
-                                        </div>
-                                        <div class="col-sm-2 file-info">
-                                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $document->created_at->format('d. m. Y') }}
-                                        </div>
-                                        <div class="col-sm-1 file-info">
-                                            <i class="fa fa-repeat" aria-hidden="true"></i> {{ $document->documentVersions->count() }}
-                                        </div>
-                                        <div class="col-sm-3 file-info">
-                                            <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Herunterladen</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                    <h3>Dateien <span class="badge">{{ $post->documents->count() }}</span></h3>
+                    <input type="hidden" id="files" name="files" value="[]" />
+                    <div class="dropzone" id="dropzone"></div>
                 </div>
                 <div class="row">
                     <h3>Tags <span class="badge">{{ $post->tags->count() }}</span></h3>

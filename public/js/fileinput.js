@@ -1,9 +1,9 @@
-(function(){
+(function(self){
     var overwriteFile = null;
     var oldOverwriteFile = null;
     var files = [];
     Dropzone.autoDiscover = false;
-    var dropzone = new Dropzone("div#dropzone", {
+    self.dropzone = new Dropzone("div#dropzone", {
         addRemoveLinks: false,
         url: "/documents",
         dictDefaultMessage: 'Hier klicken oder Dateien hineinziehen um sie hochzuladen.',
@@ -19,10 +19,15 @@
             this.on('removedfile', function(file) {
                 var i;
                 for(i = 0; i < files.length; i++) {
-                    if(files[i].name !== file.name)
+                    if(files[i].name === file.name) {
                         files.splice(i, 1);
-
+                        return;
+                    }
                 }
+            });
+
+            this.on('added_existing', function(file) {
+                files.push(file);
             });
 
             var self = this;
@@ -43,8 +48,8 @@
     });
 
     $('#overwrite-file-modal').click(function(e) {
-        dropzone.removeFile(oldOverwriteFile);
-        dropzone.addFile(overwriteFile);
+        self.dropzone.removeFile(oldOverwriteFile);
+        self.dropzone.addFile(overwriteFile);
         $('#file-exists-modal').modal('hide');
     });
 
@@ -52,4 +57,4 @@
         $('#files').val(JSON.stringify(files));
         return true;
     });
-})();
+})(this);

@@ -61,4 +61,9 @@ class DocumentVersion extends Model
         //round double cut to 3 Characters and delete . at the end if it exists
         return rtrim(substr(round($filesize, 2), 0, 3), '.') . $extension;
     }
+
+    public function filesizeBytes()
+    {
+        return Storage::size($this->uuid . '.' . $this->extension);
+    }
 }

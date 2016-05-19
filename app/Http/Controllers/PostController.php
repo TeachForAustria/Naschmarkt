@@ -122,7 +122,8 @@ class PostController extends Controller
         # TODO: validation
         $post->name = $request->input('title');
         $post->description = $request->input('description');
-        $post->setTags(explode(',', $request->input('tags')));
+        $post->syncTags(explode(',', $request->input('tags')));
+        $post->syncDocuments(json_decode($request->input('files'), true));
         $post->save();
         return redirect('/posts/' . $id);
     }
