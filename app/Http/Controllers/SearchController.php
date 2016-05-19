@@ -15,6 +15,7 @@ use App\Http\Requests;
 use App\Post;
 use App\Tag;
 use DOMDocument;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +24,7 @@ use ZipArchive;
 class SearchController extends Controller{
 
     public function _construct(){
+
         $this->middleware('auth');
     }
 
@@ -34,6 +36,7 @@ class SearchController extends Controller{
         if($full_query === ""){
 
             return view('posts', [
+                'search_query' => $full_query,
                 'posts' => Post::with('tags', 'owner')->get()
             ]);
 
@@ -99,6 +102,7 @@ class SearchController extends Controller{
             // Return the posts view with the
             // filtered posts as parameter
             return view('posts', [
+                'search_query' => $full_query,
                 'posts' => $posts
             ]);
 
@@ -107,6 +111,7 @@ class SearchController extends Controller{
     }
 
     public static function searchForTag($full_query){
+
 
         return Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
             //select tags where value is in an array with each query
