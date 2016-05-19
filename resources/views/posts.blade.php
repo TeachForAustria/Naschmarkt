@@ -26,7 +26,7 @@
                             {!! csrf_field() !!}
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    <input id="searchQuery" data-role="tagsinput" type="text"  name="searchQuery" class="form-control">
+                                    <input id="searchQuery" data-role="tagsinput" type="text"  name="searchQuery" class="form-control" value = "@if(isset($search_query)) {{ $search_query }} @endif" >
                                 </div>
                                 <div class="col-md-2">
                                     <button type="submit" class="btn btn-default" name="search">Search</button>

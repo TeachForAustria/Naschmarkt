@@ -44,6 +44,16 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/about') }}">About</a></li>
+
+                    @if(!isset($posts))
+                        <form action="{{ url('/search') }}" method="POST" class="navbar-form navbar-left" role="search" enctype="multipart/form-data">
+                            {!! csrf_field() !!}
+                            <div class="form-group">
+                                <input data-hotkey="s" name="searchQuery" placeholder="Search Posts" aria-label="Search Posts" data-unscoped-placeholder="Search Posts" data-scoped-placeholder="Search" tabindex="1" type="text" class="form-control header-search-input js-site-search-focus">
+                            </div>
+                        </form>
+                    @endif
+
                 </ul>
 
                 <!-- Right Side Of Navbar -->
