@@ -74,7 +74,7 @@
                                 <strong><i class="fa fa-user" aria-hidden="true"></i></strong>
                                 <span>{{ $post->owner->name }}</span>
                             </div>
-                            <div class="col-sm-3">]
+                            <div class="col-sm-3">
                                 <strong><i class="fa fa-line-chart" aria-hidden="true"></i></strong>
                                 <span>{{ $post->access_count }}</span>
                             </div>
