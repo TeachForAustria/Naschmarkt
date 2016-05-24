@@ -128,6 +128,7 @@ class PostController extends Controller
         // by default created_at is sorted
         if(!isset($sort_by) && !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count'])){
             $sort_by = 'created_at';
+            $direction = 'desc';
         }
 
         $posts = Post::with('tags');

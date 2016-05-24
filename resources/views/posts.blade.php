@@ -40,7 +40,7 @@
                             <div class="col-sm-2 col-sm-offset-7">
                                 <label>Sortieren nach: </label>
                                 <select class="form-control" name="s">
-                                    <option value="created_at">Datum</option>
+                                    <option value="created_at,desc">Datum</option>
                                     <option value="name">Titel</option>
                                     <option value="owner_id">Author</option>
                                     <option value="access_count,desc">Zugriffs Zahl</option>
