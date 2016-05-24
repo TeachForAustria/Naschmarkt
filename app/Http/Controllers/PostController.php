@@ -129,10 +129,16 @@ class PostController extends Controller
         $post->syncTags(explode(',', $request->input('tags')));
         $post->syncDocuments(json_decode($request->input('files'), true));
         $post->save();
+
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Deine &Auml;nderungen wurden erfolgreich gespeichert.'
+        ]);
+
         return redirect('/posts/' . $id);
     }
 
-    public function deletePost($idToDelete)
+    public function deletePost($idToDelete, Request $request)
     {
         //Find the post with the given id
         $postToDelete = Post::findOrFail($idToDelete);
@@ -155,6 +161,12 @@ class PostController extends Controller
         }
 
         $postToDelete->delete();
+
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Dein Post wurde erfolgreich gel&ouml;scht.'
+        ]);
+
         return redirect('posts');
     }
 
