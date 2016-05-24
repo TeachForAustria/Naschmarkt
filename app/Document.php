@@ -16,8 +16,8 @@ class Document extends Model
         return $this->hasMany('App\DocumentVersion');
     }
 
-    public function tags()
+    public function keywords()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->belongsToMany('App\Keyword');
     }
 }
