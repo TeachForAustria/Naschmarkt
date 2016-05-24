@@ -92,7 +92,11 @@ class PostController extends Controller
         }
 
         return view('posts', [
-            'posts' => Post::with('tags', 'owner')->get()
+            'posts' => Post::with('tags', 'owner')->get(),
+            'status' => array(
+                'type' => 'success',
+                'content' => 'Der Post wurde erfolgreich angelegt.'
+            )
         ]);
     }
 
