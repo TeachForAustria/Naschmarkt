@@ -22,8 +22,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Search</div>
                     <div class="panel-body">
-                        <form action="/search" method="GET" class="form-horizontal">
-                            {!! csrf_field() !!}
+                        <form action="/posts" method="GET" class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <input id="searchQuery" data-role="tagsinput" type="text"  name="q" class="form-control" value = "@if(isset($search_query)){{ $search_query }}@endif" >
@@ -92,5 +91,8 @@
                 </div>
             </div>
         @endforeach
+        <div class="text-center">
+            {!! $posts->links() !!}
+        </div>
     </div>
 @endsection
