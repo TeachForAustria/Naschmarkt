@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
+/**
+ * Class SearchController
+ * @package App\Http\Controllers
+ */
 class SearchController extends Controller{
 
     public function _construct(){
@@ -28,6 +32,13 @@ class SearchController extends Controller{
         $this->middleware('auth');
     }
 
+    /**
+     * Search for query. This includes searching for
+     * Title, Tags and eventually if selected in all the files
+     *
+     * @param Request $request sent through a GET request
+     * @return View frontend view that is seen by the user
+     */
     public function searchForQuery(Request $request){
 
         // Save the query string
@@ -116,7 +127,7 @@ class SearchController extends Controller{
 
             $posts = $posts->unique();
 
-            if ($direction == 'desc') {
+            if (strcasecmp($direction, 'desc') == 0) {
                 $posts = $posts->sortByDesc($sort_by);
             } else {
                 $posts = $posts->sortBy($sort_by);
@@ -133,15 +144,25 @@ class SearchController extends Controller{
 
     }
 
+    /**
+     * Specific Method for searching tags
+     *
+     * @param $full_query tag query that are split by ',' to an array of multiple tags
+     * @return \Illuminate\Database\Eloquent\Collection|static[] Collection that contains the posts
+     */
     public static function searchForTag($full_query){
-
-
         return Post::with('tags')->whereHas('tags', function($query) use ($full_query) {
             //select tags where value is in an array with each query
             $query->whereIn('value', explode(",", $full_query));
         })->get();
     }
 
+    /**
+     * Method for reading contents of a .doc file
+     *
+     * @param $document_version with the extension .doc
+     * @return mixed|string Content of the file
+     */
     private function read_doc($document_version) {
 
         $lines = explode(chr(0x0D), $document_version->readContent());
@@ -158,6 +179,12 @@ class SearchController extends Controller{
         return $outtext;
     }
 
+    /**
+     * Method for reading contents of a .docx file
+     *
+     * @param $document_version with the extension .docx
+     * @return mixed|string Content of the file
+     */
     private function read_docx($document_version) {
         // Create new ZIP archive
         $zip = new ZipArchive;
@@ -186,15 +213,33 @@ class SearchController extends Controller{
         return "";
     }
 
+    /**
+     * Method for reading contents of a .pdf file
+     *
+     * @param $document_version with the extension .pdf
+     * @return mixed|string Content of the file
+     */
     private function read_pdf($document_version){
         $parser = new \Smalot\PdfParser\Parser();
         return $parser->parseContent($document_version->readContent())->getText();
     }
 
+    /**
+     * Method for reading contents of a .txt file
+     *
+     * @param $document_version with the extension .txt
+     * @return mixed|string Content of the file
+     */
     private function read_txt($document_version){
         return $document_version->readContent();
     }
 
+    /**
+     * Method for reading contents of a .html file
+     *
+     * @param $document_version with the extension .html
+     * @return mixed|string Content of the file
+     */
     private function read_html($document_version){
         return strip_tags($document_version->readContent());
     }

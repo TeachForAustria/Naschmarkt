@@ -7,13 +7,27 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+/**
+ * Controller for DocumentVersions
+ *
+ * @package App\Http\Controllers
+ */
 class DocumentVersionController extends Controller
 {
+    /**
+     * DocumentVersionController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Upload a file from Dropzone
+     *
+     * @param Request $request sent by user
+     * @return array with the name of the original file and a newly generated uuid
+     */
     public function uploadFile(Request $request)
     {
         $file = $request->file('file');
