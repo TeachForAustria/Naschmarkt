@@ -22,20 +22,30 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Search</div>
                     <div class="panel-body">
-                        <form action="/search" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                        <form action="/search" method="GET" class="form-horizontal">
                             {!! csrf_field() !!}
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    <input id="searchQuery" data-role="tagsinput" type="text"  name="searchQuery" class="form-control" value = "@if(isset($search_query)) {{ $search_query }} @endif" >
+                                    <input id="searchQuery" data-role="tagsinput" type="text"  name="q" class="form-control" value = "@if(isset($search_query)){{ $search_query }}@endif" >
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-default" name="search">Search</button>
+                                    <button type="submit" class="btn btn-default">Search</button>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <label>
                                     <input name="fullTextSearch" type="checkbox" value="yes"> Volltextsuche
                                 </label>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-offset-7">
+                                <label>Sortieren nach: </label>
+                                <select class="form-control" name="s">
+                                    <option value="created_at">Datum</option>
+                                    <option value="name">Titel</option>
+                                    <option value="owner_id">Author</option>
+                                    <option value="access_count,desc">Zugriffs Zahl</option>
+                                </select>
                             </div>
                         </form>
                     </div>
@@ -44,7 +54,10 @@
         </div>
     </div>
 
+
+
     <div class="container">
+
         @foreach($posts as $post)
             <div class="panel panel-default col-sm-10 col-sm-offset-1">
                 <div class="panel-body post">

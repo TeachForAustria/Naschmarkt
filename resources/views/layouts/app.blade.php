@@ -45,7 +45,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/about') }}">About</a></li>
 
-                    @if(!isset($posts))
+                    @if(!isset($posts) && Auth::check())
                         <form action="{{ url('/search') }}" method="POST" class="navbar-form navbar-left" role="search" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                             <div class="form-group">
