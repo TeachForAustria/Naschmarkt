@@ -283,7 +283,12 @@ class AuthController extends Controller
             }
         );
 
-        return redirect($this->redirectPath());
+        return view('auth.register', [
+            'status' => array(
+                'type' => 'success',
+                'content' => 'Der Benutzer wurde erfolgreich angelegt.'
+            )
+        ]);
     }
 
     /**
