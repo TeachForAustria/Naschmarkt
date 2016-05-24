@@ -31,13 +31,31 @@ class SearchController extends Controller{
     public function searchForQuery(Request $request){
 
         // Save the query string
-        $full_query = $request->input('searchQuery');
+        $full_query = $request->input('q');
 
-        if($full_query === ""){
+        // Save sort_by string
+        $sort_by = $request->input('s');
 
+        // define direction as Ascending
+        $direction = 'asc';
+
+        //the sort query can include a, with a new direction
+        $sort_by_arr = explode(",", $sort_by);
+
+        if(count($sort_by_arr) > 1){
+            $sort_by = $sort_by_arr[0];
+            $direction = $sort_by_arr[1];
+        }
+
+        // by default created_at is sorted
+        if(!isset($sort_by) && !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count'])){
+            $sort_by = 'created_at';
+        }
+
+        if($full_query === ''){
             return view('posts', [
                 'search_query' => $full_query,
-                'posts' => Post::with('tags', 'owner')->get()
+                'posts' => Post::with('tags', 'owner')->orderBy($sort_by, $direction)->get()
             ]);
 
         }else {
@@ -96,8 +114,13 @@ class SearchController extends Controller{
                 }
             }
 
-
             $posts = $posts->unique();
+
+            if ($direction == 'desc') {
+                $posts = $posts->sortByDesc($sort_by);
+            } else {
+                $posts = $posts->sortBy($sort_by);
+            }
 
             // Return the posts view with the
             // filtered posts as parameter
