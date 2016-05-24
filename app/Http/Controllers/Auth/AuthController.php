@@ -209,7 +209,10 @@ class AuthController extends Controller
                 Auth::login($user);
             }
 
-            return redirect('/user/' . $user->id);
+            return redirect('/user/' . $user->id)->with('status', [
+                'type' => 'success',
+                'content' => 'Dein Account wurde erfolgreich mit ' . ucfirst($provider) . ' verbunden.'
+            ]);
         } else {
             abort(400);
         }
@@ -283,12 +286,12 @@ class AuthController extends Controller
             }
         );
 
-        return view('auth.register', [
-            'status' => array(
-                'type' => 'success',
-                'content' => 'Der Benutzer wurde erfolgreich angelegt.'
-            )
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Der Benutzer wurde erfolgreich angelegt.'
         ]);
+
+        return view('auth.register');
     }
 
     /**

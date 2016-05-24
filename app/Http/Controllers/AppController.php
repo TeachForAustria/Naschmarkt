@@ -45,7 +45,6 @@ class AppController extends Controller
 
     public function profile($user_id){
         $user = User::find($user_id);
-
         return view('profile', compact('user'));
     }
 }

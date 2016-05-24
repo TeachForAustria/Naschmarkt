@@ -74,12 +74,13 @@ class PostController extends Controller
             $post->tags()->save($tagModel);
         }
 
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Der Post wurde erfolgreich angelegt.'
+        ]);
+
         return view('posts', [
-            'posts' => Post::with('tags', 'owner')->get(),
-            'status' => array(
-                'type' => 'success',
-                'content' => 'Der Post wurde erfolgreich angelegt.'
-            )
+            'posts' => Post::with('tags', 'owner')->get()
         ]);
     }
 
@@ -154,7 +155,6 @@ class PostController extends Controller
         }
 
         $postToDelete->delete();
-
         return redirect('posts');
     }
 
