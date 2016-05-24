@@ -83,13 +83,13 @@
     </nav>
 
     <div class="main-wrapper">
-        @if(isset($status))
+        @if(Session::has('status'))
             <div class="container">
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1">
-                        <div class="alert alert-{{ $status['type'] }} alert-dismissible" role="alert">
+                        <div class="alert alert-{{ session('status')['type'] }} alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            {{ $status['content'] }}
+                            {{ session('status')['content'] }}
                         </div>
                     </div>
                 </div>

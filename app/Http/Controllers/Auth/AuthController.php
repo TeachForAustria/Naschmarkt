@@ -209,7 +209,10 @@ class AuthController extends Controller
                 Auth::login($user);
             }
 
-            return redirect('/user/' . $user->id);
+            return redirect('/user/' . $user->id)->with('status', [
+                'type' => 'success',
+                'content' => 'Dein Account wurde erfolgreich mit ' . ucfirst($provider) . ' verbunden.'
+            ]);
         } else {
             abort(400);
         }
@@ -228,6 +231,11 @@ class AuthController extends Controller
         $user = User::find(Auth::user()->id);
         //delete SocialLogin from given url Parameter
         $user->socialLogins()->where('provider', Input::get('provider'))->delete();
+
+        return redirect('/user/' . $user->id)->with('status', [
+            'type' => 'success',
+            'content' => 'Die Verlinkung zu ' . ucfirst(Input::get('provider')) . ' wurde entfernt.'
+        ]);
 
         //redirect back user's page
         return redirect('/user/' . $user->id);
@@ -283,12 +291,12 @@ class AuthController extends Controller
             }
         );
 
-        return view('auth.register', [
-            'status' => array(
-                'type' => 'success',
-                'content' => 'Der Benutzer wurde erfolgreich angelegt.'
-            )
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Der Benutzer wurde erfolgreich angelegt.'
         ]);
+
+        return view('auth.register');
     }
 
     /**

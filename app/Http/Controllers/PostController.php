@@ -120,12 +120,13 @@ class PostController extends Controller
             $post->tags()->save($tagModel);
         }
 
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Der Post wurde erfolgreich angelegt.'
+        ]);
+
         return view('posts', [
-            'posts' => Post::with('tags', 'owner')->get(),
-            'status' => array(
-                'type' => 'success',
-                'content' => 'Der Post wurde erfolgreich angelegt.'
-            )
+            'posts' => Post::with('tags', 'owner')->get()
         ]);
     }
 
@@ -134,10 +135,64 @@ class PostController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showPostsView()
+    public function showPostsView(Request $request)
     {
+        // Save the query string
+        $full_query = $request->input('q');
+
+        // Save sort_by string
+        $sort_by = $request->input('s');
+
+        // define direction as Ascending
+        $direction = 'asc';
+
+        //the sort query can include a, with a new direction
+        $sort_by_arr = explode(",", $sort_by);
+
+        if(count($sort_by_arr) > 1){
+            $sort_by = $sort_by_arr[0];
+            $direction = $sort_by_arr[1];
+        }
+
+        // by default created_at is sorted
+        if(!isset($sort_by) && !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count'])){
+            $sort_by = 'created_at';
+            $direction = 'desc';
+        }
+
+        $posts = Post::with('tags');
+
+        if($full_query !== '') {
+            // search in title
+            $posts->where('name', 'LIKE', '%' . $full_query . '%');
+
+            // search in tags
+            $posts->orWhereHas('tags', function($query) use ($full_query) {
+                //select tags where value is in an array with each query
+                $query->whereIn('value', explode(",", $full_query));
+            });
+        }
+
+        if (strcasecmp($direction, 'desc') == 0) {
+            $posts->orderBy($sort_by, 'desc');
+        } else {
+            $posts->orderBy($sort_by, 'asc');
+        }
+
+        // pagination
+        $posts = $posts->paginate(15);
+
+        // add querystring
+        $posts->appends([
+            'q' => $full_query,
+            's' => $sort_by . ',' . $direction
+        ]);
+
+        // Return the posts view with the
+        // filtered posts as parameter
         return view('posts', [
-            'posts' => Post::with('tags', 'owner')->get()
+            'search_query' => $full_query,
+            'posts' => $posts
         ]);
     }
 
@@ -199,6 +254,12 @@ class PostController extends Controller
         $post->syncTags(explode(',', $request->input('tags')));
         $post->syncDocuments(json_decode($request->input('files'), true));
         $post->save();
+
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Deine &Auml;nderungen wurden erfolgreich gespeichert.'
+        ]);
+
         return redirect('/posts/' . $id);
     }
 
@@ -209,7 +270,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector to the List of posts view
      * @throws \Exception
      */
-    public function deletePost($idToDelete)
+    public function deletePost($idToDelete, Request $request)
     {
         //Find the post with the given id
         $postToDelete = Post::findOrFail($idToDelete);
@@ -232,6 +293,11 @@ class PostController extends Controller
         }
 
         $postToDelete->delete();
+
+        $request->session()->flash('status', [
+            'type' => 'success',
+            'content' => 'Dein Post wurde erfolgreich gel&ouml;scht.'
+        ]);
 
         return redirect('posts');
     }

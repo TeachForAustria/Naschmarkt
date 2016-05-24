@@ -71,7 +71,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/cloud', 'AppController@cloud');
 
     //search page
-    Route::get('/search', 'SearchController@searchForQuery');
     Route::get('/search/{tag}', 'SearchController@searchForTag');
 
     //profile page
