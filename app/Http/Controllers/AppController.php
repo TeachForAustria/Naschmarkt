@@ -58,6 +58,11 @@ class AppController extends Controller
         return view('search');
     }
 
+    public function project()
+    {
+        return view('project');
+    }
+
     /**
      * Show the users profilepage.
      *
