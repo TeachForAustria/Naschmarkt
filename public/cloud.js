@@ -54,7 +54,7 @@ function getWordArray(callback) {
                 var currentItem = {
                     text: tagWithCount[1],
                     weight: fontWeight,
-                    link: '/cloudController?query='+ tagWithCount[1]
+                    link: '/posts?q='+ tagWithCount[1]
                 };
 
                 tagArray.push(currentItem);
@@ -102,7 +102,7 @@ function getWordArray(callback) {
                 var currentItem = {
                     text: data[i],
                     weight: fontWeight,
-                    link: '/cloudController?query=' + data[i]
+                    link: '/posts?q=' + data[i]
                 };
 
                 // Push into the existing array

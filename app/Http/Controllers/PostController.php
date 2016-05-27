@@ -8,6 +8,7 @@ use App\Keyword;
 use App\Post;
 use App\Tag;
 use Auth;
+use DOMDocument;
 use Illuminate\Http\Request;
 use Storage;
 use App\Http\Requests;
@@ -78,19 +79,23 @@ class PostController extends Controller
                 //the method called is read_extension (read_doc, read_docx, read_pdf, read_txt, read_html)
                 $read_method = 'read_' . $extension;
 
-                $keywords = explode(' ', $this->$read_method($documentVersion));
+                $keywords = preg_split('/\s+|\.|\?|!/', $this->$read_method($documentVersion));
+                $keywords = array_unique($keywords);
+                $keywords = array_filter($keywords);
 
                 foreach ($keywords as $keyword) {
-                    $keyword = preg_replace('/:|_|.|,/', '', $keyword);
 
-                    $keywordModel = Keyword::firstOrCreate([
-                        'value' => $keyword
-                    ]);
+                    $keyword = trim(preg_replace('/[^A-Za-z0-9ßäöüÄÖÜ]/', '', $keyword));
 
-                    if(!$document->keywords()->get()->contains($keywordModel)){
-                        $document->keywords()->save($keywordModel);
+                    if(!preg_match('/\s+/', $keyword)) {
+                        $keywordModel = Keyword::firstOrCreate([
+                            'value' => $keyword
+                        ]);
+
+                        if (!$document->keywords()->get()->contains($keywordModel)) {
+                            $document->keywords()->save($keywordModel);
+                        }
                     }
-
                 }
             }
 
@@ -125,9 +130,7 @@ class PostController extends Controller
             'content' => 'Der Post wurde erfolgreich angelegt.'
         ]);
 
-        return view('posts', [
-            'posts' => Post::with('tags', 'owner')->get()
-        ]);
+        return redirect('/upload');
     }
 
     /**
@@ -143,11 +146,9 @@ class PostController extends Controller
         // Save sort_by string
         $sort_by = $request->input('s');
 
-        // define direction as Ascending
-        $direction = 'asc';
-
         //the sort query can include a, with a new direction
         $sort_by_arr = explode(",", $sort_by);
+        $direction = 'desc';
 
         if(count($sort_by_arr) > 1){
             $sort_by = $sort_by_arr[0];
@@ -155,7 +156,7 @@ class PostController extends Controller
         }
 
         // by default created_at is sorted
-        if(!isset($sort_by) && !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count'])){
+        if(!isset($sort_by) || !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count']) || !in_array($direction, ['asc', 'desc'])){
             $sort_by = 'created_at';
             $direction = 'desc';
         }
@@ -171,6 +172,18 @@ class PostController extends Controller
                 //select tags where value is in an array with each query
                 $query->whereIn('value', explode(",", $full_query));
             });
+
+            // search in keywords (Fulltext-search)
+            if ($request->input('fullTextSearch') === 'yes') {
+                $posts->orWhereHas('documents', function($query) use ($full_query){
+                    $query->whereHas('keywords', function($query) use ($full_query) {
+                        //select tags where value is in an array with each query
+                        foreach (explode(",", $full_query) as $item) {
+                            $query->where('value', 'LIKE' ,'%' . $item . '%');
+                        }
+                    });
+                });
+            }
         }
 
         if (strcasecmp($direction, 'desc') == 0) {

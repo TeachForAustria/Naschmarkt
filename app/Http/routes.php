@@ -66,12 +66,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/upload', 'PostController@showUploadView');
     Route::post('/upload', 'PostController@uploadPost');
 
-
     //wordcloud page
     Route::get('/cloud', 'AppController@cloud');
-
-    //search page
-    Route::get('/search/{tag}', 'SearchController@searchForTag');
 
     //profile page
     Route::get('/user/{user}', 'AppController@profile');
