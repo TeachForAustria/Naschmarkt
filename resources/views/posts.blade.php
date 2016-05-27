@@ -22,8 +22,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Search</div>
                     <div class="panel-body">
-                        <form action="/search" method="GET" class="form-horizontal">
-                            {!! csrf_field() !!}
+                        <form action="/posts" method="GET" class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <input id="searchQuery" data-role="tagsinput" type="text"  name="q" class="form-control" value = "@if(isset($search_query)){{ $search_query }}@endif" >
@@ -41,7 +40,7 @@
                             <div class="col-sm-2 col-sm-offset-7">
                                 <label>Sortieren nach: </label>
                                 <select class="form-control" name="s">
-                                    <option value="created_at">Datum</option>
+                                    <option value="created_at,desc">Datum</option>
                                     <option value="name">Titel</option>
                                     <option value="owner_id">Author</option>
                                     <option value="access_count,desc">Zugriffs Zahl</option>
@@ -92,5 +91,8 @@
                 </div>
             </div>
         @endforeach
+        <div class="text-center">
+            {!! $posts->links() !!}
+        </div>
     </div>
 @endsection

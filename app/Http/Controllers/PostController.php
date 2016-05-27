@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Document;
 use App\DocumentVersion;
+use App\Keyword;
 use App\Post;
 use App\Tag;
 use Auth;
@@ -65,6 +66,34 @@ class PostController extends Controller
 
             // create and save document version
             $documentVersion = DocumentVersion::whereUuid($file['uuid'])->firstOrFail();
+
+            //save the extension
+            $extension = $documentVersion->extension;
+
+            //valid extensions where read method exists
+            $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
+
+            if (in_array($extension, $checkExtension)) {
+
+                //the method called is read_extension (read_doc, read_docx, read_pdf, read_txt, read_html)
+                $read_method = 'read_' . $extension;
+
+                $keywords = explode(' ', $this->$read_method($documentVersion));
+
+                foreach ($keywords as $keyword) {
+                    $keyword = preg_replace('/:|_|.|,/', '', $keyword);
+
+                    $keywordModel = Keyword::firstOrCreate([
+                        'value' => $keyword
+                    ]);
+
+                    if(!$document->keywords()->get()->contains($keywordModel)){
+                        $document->keywords()->save($keywordModel);
+                    }
+
+                }
+            }
+
             if($documentVersion->document_id !== null) {
                 // TODO: better error handling
                 abort(403);
@@ -106,10 +135,64 @@ class PostController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showPostsView()
+    public function showPostsView(Request $request)
     {
+        // Save the query string
+        $full_query = $request->input('q');
+
+        // Save sort_by string
+        $sort_by = $request->input('s');
+
+        // define direction as Ascending
+        $direction = 'asc';
+
+        //the sort query can include a, with a new direction
+        $sort_by_arr = explode(",", $sort_by);
+
+        if(count($sort_by_arr) > 1){
+            $sort_by = $sort_by_arr[0];
+            $direction = $sort_by_arr[1];
+        }
+
+        // by default created_at is sorted
+        if(!isset($sort_by) && !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count'])){
+            $sort_by = 'created_at';
+            $direction = 'desc';
+        }
+
+        $posts = Post::with('tags');
+
+        if($full_query !== '') {
+            // search in title
+            $posts->where('name', 'LIKE', '%' . $full_query . '%');
+
+            // search in tags
+            $posts->orWhereHas('tags', function($query) use ($full_query) {
+                //select tags where value is in an array with each query
+                $query->whereIn('value', explode(",", $full_query));
+            });
+        }
+
+        if (strcasecmp($direction, 'desc') == 0) {
+            $posts->orderBy($sort_by, 'desc');
+        } else {
+            $posts->orderBy($sort_by, 'asc');
+        }
+
+        // pagination
+        $posts = $posts->paginate(15);
+
+        // add querystring
+        $posts->appends([
+            'q' => $full_query,
+            's' => $sort_by . ',' . $direction
+        ]);
+
+        // Return the posts view with the
+        // filtered posts as parameter
         return view('posts', [
-            'posts' => Post::with('tags', 'owner')->get()
+            'search_query' => $full_query,
+            'posts' => $posts
         ]);
     }
 
@@ -246,6 +329,82 @@ class PostController extends Controller
         $zip->close();
 
         //download the file and delete the file afterwards
-        return response()->download($filename, str_replace(array(",", "."), "", str_replace(" ", "-", strtolower($post->name))) . '.zip')->deleteFileAfterSend(true);
+        return response()->download($filename, str_replace(array("_", " "), "-", preg_replace('/:/', '', strtolower($post->name))) . '.zip')->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Method for reading contents of a .doc file
+     *
+     * @param $document_version with the extension .doc
+     * @return mixed|string Content of the file
+     */
+    private function read_doc($document_version) {
+        $lines = explode(chr(0x0D), $document_version->readContent());
+        $outtext = "";
+        foreach($lines as $line) {
+            $pos = strpos($line, chr(0x00));
+            if (!(($pos !== FALSE)||(strlen($line)==0))) {
+                $outtext .= $line." ";
+            }
+        }
+        $outtext = preg_replace('/[^a-zA-Z0-9\s\,\.\-\n\r\t@\/\_\(\)]/', '' , $outtext);
+        return $outtext;
+    }
+    /**
+     * Method for reading contents of a .docx file
+     *
+     * @param $document_version with the extension .docx
+     * @return mixed|string Content of the file
+     */
+    private function read_docx($document_version) {
+        // Create new ZIP archive
+        $zip = new ZipArchive;
+        // Open received archive file
+        if (true === $zip->open(Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . $document_version->uuid . '.docx')) {
+            // If done, search for the data file in the archive
+            if (($index = $zip->locateName('word/document.xml')) !== false) {
+                // If found, read it to the string
+                $data = $zip->getFromIndex($index);
+                // Close archive file
+                $zip->close();
+                // Load XML from a string
+                // Skip errors and warnings
+                $xml = new DOMDocument();
+                $xml->loadXML($data, LIBXML_NOENT | LIBXML_XINCLUDE | LIBXML_NOERROR | LIBXML_NOWARNING);
+                // Return data without XML formatting tags
+                return strip_tags($xml->saveXML());
+            }
+            $zip->close();
+        }
+        // In case of failure return empty string
+        return "";
+    }
+    /**
+     * Method for reading contents of a .pdf file
+     *
+     * @param $document_version with the extension .pdf
+     * @return mixed|string Content of the file
+     */
+    private function read_pdf($document_version){
+        $parser = new \Smalot\PdfParser\Parser();
+        return $parser->parseContent($document_version->readContent())->getText();
+    }
+    /**
+     * Method for reading contents of a .txt file
+     *
+     * @param $document_version with the extension .txt
+     * @return mixed|string Content of the file
+     */
+    private function read_txt($document_version){
+        return $document_version->readContent();
+    }
+    /**
+     * Method for reading contents of a .html file
+     *
+     * @param $document_version with the extension .html
+     * @return mixed|string Content of the file
+     */
+    private function read_html($document_version){
+        return strip_tags($document_version->readContent());
     }
 }
