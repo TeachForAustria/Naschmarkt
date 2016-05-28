@@ -1,18 +1,51 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    use DatabaseMigrations;
+
+
+    public function testRegisterUser()
     {
-        $this->assertTrue(true);
+        $user = factory(App\User::class, 'staff')->make();
+
+        $this
+            ->actingAs($user)
+            ->visit('/register')
+            ->type('Max Mustermann', 'name')
+            ->type('max@mustermann.com', 'email')
+            ->check('is_staff')
+            ->press('Benutzer anlegen')
+            ->seeInDatabase('users', [
+                'name' => 'Max Mustermann',
+                'email' => 'max@mustermann.com',
+                'is_staff' => 1,
+            ]);
+    }
+
+    public function testRegisterUserAsNonStaff()
+    {
+        $user = factory(App\User::class)->make();
+        try {
+            $this
+                ->actingAs($user)
+                ->visit('/register');
+        } catch (\Illuminate\Foundation\Testing\HttpException $e) {
+            $this->assertContains("Received status code [403]",$e->getMessage());
+        }
+    }
+
+    public function testRegisterUserNotLoggedIn()
+    {
+        $user = factory(App\User::class)->make();
+        try {
+            $this
+                ->actingAs($user)
+                ->visit('/register');
+        } catch (\Illuminate\Foundation\Testing\HttpException $e) {
+            $this->assertContains("Received status code [403]",$e->getMessage());
+        }
     }
 }
