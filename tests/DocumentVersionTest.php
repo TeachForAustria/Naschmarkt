@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 
 class ConcreteDocumentTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function testWriteContent()
     {
         $documentVersion = new \App\DocumentVersion();
