@@ -89,7 +89,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/documents/{id}', 'DocumentController@getFileDownload');
 
     // file upload backend
-    Route::post('/documents', 'DocumentVersionController@uploadFile');
+    Route::post('/document-versions', 'DocumentVersionController@uploadFile');
 
     // projects pages
     Route::get('/project', 'AppController@project');
