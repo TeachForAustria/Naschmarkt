@@ -76,9 +76,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/posts', 'PostController@showPostsView');
     Route::get('/posts/deletePost/{post}', 'PostController@deletePost');
 
-    // cloud controller
-    Route::get('cloudController', 'CloudController@showTagsView');
-    Route::get('/mostViewedTags', 'CloudController@filterMostViewed');
+    // tags
+    Route::get('/tags', 'TagController@getMostViewed');
 
     // post views
     Route::get('/posts/{id}', 'PostController@showViewPostView');
