@@ -7,6 +7,9 @@ class UserTest extends TestCase
     use DatabaseMigrations;
 
 
+    /**
+     * Test user registration as staff.
+     */
     public function testRegisterUser()
     {
         $user = factory(App\User::class, 'staff')->make();
@@ -25,6 +28,9 @@ class UserTest extends TestCase
             ]);
     }
 
+    /**
+     * Test user registration as non-staff user.
+     */
     public function testRegisterUserAsNonStaff()
     {
         $user = factory(App\User::class)->make();
@@ -37,6 +43,9 @@ class UserTest extends TestCase
         }
     }
 
+    /**
+     * Test user registration as not logged in user.
+     */
     public function testRegisterUserNotLoggedIn()
     {
         $user = factory(App\User::class)->make();

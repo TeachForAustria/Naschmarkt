@@ -7,6 +7,9 @@ class ConcreteDocumentTest extends TestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * Test content write.
+     */
     public function testWriteContent()
     {
         $documentVersion = new \App\DocumentVersion();
@@ -17,6 +20,9 @@ class ConcreteDocumentTest extends TestCase
         $this->assertEquals('foobar', Storage::get($documentVersion->uuid . '.' . $documentVersion->extension));
     }
 
+    /**
+     * Test content read.
+     */
     public function testReadContent()
     {
         $documentVersion = new \App\DocumentVersion();
@@ -27,6 +33,9 @@ class ConcreteDocumentTest extends TestCase
         $this->assertEquals('foobar', $documentVersion->readContent());
     }
 
+    /**
+     * Test file upload.
+     */
     public function testFileUpload()
     {
 
@@ -45,6 +54,11 @@ class ConcreteDocumentTest extends TestCase
         ]);
     }
 
+    /**
+     * Create a mocked UploadedFile.
+     * @param $path path to the file which should be uploaded
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
     public static function getMockFile($path)
     {
         TestCase::assertFileExists($path);

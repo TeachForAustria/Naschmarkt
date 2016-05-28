@@ -5,16 +5,14 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DocumentTest extends TestCase
+class PostTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
-     * A basic test example.
-     *
-     * @return void
+     * Test post upload.
      */
-    public function testDocumentUpload()
+    public function testPostUpload()
     {
         $user = factory(App\User::class)->create();
 
