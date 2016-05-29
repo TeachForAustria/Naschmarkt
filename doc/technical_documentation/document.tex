@@ -1,0 +1,139 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitions                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\gdef\version{1.0}  % do not forget to update this
+\gdef\doctype{Technische Dokumentation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This section defines the template.                                      %
+% DO NOT CHANGE ANYTHING IN THE SECTION                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% For correct typesetting you will need the following fonts:              %
+% - Roboto                                                                %
+% - Adobe Garamond Pro                                                    %
+% - EB Garamond Regular SmallCaps                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt, letterpaper]{report}
+\usepackage[hmargin=1in,vmargin=1.5in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{fontspec,xunicode}
+\usepackage{sectsty}
+\usepackage{tabu}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{url}
+\usepackage{lastpage}
+\usepackage{float}
+\usepackage[ngerman]{babel}
+\usepackage[official]{eurosym}
+
+
+\allsectionsfont{\fontspec{Roboto Condensed Light}}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\setmainfont{Adobe Garamond Pro}
+\setmonofont{Source Code Pro}
+
+\setlength{\topskip}{0mm}
+\setlength{\parskip}{0em}
+\setlength{\parindent}{0em}
+
+\usepackage{enumitem}\setlist{nolistsep}
+
+
+\titleclass{\chapter}{straight}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\fontspec{Roboto Condensed Light}\thechapter.}{10pt}{\fontspec{Roboto Condensed Light}\Huge\bfseries}
+
+\titlespacing*{\chapter}{0pt}{1cm}{0pt}
+\titlespacing*{\section}{0mm}{5mm}{0pt}
+
+\renewcommand{\arraystretch}{2}
+
+%\setlength{\voffset}{2cm}
+
+% headers
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead{}
+\fancyfoot{}
+\pagestyle{fancy}
+\lhead{Naschmarkt \em{\doctype}\\}
+\rhead{\small{Markus Klein, Thomas Fellner, \\Matthias Schwebler, Philip Vonderlind}}
+
+\lfoot{Version \version}
+\rfoot{\thepage\ von \pageref{LastPage}}
+\setlength{\headheight}{30pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document Start                                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	\begin{titlepage}
+		\begin{center}
+			\vspace*{1cm}
+
+			{\fontsize{25}{25}\fontspec{EB Garamond Regular SmallCaps} Naschmarkt\\}
+            \vspace{0.3cm}
+            {\fontsize{25}{25}\fontspec{EB Garamond Regular SmallCaps}{\large Technische Dokumentation}}
+
+			\vspace{2.5cm}
+
+			2016 - 4BHIT
+
+			\vspace*{5mm}
+
+			\small{Markus Klein, Thomas Fellner,\\Matthias Schwebler, Philip Vonderlind}
+
+			\vspace*{2cm}
+
+			Version \version
+
+			\vfill
+
+			\chapter*{Freigabe}
+			\begin{center}
+				\begin{tabu} to \textwidth { | @{\hspace{3mm}} l @{\hspace{3mm}} | @{\hspace{3mm}} l | @{\hspace{3mm}} l @{\hspace{3mm}} | X[l] | }
+					\hline
+					& Name & Datum & Unterschrift \\ \hline
+					Erstellt: & M. Klein, T. Fellner & 18.1.2016 & \\ \hline
+					Gepr\"uft: & M. Schwebler, P. Vonderlind & 19.1.2016 & \\ \hline
+					Freigegeben: &  &  & \\
+					\hline
+				\end{tabu}
+			\end{center}
+
+		\end{center}
+	\end{titlepage}
+
+
+	\newpage
+	\tableofcontents
+
+
+	\newpage
+	\chapter*{Einf\"uhrung}
+
+    \chapter{Systemanforderungen}
+    \input{sections/system_requirements.tex}
+
+    \chapter{Installation}
+    \input{sections/installation.tex}
+
+    \chapter{Applikationsstruktur}
+    \input{sections/application.tex}
+
+    \chapter{Datenbankstruktur}
+    \input{sections/database.tex}
+
+    \chapter{Konfiguration}
+
+
+    \chapter{Migrationsscript}
+    \input{sections/migrationscript.tex}
+\end{document}
