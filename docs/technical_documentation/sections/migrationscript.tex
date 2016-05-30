@@ -1,4 +1,5 @@
-Die Migration wird \"uber ein in Python 2.7 geschriebenes Skript abgehaldelt, welches die aus der aktuellen Wordpress Datenbank nimmt und sie auf die neue Datenstruktur umwandelt
+Die Migration wird \"uber 2 in Python 2.7 geschriebenes Skripts abgehaldelt, welches die aus der aktuellen Wordpress Datenbank nimmt und sie auf die neue Datenstruktur umwandelt.
+Zuerst sollte das Skript, welches die Benutzer migriert ausgef\"uhrt werden und dann das Skript welche alle Posts migriert.
 
 \section{Ben\"otigte Bibliotheken}
 Um das Skript ausf\"uhren zu k\"onnen, m\"ussen folgende Python Bibliotheken am ausf\"uhrenden Computer installiert sein.
@@ -7,6 +8,8 @@ Um das Skript ausf\"uhren zu k\"onnen, m\"ussen folgende Python Bibliotheken am 
   \item \href{http://mysql-python.sourceforge.net/MySQLdb.html}{ \texttt{MySQLdb} }, welche jeweils zum Holen und Schreiben der Daten von der MySQL Datenbank verwendet wird
   \item \href{https://textract.readthedocs.io/en/latest/}{ \texttt{textract} }, welches f\"ur die Volltext-Suche die Datein indexiert
 \end{itemize}
+
+Das Skript wird dann \"uber die Kommandozeile mit \texttt{python} oder \texttt{python2.7 migrateUsers} oder \texttt{migrate Posts}
 
 \section{Konfigurations Datei}
 Das Skript kommt mit einer Konfigurationsdatei \texttt{config.py}, in welcher man die ben\"otigten Daten f\"ur
