@@ -201,4 +201,4 @@ TSWLatexianTemp*
 *~[0-9]*
 
 # PDF
-*.pdf
+document.pdf
