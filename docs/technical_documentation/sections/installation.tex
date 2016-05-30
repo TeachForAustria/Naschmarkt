@@ -1,0 +1,52 @@
+\section{Installation vorbereiten}
+Bevor die Applikation auf das Zielsystem ausgeliefert werden kann, muss der Naschmarkt zur Installation bereit gemacht werden.
+In diesem Schritt werden Abh\"angigkeiten installiert und verschiedenste Buildprozesse ausgef\"uhrt.
+Dieser Schritt kann sowohl auf dem lokalen Host also auch dem Zielserver erfolgen.
+
+Daf\"ur werden aus dem Projektverzeichnis folgende Kommandos ausgef\"uhrt:
+\begin{lstlisting}[caption=Installationsvorbereitung]
+# Install composer (PHP) dependencies
+composer install
+
+# Install frontend and JavaScript dependencies
+npm install
+
+# Run build tasks
+gulp
+\end{lstlisting}
+
+\section{Konfiguration}
+Um den Naschmarkt zu konfiguration muss eine Umgebunskonfiguration (Environment) erstellt werden.
+F\"ur diese Konfigurationsdatei gibt es im Hauptverzeichnis ein Beispiel namens \texttt{.env.example}.
+
+\begin{lstlisting}[caption=Installationsvorbereitung]
+# no need to change this
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=SomeRandomString
+
+# database configuration
+DB_HOST=127.0.0.1
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+
+# no need to change this
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+
+# Mail configuration
+# See https://laravel.com/docs/5.2/mail#introduction for details
+MAIL_DRIVER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+\end{lstlisting}
+
+
+Diese wird nach \texttt{.env} kopiert und entsprechend bearbeitet.
+
+Je nachdem, wo das Vorbereitung erfolgt ist, muss sp\"atenstens jetzt der Naschmarkt auf den Server hochgeladen werden.
