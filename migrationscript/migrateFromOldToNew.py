@@ -10,29 +10,26 @@ import time
 import textract
 import shutil
 
+import config
+
 start_time = time.time()
-TAG_RE = re.compile(r'<[^>]+>')
 if not os.path.exists('tmp'):
     os.mkdir('tmp')
 
-
-def remove_tags(text):
-    return TAG_RE.sub('', text)
-
-
 dbOld = MySQLdb.connect(
-    host="mysql003.tophosting.at",  # host ip
-    user="dbue88a3f4",  # username
-    passwd="Khy?8k9p",  # password
-    db="dbf26d5267"  # name of the database
+    host=config.dbOld['host'],          # host ip
+    port=config.dbOld['port'],          # port
+    user=config.dbOld['user'],          # username
+    passwd=config.dbOld['password'],    # password
+    db=config.dbOld['database']         # name of the database
 )
 
 dbNew = MySQLdb.connect(
-    host="127.0.0.1",  # host ip
-    port=33060,  # port
-    user="homestead",  # username
-    passwd="secret",  # password
-    db="homestead"  # name of the database
+    host=config.dbNew['host'],          # host ip
+    port=config.dbNew['port'],          # port
+    user=config.dbNew['user'],          # username
+    passwd=config.dbNew['password'],    # password
+    db=config.dbNew['database']         # name of the database
 )
 
 # Create a Cursor object
@@ -49,7 +46,7 @@ newDatabaseCursor = dbNew.cursor()
 for post_row in oldDatabaseCursor.fetchall():
     old_post_id = post_row[0]
     title = post_row[1]
-    description = remove_tags(post_row[2])
+    description = post_row[2]
     date = post_row[3]
 
     try:
@@ -127,13 +124,12 @@ for post_row in oldDatabaseCursor.fetchall():
             old_post_id))
 
     # Connect to FTP server for uploading the files
-    ftp = FTP('192.168.10.10')
-    ftp.login('vagrant', 'vagrant')
+    ftp = FTP(config.ftpConnection['host'])
+    ftp.login(config.ftpConnection['user'], config.ftpConnection['password'])
 
     # Change directory to ~/naschmarkt/storage/app/
-    ftp.cwd('naschmarkt')
-    ftp.cwd('storage')
-    ftp.cwd('app')
+    for directory in config.ftpConnection['directory'].split('/'):
+        ftp.cwd(directory)
 
     # print all the first cell of all the rows
     for url_row in oldDatabaseCursor.fetchall():

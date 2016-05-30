@@ -1,0 +1,65 @@
+Die Migration wird \"uber ein in Python 2.7 geschriebenes Skript abgehaldelt, welches die aus der aktuellen Wordpress Datenbank nimmt und sie auf die neue Datenstruktur umwandelt
+
+\section{Ben\"otigte Bibliotheken}
+Um das Skript ausf\"uhren zu k\"onnen, m\"ussen folgende Python Bibliotheken am ausf\"uhrenden Computer installiert sein.
+
+\begin{itemize}
+  \item \href{http://mysql-python.sourceforge.net/MySQLdb.html}{ \texttt{MySQLdb} }, welche jeweils zum Holen und Schreiben der Daten von der MySQL Datenbank verwendet wird
+  \item \href{https://textract.readthedocs.io/en/latest/}{ \texttt{textract} }, welches f\"ur die Volltext-Suche die Datein indexiert
+\end{itemize}
+
+\section{Konfigurations Datei}
+Das Skript kommt mit einer Konfigurationsdatei \texttt{config.py}, in welcher man die ben\"otigten Daten f\"ur
+
+\begin{itemize}
+  \item die alte Datenbank, woher die Daten kommen
+  \item die neue Datenbank, wohin die Daten gespeichert werden
+  \item den FTP Zugang um die Datein zu speichern\\
+\end{itemize}
+
+Hier ein Beispiel f\"ur das config file
+\\
+\begin{lstlisting}[language={Python}, caption=config.py]
+"""
+
+This is the config file for the Migration
+
+There are 3 things to configure.
+    - the old Database to migrate from
+    - the new Database to save the migration
+    - FTP connection to save the files
+
+"""
+
+# Old Database.
+# This is where the Data is taken from
+dbOld = {
+    'host':         "mysql003.tophosting.at",   # host ip
+    'port':         3306,                       # port
+    'user':         "dbue88a3f4",               # username
+    'password':     "Khy?8k9p",                 # password
+    'database':     "dbf26d5267"                # name of
+                                                # the database
+}
+
+# New Database.
+# This is where the Data will be stored
+dbNew = {
+    'host':         "127.0.0.1",                # host ip
+    'port':         33060,                      # port
+    'user':         "homestead",                # username
+    'password':     "secret",                   # password
+    'database':     "homestead"                 # name of
+                                                # the database
+}
+
+# FTP connection to save the files
+ftpConnection = {
+    'host':         "192.168.10.10",            # host ip
+    'user':         "vagrant",                  # username
+    'password':     "vagrant",                  # password
+    'directory':    "naschmarkt/storage/app"    # directory where
+                                                # to save the
+                                                # files to
+}
+\end{lstlisting}
