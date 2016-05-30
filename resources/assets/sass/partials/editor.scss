@@ -1,0 +1,10 @@
+@import "../theme";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+.editor-wrapper {
+  border-color: $input-border;
+
+  > .editor-container, > .editor-container .ql-editor {
+    min-height: 300px !important;
+  }
+}

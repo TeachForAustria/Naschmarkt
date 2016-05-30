@@ -38,14 +38,14 @@
                     <!-- Header -->
                     <div class="panel-heading">Upload</div>
                     <!-- Body -->
-                    <div class="panel-body col-sm-offset-1">
+                    <div class="panel-body">
                         <form action="/upload" method="POST" enctype="multipart/form-data" class="form-horizontal" id="form">
                         {!! csrf_field() !!}
                         <!-- name -->
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label class="col-md-2 control-label">Titel*</label>
 
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     <input type="text" class="form-control" name="title" value="{{ old('title') }}"/>
 
                                     @if ($errors->has('title'))
@@ -59,15 +59,15 @@
                             <!-- description -->
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Beschreibung</label>
-                                <div class="col-md-8">
-                                    <textarea class="form-control" rows="4" name="description"></textarea>
+                                <div class="col-md-10">
+                                    @include('partials.richTextEditor', ['content' => '', 'inputName' => 'description'])
                                 </div>
                             </div>
 
                             <!-- tags -->
                             <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
                                 <label class="col-md-2 control-label">Tags*</label>
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     @include('partials.tagsinput', array($errors))
 
                                     @if ($errors->has('tags'))
@@ -82,14 +82,14 @@
                             <input type="hidden" id="files" name="files" value="[]" />
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Dateien</label>
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     <div class="dropzone" id="dropzone"></div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label"> </label>
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     <button type="submit" class="btn btn-default">Hochladen</button>
                                 </div>
                             </div>
