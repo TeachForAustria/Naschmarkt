@@ -70,8 +70,5 @@ class UserController extends Controller
             'type' => 'success',
             'content' => 'Die &Auml;nderungen an deinem Profil wurden gespeichert.'
         ]);
-
-        //redirect back user's page
-        return redirect('/user/' . $user->id);
     }
 }
