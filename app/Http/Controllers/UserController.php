@@ -33,9 +33,16 @@ class UserController extends Controller
     public function showProfileView($user_id)
     {
         $user = User::findOrFail($user_id);
-        return view('profile', compact('user'));
+        return view('profile', compact('user', ['']));
     }
 
+    /**
+     * Update the user profile.
+     * @param $userId int user id
+     * @param Request $request Request request object
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Foundation\Validation\ValidationException
+     */
     public function update($userId, Request $request)
     {
         $updateValidator = Validator::make($request->except(['id']), [
