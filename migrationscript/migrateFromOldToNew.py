@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import cgi
+# -*- coding: utf-8 -*-
 import os
 import urllib2
 import uuid
@@ -7,10 +7,13 @@ from ftplib import FTP
 import MySQLdb
 import re
 import time
-import io
+import textract
+import shutil
 
 start_time = time.time()
 TAG_RE = re.compile(r'<[^>]+>')
+if not os.path.exists('tmp'):
+    os.mkdir('tmp')
 
 
 def remove_tags(text):
@@ -92,9 +95,15 @@ for post_row in oldDatabaseCursor.fetchall():
                         tag))
                 tag_id = newDatabaseCursor.fetchall()[0][0]
 
-                # And insert relationship between post and tag
                 newDatabaseCursor.execute(
-                    "INSERT IGNORE INTO post_tag (post_id, tag_id) VALUES ('{0}', '{1}')".format(post_id, tag_id))
+                    "SELECT EXISTS(SELECT * FROM post_tag where post_id = '{0}' && tag_id = '{1}')".format(
+                        post_id, tag_id))
+
+                if newDatabaseCursor.fetchall()[0][0] != 1:
+                    # And insert relationship between post and tag
+                    newDatabaseCursor.execute(
+                        "INSERT IGNORE INTO post_tag (post_id, tag_id) VALUES ('{0}', '{1}')".format(
+                            post_id, tag_id))
             else:
                 try:
                     # if it doesn't exist insert it into the dtabase
@@ -109,7 +118,7 @@ for post_row in oldDatabaseCursor.fetchall():
                         "INSERT INTO post_tag (post_id, tag_id) VALUES ('{0}', '{1}')".format(
                             post_id, tag_id))
                 except:
-                    print 'Error inserting tags into the Database'
+                    print '    Error inserting tags into the Database'
                     dbNew.rollback()
 
     # get the attachment urls from the post
@@ -117,7 +126,7 @@ for post_row in oldDatabaseCursor.fetchall():
         "SELECT guid FROM wp_posts WHERE post_type='attachment' && guid != ' ' && post_parent = {0}".format(
             old_post_id))
 
-    # Connect to FTP server for uploading the files (proftpd server used for testing)
+    # Connect to FTP server for uploading the files
     ftp = FTP('192.168.10.10')
     ftp.login('vagrant', 'vagrant')
 
@@ -157,8 +166,19 @@ for post_row in oldDatabaseCursor.fetchall():
 
         # and extension
         extension = originalFilename.split('.')[-1]
+
+        file_to_upload = open('tmp/tmp_file_to_upload.' + extension, 'w')
+        file_to_upload.write(response.read())
+        file_to_upload.close()
+
+        try:
+            text = textract.process("tmp/tmp_file_to_upload." + extension)
+        except:
+            print '    Document unreadable'
+
         # Upload file to FTP Server
-        ftp.storbinary('STOR ' + str(filename) + '.' + extension, io.BytesIO(response.read()))
+        with open('tmp/tmp_file_to_upload.' + extension, 'rb') as ftpup:
+            ftp.storbinary('STOR ' + str(filename) + '.' + extension, ftpup)
 
         # Try inserting the document
         try:
@@ -170,7 +190,6 @@ for post_row in oldDatabaseCursor.fetchall():
             print '    Error inserting documents into the Database'
             dbNew.rollback()
 
-
         document_id = newDatabaseCursor.lastrowid
 
         try:
@@ -181,9 +200,60 @@ for post_row in oldDatabaseCursor.fetchall():
         except:
             print '    Error inserting document versions into the Database'
             dbNew.rollback()
+
+        # Insert keywords logic
+        if 'text' in locals():
+            for keyword in text.split():
+                if keyword is not '[pic]':
+                    keyword = re.sub('[^A-Za-z0-9ßäöüÄÖÜ]', '', keyword.lower())
+
+                    newDatabaseCursor.execute(
+                        "SELECT EXISTS(SELECT * FROM keywords where value = '{0}')".format(
+                            keyword))
+
+                    if newDatabaseCursor.fetchall()[0][0] == 1:
+                        # if it already exists select it's id
+                        newDatabaseCursor.execute(
+                            "SELECT id FROM keywords WHERE value = '{0}'".format(
+                                keyword))
+                        keyword_id = newDatabaseCursor.fetchall()[0][0]
+
+                        newDatabaseCursor.execute(
+                            "SELECT EXISTS(SELECT * FROM document_keyword where document_id = '{0}' && keyword_id = '{1}')".format(
+                                document_id, keyword_id))
+
+                        if newDatabaseCursor.fetchall()[0][0] != 1:
+                            # And insert relationship between document and keyword
+                            newDatabaseCursor.execute(
+                                "INSERT IGNORE INTO document_keyword (document_id, keyword_id) VALUES ('{0}', '{1}')".format(
+                                    document_id, keyword_id))
+                    else:
+                        try:
+                            # if it doesn't exist insert it into the dtabase
+                            newDatabaseCursor.execute(
+                                "INSERT INTO keywords (value) VALUES ('{0}')".format(
+                                    keyword))
+                            dbNew.commit()
+                            keyword_id = newDatabaseCursor.lastrowid
+
+                            newDatabaseCursor.execute(
+                                "SELECT EXISTS(SELECT * FROM document_keyword where document_id = '{0}' && keyword_id = '{1}')".format(
+                                    document_id, keyword_id))
+
+                            if newDatabaseCursor.fetchall()[0][0] != 1:
+                                # And define the document_keyword relation
+                                newDatabaseCursor.execute(
+                                    "INSERT IGNORE INTO document_keyword (document_id, keyword_id) VALUES ('{0}', '{1}')".format(
+                                        document_id, keyword_id))
+                        except:
+                            print '    Error inserting keywords into the Database'
+                            dbNew.rollback()
+
     ftp.quit()
 
-os.remove('tmp_file_to_upload')
+if os.path.exists('tmp'):
+    shutil.rmtree('tmp')
+
 dbOld.close()
 dbNew.close()
 
