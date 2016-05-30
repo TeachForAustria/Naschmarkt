@@ -19,6 +19,7 @@
                                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                         <label for="password">Passwort</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="donaudampfsschiffs...">
+                                        <span id="helpBlock" class="help-block">Dein Passwort muss mindestens aus einem Buchstaben, einer Zahl und einem Sonderzeichen bestehen und mindestens 8 Zeichen lang sein.</span>
                                         @if ($errors->has('password'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('password') }}</strong>

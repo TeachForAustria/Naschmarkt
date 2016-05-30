@@ -4,23 +4,45 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Posts represent resources uploaded by the user.
+ * Each post has tags, a description as well as multiple documents.
+ * @package App
+ */
 class Post extends Model
 {
+    /**
+     * Relationship to the post's owner.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function owner()
     {
         return $this->belongsTo('App\User', 'owner_id');
     }
 
+    /**
+     * Relationship to documents.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function documents()
     {
         return $this->hasMany('App\Document');
     }
 
+    /**
+     * Relationship to tags.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
     }
 
+    /**
+     * Synchronize the tags of the model with the given list of tags:
+     * Remove all tags which do not appear in the list and add the missing tags.
+     * @param $tags array list of tag values
+     */
     public function syncTags($tags)
     {
         $tags = array_filter($tags, function($tag) {
@@ -35,6 +57,11 @@ class Post extends Model
         $this->tags()->sync($tags);
     }
 
+    /**
+     * Synchronize the documents of the model with the given list of documents:
+     * Remove all documents which do not appear in the list and add the missing tags.
+     * @param $documents array list of documents
+     */
     public function syncDocuments($documents)
     {
         $documentNames = array_map(function($document) {
@@ -61,11 +88,22 @@ class Post extends Model
         }
     }
 
+    /**
+     * Description mutator
+     * Clean the description of invalid tags before writing it to the model field.
+     * @param $desc string description
+     */
     public function setDescription($desc)
     {
         $this->attributes['description'] = clean($desc);
     }
 
+    /**
+     * Helper method of assigning a document document to a document version.
+     * @param $uuid string document version uuid
+     * @param $documentId int document id
+     * @param int $version int document version (defaults to 0)
+     */
     private static function assignDocumentToDocumentVersion($uuid, $documentId, $version = 0)
     {
         $documentVersion = DocumentVersion::whereUuid($uuid)->firstOrFail();

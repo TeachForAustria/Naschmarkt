@@ -62,17 +62,4 @@ class AppController extends Controller
     {
         return view('project');
     }
-
-    /**
-     * Show the users profilepage.
-     *
-     * @param $user_id
-     * The useres id.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function profile($user_id){
-        $user = User::find($user_id);
-        return view('profile', compact('user'));
-    }
 }

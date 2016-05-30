@@ -4,8 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Tags are the most important a part of the applications search engine.
+ * Each post has many tags and users can search posts by tags.
+ * @package App
+ */
 class Tag extends Model
 {
+    /**
+     * Predefined tags
+     * @var array
+     */
     public static $predefinedTags = [
       "Fachlich" => [
         "Andere Fremdsprachen",
@@ -63,6 +72,10 @@ class Tag extends Model
     public $timestamps = false;
     protected $fillable = ['value'];
 
+    /**
+     * Returns a relationship to all posts related with this tag.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function posts()
     {
         return $this->belongsToMany('App\Post');
