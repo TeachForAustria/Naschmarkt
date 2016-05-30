@@ -12,6 +12,12 @@ import shutil
 
 import config
 
+user_ids = {}
+with open("user_id") as file:
+   for line in file:
+        name, var = line.partition("=")[::2]
+        user_ids[name.strip()] = int(var)
+
 start_time = time.time()
 if not os.path.exists('tmp'):
     os.mkdir('tmp')
@@ -38,7 +44,7 @@ oldDatabaseCursor = dbOld.cursor()
 
 # select all posts with the type post
 oldDatabaseCursor.execute(
-    "SELECT id, post_title, post_content, post_date FROM wp_posts WHERE post_type='post' && post_status='publish'")
+    "SELECT id, post_title, post_content, post_date, post_author FROM wp_posts WHERE post_type='post' && post_status='publish'")
 
 newDatabaseCursor = dbNew.cursor()
 
@@ -48,11 +54,12 @@ for post_row in oldDatabaseCursor.fetchall():
     title = post_row[1]
     description = post_row[2]
     date = post_row[3]
+    old_user_id = post_row[4]
 
     try:
         newDatabaseCursor.execute(
-            "INSERT INTO posts (name, description, owner_id, created_at, updated_at) VALUES ('{0}', '{1}', 1, '{2}', '{2}')".format(
-                title, description, date))
+            "INSERT INTO posts (name, description, owner_id, created_at, updated_at) VALUES ('{0}', '{1}', {2}, '{3}', '{3}')".format(
+                title, description, user_ids[str(old_user_id)], date))
         dbNew.commit()
     except:
         print "Error inserting posts into the Database"
@@ -181,7 +188,7 @@ for post_row in oldDatabaseCursor.fetchall():
             newDatabaseCursor.execute(
                 "INSERT INTO documents (post_id, name, created_at, updated_at) VALUES ('{0}', '{1}', '{2}', '{2}')".format(
                     post_id, originalFilename, date))
-            dbNew.commit()
+            dbNew.commintoit()
         except:
             print '    Error inserting documents into the Database'
             dbNew.rollback()
