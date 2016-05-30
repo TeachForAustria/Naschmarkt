@@ -70,7 +70,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/cloud', 'AppController@cloud');
 
     //profile page
-    Route::get('/user/{user}', 'AppController@profile');
+    Route::get('/user/{user}', 'UserController@showProfileView');
+    Route::post('/user/{user}', 'UserController@update');
 
     // posts
     Route::get('/posts', 'PostController@showPostsView');
