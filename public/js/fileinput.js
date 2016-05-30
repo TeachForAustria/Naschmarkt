@@ -5,7 +5,7 @@
     Dropzone.autoDiscover = false;
     self.dropzone = new Dropzone("div#dropzone", {
         addRemoveLinks: false,
-        url: "/documents",
+        url: "/document-versions",
         dictDefaultMessage: 'Hier klicken oder Dateien hineinziehen um sie hochzuladen.',
         init: function() {
             this.on("sending", function(file, xhr, formData) {

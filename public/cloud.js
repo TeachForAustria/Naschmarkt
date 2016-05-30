@@ -38,7 +38,7 @@ function getWordArray(callback) {
     if (selectedState == 2) {
 
         $.ajax({
-            url: '/mostViewedTags',
+            url: '/tags',
             type: 'GET'
         }).done(function (data) {
 
