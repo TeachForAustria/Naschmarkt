@@ -23,6 +23,10 @@ class Post extends Model
 
     public function syncTags($tags)
     {
+        $tags = array_filter($tags, function($tag) {
+            return trim($tag) !== '';
+        });
+
         $tags = array_map(function($tag) {
             return Tag::firstOrCreate([
                 'value' => $tag
@@ -55,6 +59,11 @@ class Post extends Model
                 }
             }
         }
+    }
+
+    public function setDescription($desc)
+    {
+        $this->attributes['description'] = clean($desc);
     }
 
     private static function assignDocumentToDocumentVersion($uuid, $documentId, $version = 0)

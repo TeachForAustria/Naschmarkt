@@ -108,23 +108,9 @@ class PostController extends Controller
             }
         }
 
+        $post->syncTags(explode(',', $request->input('tags')));
 
-        // add tags from checkboxes
-        $tagsFromCB = "";
-        if($request->get('givenTags') != null) {
-            foreach ($request->get('givenTags') as $givenTag) {
-                $tagsFromCB = $tagsFromCB . $givenTag . ',';
-            }
-        }
-
-        // save tags
-        foreach(explode(',', $tagsFromCB . ($request->input('tags'))) as $tag) {
-            $tagModel = Tag::firstOrCreate([
-                'value' => $tag
-            ]);
-            $post->tags()->save($tagModel);
-        }
-
+        // set status message
         $request->session()->flash('status', [
             'type' => 'success',
             'content' => 'Der Post wurde erfolgreich angelegt.'

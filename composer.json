@@ -10,7 +10,8 @@
         "laravel/socialite": "^2.0",
         "doctrine/dbal": "^2.5",
         "ramsey/uuid": "^3.3",
-        "smalot/pdfparser": "*"
+        "smalot/pdfparser": "*",
+        "mews/purifier": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

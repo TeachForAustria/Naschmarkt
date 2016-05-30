@@ -158,6 +158,7 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Mews\Purifier\PurifierServiceProvider::class,
     ],
 
     /*
@@ -205,7 +206,7 @@ return [
         'View'       => Illuminate\Support\Facades\View::class,
         'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
         'Input'      => Illuminate\Support\Facades\Input::class,
-
+        'Purifier'   => Mews\Purifier\Facades\Purifier::class,
     ],
 
 ];
