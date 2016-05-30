@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\User;
-use Illuminate\Http\Request;
-
 class AppController extends Controller
 {
     /**
@@ -46,16 +42,6 @@ class AppController extends Controller
     public function cloud()
     {
         return view('cloud');
-    }
-
-    /**
-     * Show the searchpage.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function search()
-    {
-        return view('search');
     }
 
     public function project()
