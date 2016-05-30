@@ -9,8 +9,8 @@ class Keyword extends Model
     public $timestamps = false;
     protected $fillable = ['value'];
 
-    public function keywords()
+    public function documents()
     {
-        return $this->belongsToMany('App\Keyword');
+        return $this->belongsToMany('App\Document');
     }
 }
