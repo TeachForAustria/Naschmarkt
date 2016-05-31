@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Model of representing users.
+ * @package App
+ */
 class User extends Authenticatable
 {
     /**
@@ -24,11 +28,19 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Relationship to the user's posts.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function documents()
     {
-        return $this->hasMany('App\Document', 'owner_id');
+        return $this->hasMany('App\Posts', 'owner_id');
     }
 
+    /**
+     * Relationship to social network associations of the user.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function socialLogins()
     {
         return $this->hasMany('App\SocialLogin');

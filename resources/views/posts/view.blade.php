@@ -43,7 +43,7 @@
                     <h3>Beschreibung</h3>
                     <div class="panel panel-default">
                         <div class="panel-body description">
-                            <p>{{ $post->description }}</p>
+                            {!! $post->description !!}
                         </div>
                     </div>
             </div>
@@ -87,19 +87,19 @@
                 </div>
             </div>
 
-            <div class="btn pull-right">
+            <!--div class="btn pull-right">
                 <div id="fb-root"></div>
-                <script>(function(d, s, id) {
+                <script>
+                    (function(d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
                         js = d.createElement(s); js.id = id;
                         js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.6";
                         fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));</script>
-                <?php
-                    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                    echo '<div class="fb-share-button" data-href="http://'.$actual_link.'" data-layout="button_count" data-mobile-iframe="true"></div>';
-                ?>
+                    }(document, 'script', 'facebook-jssdk'));
+                </script>
+
+                <div class="fb-share-button" data-href="http://der-naschmarkt.at/" data-layout="button_count" data-mobile-iframe="true"></div-->
 
             </div>
 
@@ -117,4 +117,5 @@
                 }
             </style>
     </div>
+</div>
 @endsection

@@ -4,18 +4,35 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * The Document model represents a file attached to a post.
+ * Each document consists of multiple {@link DocumentVersion}s which contain the references to the concrete files.
+ * @package App
+ */
 class Document extends Model
 {
+    /**
+     * Relationship to the post.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function post()
     {
         return $this->belongsTo('App\Post', 'post_id');
     }
 
+    /**
+     * Document version relationship.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function documentVersions()
     {
         return $this->hasMany('App\DocumentVersion');
     }
 
+    /**
+     * Relationship to keyword objects.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function keywords()
     {
         return $this->belongsToMany('App\Keyword');

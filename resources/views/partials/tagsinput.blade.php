@@ -9,7 +9,7 @@
     <script src="{{ URL::asset('js/tagsinput.js') }}"></script>
 @endpush
 
-<input type="text" value="{{  old('tags') }} @if(isset($tags)) {{ implode(',', $tags) }} @endif" data-role="tagsinput" name="tags" class="tagsinput has-error"/>
+<input type="text" value="{{ old('tags') }} @if(isset($tags)) {{ implode(',', $tags) }} @endif" data-role="tagsinput" name="tags" class="tagsinput has-error"/>
 
 <div class="help-block">
     <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

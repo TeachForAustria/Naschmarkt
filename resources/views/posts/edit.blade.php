@@ -2,6 +2,8 @@
 @push('stylesheets')
     <link href="{{ URL::asset('css/pages/post.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('lib/dropzone/dropzone.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/quill/quill.base.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('lib/quill/quill.snow.css') }}">
 @endpush
 
 @push('scripts')
@@ -18,20 +20,20 @@
                     size: '{{ $document->documentversions->last()->filesizeBytes() }}',
                     accepted: true
                 });
-            @endforeach
 
-            var i;
-            for(i = 0; i < existingFiles.length; i++) {
-                // from: http://stackoverflow.com/questions/24009298/dropzone-js-display-existing-files-on-server
-                dropzone.options.addedfile.call(dropzone, existingFiles[i]);
-                dropzone.emit("added_existing", {
-                    name: '{{ $document->name }}',
-                    uuid: '{{ $document->documentversions->last()->uuid }}'
-                });
-                dropzone.emit("complete", existingFiles[i]);
-                dropzone.files.push(existingFiles[i]);
-            }
-        })()
+                var i;
+                for(i = 0; i < existingFiles.length; i++) {
+                    // from: http://stackoverflow.com/questions/24009298/dropzone-js-display-existing-files-on-server
+                    dropzone.options.addedfile.call(dropzone, existingFiles[i]);
+                    dropzone.emit("added_existing", {
+                        name: '{{ $document->name }}',
+                        uuid: '{{ $document->documentversions->last()->uuid }}'
+                    });
+                    dropzone.emit("complete", existingFiles[i]);
+                    dropzone.files.push(existingFiles[i]);
+                }
+            @endforeach
+        })();
     </script>
 @endpush
 
@@ -90,8 +92,8 @@
                     </div>
                 </div>
                 <div class="row">
-                        <h3>Beschreibung</h3>
-                        <textarea class="form-control col-sm-12 edit-description" name="description">{{ $post->description }}</textarea>
+                    <h3>Beschreibung</h3>
+                    @include('partials.richTextEditor', ['content' => $post->description, 'inputName' => 'description'])
                 </div>
                 <div class="row">
                     <h3>Dateien <span class="badge">{{ $post->documents->count() }}</span></h3>

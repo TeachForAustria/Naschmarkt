@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\User;
-use Illuminate\Http\Request;
-
 class AppController extends Controller
 {
     /**
@@ -48,31 +44,8 @@ class AppController extends Controller
         return view('cloud');
     }
 
-    /**
-     * Show the searchpage.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function search()
-    {
-        return view('search');
-    }
-
     public function project()
     {
         return view('project');
-    }
-
-    /**
-     * Show the users profilepage.
-     *
-     * @param $user_id
-     * The useres id.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function profile($user_id){
-        $user = User::find($user_id);
-        return view('profile', compact('user'));
     }
 }
