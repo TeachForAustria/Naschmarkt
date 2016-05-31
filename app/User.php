@@ -32,7 +32,7 @@ class User extends Authenticatable
      * Relationship to the user's posts.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function documents()
+    public function posts()
     {
         return $this->hasMany('App\Posts', 'owner_id');
     }
