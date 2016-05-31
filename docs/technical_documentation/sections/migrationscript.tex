@@ -1,27 +1,33 @@
-Die Migration wird \"uber 2 in Python 2.7 geschriebenes Skripts abgehaldelt, welches die aus der aktuellen Wordpress Datenbank nimmt und sie auf die neue Datenstruktur umwandelt.
-Zuerst sollte das Skript, welches die Benutzer migriert ausgef\"uhrt werden und dann das Skript welche alle Posts migriert.
+Die Migration der Daten vom alten Naschmarkt zu der neuen Applikation erfolgt \"uber zwei in Python 2.7 geschriebenes Skripts, welches die Daten aus der aktuellen Wordpress Datenbank auslesen, in die neue Datenstruktur umwandelt und speichert.
+Zuerst wird das Skript zur Migration der Benutzer ausgef\"uhrt, danach folgt der Import der Posts.
 
 \section{Ben\"otigte Bibliotheken}
 Um das Skript ausf\"uhren zu k\"onnen, m\"ussen folgende Python Bibliotheken am ausf\"uhrenden Computer installiert sein.
 
 \begin{itemize}
-  \item \href{http://mysql-python.sourceforge.net/MySQLdb.html}{ \texttt{MySQLdb} }, welche jeweils zum Holen und Schreiben der Daten von der MySQL Datenbank verwendet wird
-  \item \href{https://textract.readthedocs.io/en/latest/}{ \texttt{textract} }, welches f\"ur die Volltext-Suche die Datein indexiert
+  \item \href{http://mysql-python.sourceforge.net/MySQLdb.html}{\texttt{MySQLdb} (http://mysql-python.sourceforge.net/MySQLdb.html)}: Zum Herunterladen und Schreiben der Daten von der MySQL Datenbank
+  \item \href{https://textract.readthedocs.io/en/latest/}{ \texttt{textract} (https://textract.readthedocs.io/en/latest/)}: Indizierung der Dateien
 \end{itemize}
 
-Das Skript wird dann \"uber die Kommandozeile mit \texttt{python} oder \texttt{python2.7 migrateUsers} oder \texttt{migrate Posts}
+Die Ausf\"uhrung erfolgt durch Eingabe folgendes Befehls auf der Kommandozeile:
+\begin{lstlisting}[caption=Migration vom alten Naschmarkt]
+# migrate users
+python2.7 migrateUsers.py
 
-\section{Konfigurations Datei}
-Das Skript kommt mit einer Konfigurationsdatei \texttt{config.py}, in welcher man die ben\"otigten Daten f\"ur
+# migrate posts
+python2.7 migratePosts.py
+\end{lstlisting}
+
+\section{Konfigurationsdatei}
+Das Skript kommt mit einer Konfigurationsdatei \texttt{config.py}, die folgende Konfigurationsparameter enth\"alt
 
 \begin{itemize}
-  \item die alte Datenbank, woher die Daten kommen
-  \item die neue Datenbank, wohin die Daten gespeichert werden
-  \item den FTP Zugang um die Datein zu speichern\\
+  \item Verbindungsinformationen der alten Datenbank
+  \item Verbindungsinformationen der neuen Datenbank
+  \item  FTP Zugang um die Datein zu speichern
 \end{itemize}
 
-Hier ein Beispiel f\"ur das config file
-\\
+Hier ein Beispiel f\"ur dieser Konfigurationsdatei:
 \begin{lstlisting}[language={Python}, caption=config.py]
 """
 
@@ -37,11 +43,11 @@ There are 3 things to configure.
 # Old Database.
 # This is where the Data is taken from
 dbOld = {
-    'host':         "mysql003.tophosting.at",   # host ip
+    'host':         "old.host",   # host ip
     'port':         3306,                       # port
-    'user':         "dbue88a3f4",               # username
-    'password':     "Khy?8k9p",                 # password
-    'database':     "dbf26d5267"                # name of
+    'user':         "username",               # username
+    'password':     "password",                 # password
+    'database':     "old_naschmarkt"                # name of
                                                 # the database
 }
 

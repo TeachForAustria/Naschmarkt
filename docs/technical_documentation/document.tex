@@ -32,6 +32,7 @@
 \usepackage[ngerman]{babel}
 \usepackage[official]{eurosym}
 \usepackage{listings}
+\usepackage{rotating}
 
 
 \usepackage[
@@ -48,7 +49,7 @@
 \setmainfont{Adobe Garamond Pro}
 \setmonofont{Source Code Pro}
 
-\setlength{\topskip}{0mm}
+\setlength{\topskip}{1em}
 \setlength{\parskip}{1em}
 \setlength{\parindent}{0em}
 
@@ -132,8 +133,8 @@
 				\begin{tabu} to \textwidth { | @{\hspace{3mm}} l @{\hspace{3mm}} | @{\hspace{3mm}} l | @{\hspace{3mm}} l @{\hspace{3mm}} | X[l] | }
 					\hline
 					& Name & Datum & Unterschrift \\ \hline
-					Erstellt: & M. Klein, T. Fellner & 18.1.2016 & \\ \hline
-					Gepr\"uft: & M. Schwebler, P. Vonderlind & 19.1.2016 & \\ \hline
+					Erstellt: & M. Klein, T. Fellner & 31.5.2016 & \\ \hline
+					Gepr\"uft: & M. Schwebler, P. Vonderlind & 31.5.2016 & \\ \hline
 					Freigegeben: &  &  & \\
 					\hline
 				\end{tabu}
@@ -164,4 +165,27 @@
 
     \chapter{Migrationsscript}
     \input{sections/migrationscript.tex}
+
+    \clearpage
+
+    \begin{thebibliography}{500} % Include .bib (.bbl) references here
+    \bibitem{laravel}
+        Laravel, Web Application Framework, \url{https://laravel.com/}
+    \bibitem{php}
+        PHP, Hypertext Preprozessor, \url{http://php.net/}
+    \bibitem{mysql}
+        MySQL, Database management system, \url{https://www.mysql.com/}
+    \bibitem{gulp}
+        Gulp, Task runner, \url{http://gulpjs.com/}
+    \bibitem{composer}
+        Composer, Dependency Manager for PHP, \url{https://getcomposer.org/}
+    \bibitem{npm}
+        NPM, Node Package Manager, \url{https://npmjs.org/}
+    \bibitem{virtualbox}
+        Virtualbox, Vertualization Product, \url{https://www.virtualbox.org/}
+    \bibitem{vagrant}
+        Vagrant, Tool for building complete development environments, \url{https://www.vagrantup.com/}
+    \end{thebibliography}
+    \lstlistoflistings
+    \listoffigures
 \end{document}
