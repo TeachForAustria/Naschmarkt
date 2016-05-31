@@ -21,6 +21,11 @@ class Post extends Model
         return $this->belongsToMany('App\Tag');
     }
 
+    public function folders()
+    {
+        return $this->belongsToMany('App\Folder');
+    }
+
     public function syncTags($tags)
     {
         $tags = array_map(function($tag) {

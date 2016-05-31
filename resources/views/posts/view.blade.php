@@ -1,7 +1,4 @@
 @extends('layouts.app')
-@push('stylesheets')
-<link href="{{ URL::asset('css/pages/post.css') }}" rel="stylesheet">
-@endpush
 
 @section('content')
     <div class="container">

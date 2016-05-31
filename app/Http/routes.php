@@ -92,6 +92,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/document-versions', 'DocumentVersionController@uploadFile');
 
     // projects pages
-    Route::get('/project', 'AppController@project');
+    Route::get('/project', 'ProjectController@showProjectsView');
+    Route::get('/project/{id}', 'ProjectController@showViewProjectView');
+    Route::get('/project/deleteProject/{id}', 'ProjectController@deleteProject');
+    Route::get('/project/{id}/edit', 'ProjectController@showEditProjectView');
+    Route::post('/project/{id}', 'ProjectController@update');
 
 });
