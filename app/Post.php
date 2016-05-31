@@ -38,6 +38,12 @@ class Post extends Model
         return $this->belongsToMany('App\Tag');
     }
 
+
+    public function folders()
+    {
+        return $this->belongsToMany('App\Folder');
+    }
+
     /**
      * Synchronize the tags of the model with the given list of tags:
      * Remove all tags which do not appear in the list and add the missing tags.
