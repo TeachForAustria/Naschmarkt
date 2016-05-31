@@ -45,8 +45,14 @@ MAIL_USERNAME=null
 MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 \end{lstlisting}
-
-
 Diese wird nach \texttt{.env} kopiert und entsprechend bearbeitet.
+Weite Konfigurationsparameter befinden sich in den Dateien des \texttt{config} Ordners, diese sollten unter normalen Umst\"anden jedoch keiner Anpassung bed\"urfen.
+F\"ur eine genauere Beschreibung sei an die Konfigurationsdokumentation unter \url{https://laravel.com/docs/5.2/configuration} von Laravel verwiesen.
+Danach muss noch ein Application Key generriert werden, dies erfolgt mit folgendem Befehl:
+
+\begin{lstlisting}[caption=Installationsvorbereitung]
+php artisan key:generate
+\end{lstlisting}
 
 Je nachdem, wo das Vorbereitung erfolgt ist, muss sp\"atenstens jetzt der Naschmarkt auf den Server hochgeladen werden.
+Der Webroot des Webserver soll dabei auf der \texttt{public} Verzeichnis zeigen.
