@@ -40,6 +40,8 @@ class PostTablesAndFolderTables extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('folder_post');
+        Schema::drop('folders');
+        Schema::drop('projects');
     }
 }

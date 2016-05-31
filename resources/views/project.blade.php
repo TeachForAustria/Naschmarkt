@@ -17,10 +17,12 @@
                                     <input type="text" class="form-control" name="projectQuery">
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-default" name="search">Search</button>
+                                    <button type="submit" class="btn btn-default" name="search">Search / Add</button>
+                                </div>
+                                <div class="col-md-4 pull-left new">
+                                    <input type="text" name="newPro" placeholder="Projekt hinzufügen ..." class="form-control input-md">
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>

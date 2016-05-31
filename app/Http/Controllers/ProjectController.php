@@ -42,7 +42,7 @@ class ProjectController extends Controller
         }
 
         $newfolders = explode(',', $request->input('newfolder'));
-        
+
         foreach ($newfolders as $foldername){
             $folder = new Folder();
             $folder->name = $foldername;
@@ -82,6 +82,17 @@ class ProjectController extends Controller
         if($full_query !== ''){
             $projects = $projects->where('name', $full_query);
         }
+
+        $new_pro_name = $request->input('newPro');
+        if($new_pro_name != ''){
+            $project = new Project();
+            $project->owner_id = Auth::user()->id;
+            $project->name = $new_pro_name;
+            $project->save();
+        }
+
+        $new_pro_name = '';
+        $full_query = '';
 
         return view('project', [
             'projects' => $projects
