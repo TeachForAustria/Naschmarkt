@@ -1,5 +1,4 @@
-Hier ist das ER Diagramm welches von unserer Datenbank durch Migrationen umgesetzt wurde.
-
+Folgendes Entity Relationship (ER) Diagramm zeigt die Datenstruktur des Projektes:
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[width=\linewidth]{../Datenstruktur.pdf}
@@ -7,36 +6,36 @@ Hier ist das ER Diagramm welches von unserer Datenbank durch Migrationen umgeset
 	\end{center}
 \end{figure}
 
-\section{Weiter Entwicklung}
+\section{Weiterentwicklung}
+Die Entwicklung und Versionierung der Datenbank erfolgt mit Migrationen.
+Dabei handelt es sich um eine Funktionalit\"at des eingesetzten Frameworks, die Datenstruktur eines Projektes zu verwalten und entwickeln.
 
-Migrationen sind ein Weg um in Laravel Datenbank Strukturen umzusetzen
-
-Hier ein Beispiel, welches die User Tabelle definiert.
-
-\begin{lstlisting}[language={PHP}, caption="Migrations Beispiel"]
-  class CreateUsersTable extends Migration
+Hier ein Beispiel einer Migration, welche eine User Tabelle definiert.
+\begin{lstlisting}[language={PHP}, caption=Beispiel eine Migration]
+class CreateUsersTable extends Migration
+{
+  // Run the migrations.
+  public function up()
   {
-      // Run the migrations.
-      public function up()
-      {
-          Schema::create('users', function (Blueprint $table) {
-              $table->increments('id');
-              $table->string('name');
-              $table->string('email')->unique();
-              $table->string('password', 60);
-              $table->rememberToken();
-              $table->timestamps();
-          });
-      }
-
-      // Reverse the migrations.
-      public function down()
-      {
-          Schema::drop('users');
-      }
+      Schema::create('users', function (Blueprint $table) {
+          $table->increments('id');
+          $table->string('name');
+          $table->string('email')->unique();
+          $table->string('password', 60);
+          $table->rememberToken();
+          $table->timestamps();
+      });
   }
+
+  // Reverse the migrations.
+  public function down()
+  {
+      Schema::drop('users');
+  }
+}
 \end{lstlisting}
 
 Eine Migration wird erstellt mittels \texttt{php artisan create:migration [name]} und ist dann unter dem Ordner \texttt{database/migrations} mit allen bisherigen Migrationen zu finden und zu editieren.
-Um dann die Datenbank zu migrieren (Datenstruktur erstellen und nicht zu verwechseln mit dem Migrationsscript) wird \texttt{php artisan migrate}
-Eine n\"ahere Dokumentation zu Migrations in Laravel sind in der \href{https://laravel.com/docs/5.2/migrations}{Offiziellen Dokumentation} zu finden
+Um dann die Datenbank zu migrieren (Datenstruktur in der Datenbank erstellen, nicht zu verwechseln mit dem erstellen Migrationsscript) wird der Befehl \texttt{php artisan migrate} ausgef\"uhrt.
+
+Eine genauere Dokumentation zu Migrationen in Laravel ist in der offiziellen Dokumentation von Laravel unter \url{https://laravel.com/docs/5.2/migrations} zu finden.
