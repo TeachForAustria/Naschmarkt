@@ -4,6 +4,7 @@ var editor = new Quill('.editor-wrapper .editor-container', {
             container: '.editor-wrapper .toolbar-container'
         },
         'link-tooltip': true,
+        'image-tooltip': true
     },
     styles: false,
     theme: 'snow'
