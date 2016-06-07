@@ -8,7 +8,12 @@
                     <li class="previous"><a href="{{ URL::to('/posts') }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Posts</a></li>
                 </ul>
 
+
                 <div class="page-header">
+                    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.uberspace.de/uberspace-7-episode-1/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    </a>
+                    <a class="btn btn-primary pull-right" href="https://www.facebook.com/sharer/sharer.php?u={{ URL::to('/posts/' . $post->id) }}/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook-official" aria-hidden="true"></i> Share</a>
+
                     <!-- edit/delete only if user is either the owner or a staff -->
                     @if(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)
                         <a href="{{'/posts/deletePost/' . $post->id}}" class="btn btn-danger pull-right delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i>L&ouml;schen</a>
@@ -86,36 +91,6 @@
                     @endforeach
                 </div>
             </div>
-
-            <!--div class="btn pull-right">
-                <div id="fb-root"></div>
-                <script>
-                    (function(d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) return;
-                        js = d.createElement(s); js.id = id;
-                        js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.6";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
-                </script>
-
-                <div class="fb-share-button" data-href="http://der-naschmarkt.at/" data-layout="button_count" data-mobile-iframe="true"></div-->
-
-            </div>
-
-            <style>
-                .btn-facebook {
-                    color: #fff;
-                    background-color: #4C67A1;
-                }
-                .btn-facebook:hover {
-                    color: #fff;
-                    background-color: #405D9B;
-                }
-                .btn-facebook:focus {
-                    color: #fff;
-                }
-            </style>
     </div>
 </div>
 @endsection
