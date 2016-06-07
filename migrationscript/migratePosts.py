@@ -15,7 +15,7 @@ import config
 
 user_ids = {}
 with open("user_id") as file:
-   for line in file:
+    for line in file:
         name, var = line.partition("=")[::2]
         user_ids[name.strip()] = int(var)
 
@@ -24,19 +24,19 @@ if not os.path.exists('tmp'):
     os.mkdir('tmp')
 
 dbOld = MySQLdb.connect(
-    host=config.dbOld['host'],          # host ip
-    port=config.dbOld['port'],          # port
-    user=config.dbOld['user'],          # username
-    passwd=config.dbOld['password'],    # password
-    db=config.dbOld['database']         # name of the database
+    host=config.dbOld['host'],  # host ip
+    port=config.dbOld['port'],  # port
+    user=config.dbOld['user'],  # username
+    passwd=config.dbOld['password'],  # password
+    db=config.dbOld['database']  # name of the database
 )
 
 dbNew = MySQLdb.connect(
-    host=config.dbNew['host'],          # host ip
-    port=config.dbNew['port'],          # port
-    user=config.dbNew['user'],          # username
-    passwd=config.dbNew['password'],    # password
-    db=config.dbNew['database']         # name of the database
+    host=config.dbNew['host'],  # host ip
+    port=config.dbNew['port'],  # port
+    user=config.dbNew['user'],  # username
+    passwd=config.dbNew['password'],  # password
+    db=config.dbNew['database']  # name of the database
 )
 
 # Create a Cursor object
@@ -58,6 +58,28 @@ for post_row in oldDatabaseCursor.fetchall():
     date = post_row[3]
     old_user_id = post_row[4]
 
+    # Query for Getting tags from the wordpress database
+    oldDatabaseCursor.execute(
+        "SELECT term.name FROM (wp_terms AS term INNER JOIN wp_term_taxonomy AS tax "
+        "ON term.term_id = tax.term_id) INNER JOIN wp_term_relationships AS relation "
+        "ON relation.term_taxonomy_id = tax.term_taxonomy_id WHERE relation.object_id = {0}".format(
+            old_post_id))
+
+    continue_var = False
+
+    tags = []
+    for tag_row in oldDatabaseCursor.fetchall():
+        tag = unicode(tag_row[0], "utf-8");
+        if tag in config.remove_tags:
+            continue_var = True
+            break
+
+        tags.append(tag)
+
+    if continue_var:
+        print('Skipped \"' + title + '\" since it contains a removed tag')
+        continue
+
     try:
         newDatabaseCursor.execute(
             "INSERT INTO posts (name, description, owner_id, created_at, updated_at) "
@@ -73,19 +95,10 @@ for post_row in oldDatabaseCursor.fetchall():
     if post_id > 0:
         print(str(post_id) + "  " + title)
 
-        # Query for Getting tags from the wordpress database
-        oldDatabaseCursor.execute(
-            "SELECT term.name FROM (wp_terms AS term INNER JOIN wp_term_taxonomy AS tax "
-            "ON term.term_id = tax.term_id) INNER JOIN wp_term_relationships AS relation "
-            "ON relation.term_taxonomy_id = tax.term_taxonomy_id WHERE relation.object_id = {0}".format(
-                old_post_id))
-
         print("    TAGS")
 
         # save tags into database
-        for tag_row in oldDatabaseCursor.fetchall():
-            tag = tag_row[0]
-
+        for tag in tags:
             # delete leading _
             if tag[0] is '_':
                 tag = tag[1:]
