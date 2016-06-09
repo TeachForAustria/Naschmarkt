@@ -11,6 +11,15 @@
 <script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
 <script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput-typeahead.js') }}"></script>
 <script src="{{ URL::asset('lib/tagsInput/assets/makeTypeahead.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#order_select').on('change', function() {
+            this.form.submit();
+        });
+    });
+</script>
+
 @endpush
 
 @section('content')
@@ -39,11 +48,11 @@
 
                             <div class="col-sm-2 col-sm-offset-7">
                                 <label>Sortieren nach: </label>
-                                <select class="form-control" name="s">
-                                    <option value="created_at,desc">Datum</option>
-                                    <option value="name">Titel</option>
-                                    <option value="owner_id">Author</option>
-                                    <option value="access_count,desc">Zugriffs Zahl</option>
+                                <select class="form-control" name="s" id="order_select">
+                                    <option value="created_at,desc" @if( isset($sorted_by) && $sorted_by == 'created_at' ) selected @endif>Datum</option>
+                                    <option value="name,asc" @if( isset($sorted_by) && $sorted_by == 'name' ) selected @endif>Titel</option>
+                                    <option value="owner_id" @if( isset($sorted_by) && $sorted_by == 'owner_id' ) selected @endif>Author</option>
+                                    <option value="access_count,desc" @if( isset($sorted_by) && $sorted_by == 'access_count' ) selected @endif>Zugriffe</option>
                                 </select>
                             </div>
                         </form>
@@ -52,8 +61,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div class="container">
 
