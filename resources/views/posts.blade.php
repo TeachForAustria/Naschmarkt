@@ -51,7 +51,6 @@
                                 <select class="form-control" name="s" id="order_select">
                                     <option value="created_at,desc" @if( isset($sorted_by) && $sorted_by == 'created_at' ) selected @endif>Datum</option>
                                     <option value="name,asc" @if( isset($sorted_by) && $sorted_by == 'name' ) selected @endif>Titel</option>
-                                    <option value="owner_id" @if( isset($sorted_by) && $sorted_by == 'owner_id' ) selected @endif>Author</option>
                                     <option value="access_count,desc" @if( isset($sorted_by) && $sorted_by == 'access_count' ) selected @endif>Zugriffe</option>
                                 </select>
                             </div>

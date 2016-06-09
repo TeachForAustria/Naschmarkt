@@ -115,6 +115,7 @@ class PostController extends Controller
         //the sort query can include a, with a new direction
         $sort_by_arr = explode(",", $sort_by);
 
+        $direction = 'desc';
         if(count($sort_by_arr) > 1){
             $sort_by = $sort_by_arr[0];
             $direction = $sort_by_arr[1];

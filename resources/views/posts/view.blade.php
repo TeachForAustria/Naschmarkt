@@ -5,7 +5,7 @@
         <div class="col-sm-10 col-sm-offset-1">
             <div class="row">
                 <ul class="pager">
-                    <li class="previous"><a href="{{ URL::to('/posts') }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Posts</a></li>
+                    <li class="previous"><a href="{{ URL::to('/posts') }}"><i class="fa fa-angle-left" aria-hidden="true"></i> Posts</a></li>
                 </ul>
 
 
