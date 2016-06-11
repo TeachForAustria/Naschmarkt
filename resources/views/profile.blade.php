@@ -59,8 +59,8 @@
                         <div class="form-group">
                             <label class="control-label">
                                 Google+
-                                <span class="label label-{{ $user->sociallogins()->where('provider', 'google')->first() === null ? 'success' : 'danger' }}">
-                                    {{ $user->sociallogins()->where('provider', 'google')->first() === null ? 'Verbunden' : 'Nicht verbunden' }}
+                                <span class="label label-{{ $user->sociallogins()->where('provider', 'google')->first() !== null ? 'success' : 'danger' }}">
+                                    {{ $user->sociallogins()->where('provider', 'google')->first() !== null ? 'Verbunden' : 'Nicht verbunden' }}
                                 </span>
                             </label>
                             <div class="input-group-btn">
