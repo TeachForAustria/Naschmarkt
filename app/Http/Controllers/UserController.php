@@ -7,6 +7,7 @@ use Hash;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 
@@ -25,14 +26,11 @@ class UserController extends Controller
     /**
      * Show the users profilepage.
      *
-     * @param $user_id
-     * The useres id.
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showProfileView($user_id)
+    public function showProfileView()
     {
-        $user = User::findOrFail($user_id);
+        $user = Auth::user();
         return view('profile', compact('user', ['']));
     }
 
@@ -43,7 +41,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Foundation\Validation\ValidationException
      */
-    public function update($userId, Request $request)
+    public function update(Request $request)
     {
         $updateValidator = Validator::make($request->except(['id']), [
             'password' => 'confirmed|regex:/^(?=.{8,})(?=.*[A-Za-z])(?=.*\d)(?=.*\W).*$/',
@@ -57,7 +55,7 @@ class UserController extends Controller
             );
         }
 
-        $user = User::findOrFail($userId);
+        $user = Auth::user();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
 
@@ -66,7 +64,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect('/user/' . $user->id)->with('status', [
+        return redirect('/user')->with('status', [
             'type' => 'success',
             'content' => 'Die &Auml;nderungen an deinem Profil wurden gespeichert.'
         ]);

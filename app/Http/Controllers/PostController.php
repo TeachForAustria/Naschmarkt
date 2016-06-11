@@ -114,14 +114,14 @@ class PostController extends Controller
 
         //the sort query can include a, with a new direction
         $sort_by_arr = explode(",", $sort_by);
-        $direction = 'desc';
 
+        $direction = 'desc';
         if(count($sort_by_arr) > 1){
             $sort_by = $sort_by_arr[0];
             $direction = $sort_by_arr[1];
         }
 
-        // by default created_at is sorted
+        // by default sort by date
         if(!isset($sort_by) || !in_array($sort_by, ['name', 'owner_id', 'created_at', 'access_count']) || !in_array($direction, ['asc', 'desc'])){
             $sort_by = 'created_at';
             $direction = 'desc';
@@ -171,6 +171,7 @@ class PostController extends Controller
         // filtered posts as parameter
         return view('posts', [
             'search_query' => $full_query,
+            'sorted_by' => $sort_by,
             'posts' => $posts
         ]);
     }
