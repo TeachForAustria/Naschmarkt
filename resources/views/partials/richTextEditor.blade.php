@@ -6,7 +6,29 @@
 
 @push('scripts')
     <script src="{{ URL::asset('lib/quill/quill.min.js') }}"></script>
-    <script src="{{ URL::asset('js/quill.js') }}"></script>
+    <script>
+        var editor = new Quill('.editor-wrapper .editor-container', {
+            modules: {
+                'toolbar': {
+                    container: '.editor-wrapper .toolbar-container'
+                },
+                'link-tooltip': true,
+                'image-tooltip': true
+            },
+            styles: false,
+            theme: 'snow'
+        });
+
+        // this assumes that the form containing the editor has the id form
+        $("#form").submit( function() {
+            $('.editor-wrapper .editor-input').val(editor.getHTML());
+            return true;
+        });
+
+        $(document).ready(function() {
+            editor.setHTML('{!! addslashes($content) !!}');
+        });
+    </script>
 @endpush
 
 <div class="editor-wrapper panel panel-default">
@@ -123,6 +145,6 @@
             <span title="List" class="ql-format-button ql-list"></span>
         </span>
     </div>
-    <div class="editor-container panel-body">{!! $content !!}</div>
-    <input type="hidden" class="editor-input" name="{{ $inputName }}" />
+    <div class="editor-container panel-body"></div>
+    <input type="hidden" class="editor-input" name="{{ $inputName }}"/>
 </div>
