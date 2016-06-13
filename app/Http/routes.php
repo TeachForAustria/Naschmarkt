@@ -11,11 +11,6 @@
 |
 */
 
-//Redirects the user to the about page
-Route::get('/about', function () {
-    return view('about');
-});
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes

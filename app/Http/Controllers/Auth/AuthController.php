@@ -209,7 +209,7 @@ class AuthController extends Controller
                 Auth::login($user);
             }
 
-            return redirect('/user/' . $user->id)->with('status', [
+            return redirect('/user')->with('status', [
                 'type' => 'success',
                 'content' => 'Dein Account wurde erfolgreich mit ' . ucfirst($provider) . ' verbunden.'
             ]);
@@ -232,13 +232,10 @@ class AuthController extends Controller
         //delete SocialLogin from given url Parameter
         $user->socialLogins()->where('provider', Input::get('provider'))->delete();
 
-        return redirect('/user/' . $user->id)->with('status', [
+        return redirect('/user')->with('status', [
             'type' => 'success',
             'content' => 'Die Verlinkung zu ' . ucfirst(Input::get('provider')) . ' wurde entfernt.'
         ]);
-
-        //redirect back user's page
-        return redirect('/user/' . $user->id);
     }
 
     /**

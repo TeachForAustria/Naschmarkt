@@ -41,8 +41,6 @@
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('/about') }}">About</a></li>
-
                             @if(!isset($posts) && Auth::check())
                                 <form action="{{ url('/posts') }}" method="GET" class="navbar-form navbar-left" role="search" enctype="multipart/form-data">
                                     {!! csrf_field() !!}
