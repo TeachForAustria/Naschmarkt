@@ -11,6 +11,7 @@
         <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('lib/lato-font/css/lato.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('img/favicon.ico') }}" rel="shortcut icon">
         @stack('stylesheets')
 
     </head>
