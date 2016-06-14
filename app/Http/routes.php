@@ -94,5 +94,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/project/{id}/edit', 'ProjectController@showEditProjectView');
     Route::post('/project/{id}', 'ProjectController@update');
     Route::get('/project/new', 'ProjectController@newProject');
+    Route::get('/postnames', 'ProjectController@postNames');
 
 });

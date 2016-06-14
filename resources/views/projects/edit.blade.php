@@ -1,6 +1,40 @@
 @extends('layouts.app')
 @push('stylesheets')
 <link href="{{ URL::asset('css/pages/post.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput.min.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/assets/bsTagsInput.js') }}"></script>
+<script src="{{ URL::asset('lib/tagsInput/dist/bootstrap-tagsinput-typeahead.js') }}"></script>
+<script>
+    $.get( "/postnames" )
+            .done(function( data ) {
+                console.log(data);
+                var postNames = data;
+
+                var namesHound = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    // `states` is an array of state names defined in "The Basics"
+                    local: postNames
+                });
+
+                $('.posts .twitter-typeahead').typeahead({
+                            hint: true,
+                            highlight: true,
+                            minLength: 1
+                        },
+                        {
+                            name: 'namesHound',
+                            source: namesHound
+                        });
+            });
+
+
+</script>
 @endpush
 
 @section('content')
@@ -54,7 +88,9 @@
                                                 @endforeach
                                                 <a class="list-group-item">
                                                     <i class="fa fa-plus-circle"></i>
-                                                    <input type="text" name="newpost{{ $folder->id}}" placeholder="Add new Posts">
+                                                    <div class="posts">
+                                                        <input type="text" name="newpost{{ $folder->id}}" placeholder="Add new Posts" class="twitter-typeahead">
+                                                    </div>
                                                 </a>
                                             </div>
                                         </div>
