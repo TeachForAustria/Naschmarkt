@@ -39,12 +39,12 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => 'http://der-naschmarkt.at/auth/socialLogin/callback?provider=%s&type=%s',
+        'redirect' => 'https://der-naschmarkt.at/auth/socialLogin/callback?provider=%s&type=%s',
     ],
 
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_ID'),
-        'redirect' => 'http://der-naschmarkt.at/auth/socialLogin/callback?provider=%s&type=%s',
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => 'https://der-naschmarkt.at/auth/socialLogin/callback?provider=%s&type=%s',
     ],
 ];
