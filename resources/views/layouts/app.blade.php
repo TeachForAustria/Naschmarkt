@@ -11,6 +11,7 @@
         <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('lib/lato-font/css/lato.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('img/favicon.ico') }}" rel="shortcut icon">
         @stack('stylesheets')
 
     </head>
@@ -41,8 +42,6 @@
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('/about') }}">About</a></li>
-
                             @if(!isset($posts) && Auth::check())
                                 <form action="{{ url('/posts') }}" method="GET" class="navbar-form navbar-left" role="search" enctype="multipart/form-data">
                                     {!! csrf_field() !!}

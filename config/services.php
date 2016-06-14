@@ -36,23 +36,15 @@ return [
     ],
 
     // production
-    //'facebook' => [
-    //    'client_id' => '981765445194772',
-    //    'client_secret' => '315542e5463db8278d03d1a5032db45c',
-    //    'redirect' => '',
-    //],
-
-    // test
     'facebook' => [
-        'client_id' => '991792504192066',
-        'client_secret' => '99f9b6015f610f6a4105b51f820e6fc1',
-        'redirect' => 'http://localhost:8000/auth/socialLogin/callback?provider=%s&type=%s',
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => 'http://der-naschmarkt.at/auth/socialLogin/callback?provider=%s&type=%s',
     ],
 
     'google' => [
-        'client_id' => '1021102618453-d40neoq2b0dnfhf9d06pkrh2fjs18g0h.apps.googleusercontent.com',
-        'client_secret' => 'AdIEAg22C7pktMpCSCWRibxw',
-        'redirect' => 'http://localhost:8000/auth/socialLogin/callback?provider=%s&type=%s',
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_ID'),
+        'redirect' => 'http://der-naschmarkt.at/auth/socialLogin/callback?provider=%s&type=%s',
     ],
-
 ];
