@@ -29,4 +29,18 @@ class PasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    /**
+     * Get the response for after the reset link has been successfully sent.
+     *
+     * @param  string  $response
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function getSendResetLinkEmailSuccessResponse($response)
+    {
+        return redirect()->back()->with('status', [
+            'type' => 'success',
+            'content' => trans($response)
+        ]);
+    }
 }
