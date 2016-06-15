@@ -161,12 +161,6 @@ class PostController extends Controller
         // pagination
         $posts = $posts->paginate(15);
 
-        // add querystring
-        $posts->appends([
-            'q' => $full_query,
-            's' => $sort_by . ',' . $direction
-        ]);
-
         // Return the posts view with the
         // filtered posts as parameter
         return view('posts', [

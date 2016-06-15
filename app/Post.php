@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\GenerateKeywords;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -77,11 +78,22 @@ class Post extends Model
 
         $databaseDocuments = $this->documents()->get();
         foreach($documents as $document) {
-            print('<br>');
             if(!$databaseDocuments->contains('name', $document['name'])) {
                 $databaseDocument = new Document();
                 $databaseDocument->name = $document['name'];
                 $this->documents()->save($databaseDocument);
+
+                $lastDocumentVersion = $databaseDocument->documentVersions()->get()->last();
+
+                //save the extension
+                $extension = $lastDocumentVersion->extension;
+
+                //valid extensions where read method exists
+                $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
+
+                if (in_array($extension, $checkExtension)) {
+                    $this->dispatch(new GenerateKeywords($lastDocumentVersion, $document));
+                }
 
                 self::assignDocumentToDocumentVersion($document['uuid'], $databaseDocument->id);
             } else {
@@ -89,6 +101,17 @@ class Post extends Model
                 $lastDocumentVersion = $databaseDocument->documentVersions()->get()->last();
                 if($lastDocumentVersion->uuid !== $document['uuid']) {
                     self::assignDocumentToDocumentVersion($document['uuid'], $databaseDocument->id, $lastDocumentVersion->version + 1);
+                }
+
+                //save the extension
+                $extension = $lastDocumentVersion->extension;
+
+                //valid extensions where read method exists
+                $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
+
+                if (in_array($extension, $checkExtension)) {
+                    $document->keywords()->detach();
+                    $this->dispatch(new GenerateKeywords($lastDocumentVersion, $document));
                 }
             }
         }

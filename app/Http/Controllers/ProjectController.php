@@ -137,9 +137,11 @@ class ProjectController extends Controller
         return redirect('project');
     }
 
+    /**
+     * @return array of all post names
+     */
     public function postNames(){
         $names = array();
-
         $posts = Post::all();
 
         foreach ($posts as $post){

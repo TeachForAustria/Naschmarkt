@@ -12,14 +12,11 @@
 <script>
     $.get( "/postnames" )
             .done(function( data ) {
-                console.log(data);
-                var postNames = data;
-
-                var namesHound = new Bloodhound({
+                var postNames = new Bloodhound({
                     datumTokenizer: Bloodhound.tokenizers.whitespace,
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    // `states` is an array of state names defined in "The Basics"
-                    local: postNames
+                    // data is an array with all the post names
+                    local: data
                 });
 
                 $('.posts .twitter-typeahead').typeahead({
@@ -29,7 +26,7 @@
                         },
                         {
                             name: 'namesHound',
-                            source: namesHound
+                            source: postNames
                         });
             });
 
@@ -44,12 +41,12 @@
                 {!! csrf_field() !!}
                 <div class="row">
                     <ul class="pager">
-                        <li class="previous"><a href="{{ url('/project/' . $project->id) }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Project</a></li>
+                        <li class="previous"><a href="{{ url('/project/' . $project->id) }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Projekte</a></li>
                     </ul>
 
                     <div class="page-header">
                         <input type="text" value="{{ $project->name }}" name="title" class="form-control input-lg edit-title" />
-                        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save" aria-hidden="true"></i>Save</button>
+                        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save" aria-hidden="true"></i>Speichern</button>
                     </div>
                 </div>
                 <div class="row">
@@ -72,7 +69,7 @@
                 </div>
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading"> Folder </div>
+                        <div class="panel-heading"> Ordner </div>
                         <div class="panel-body">
                             @foreach($project->folders->all() as $folder)
                                 <div class="center-block">
@@ -98,7 +95,7 @@
                                 </div>
                             @endforeach
                             <div class="well folder-input">
-                                <input class="input-md form-control" type="text" name="newfolder" placeholder="Add new Folders">
+                                <input class="input-md form-control" type="text" name="newfolder" placeholder="Neuen Ordner hinzuf&uuml;gen">
                             </div>
                         </div>
                     </div>
