@@ -4,6 +4,7 @@ namespace App;
 
 use App\Jobs\GenerateKeywords;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Posts represent resources uploaded by the user.
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
+    use DispatchesJobs;
+
     /**
      * Relationship to the post's owner.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
