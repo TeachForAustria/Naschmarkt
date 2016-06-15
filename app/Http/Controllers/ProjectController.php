@@ -16,7 +16,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        if(!(Auth::user()->name == $project->owner->name or !Auth::user()->is_staff)){
+        if(!Auth::user()->name == $project->owner->name && !Auth::user()->is_staff){
             abort(403);
         }
 

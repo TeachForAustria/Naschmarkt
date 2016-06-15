@@ -18,5 +18,6 @@ elixir(function(mix) {
         .sass('pages/activate.scss', 'public/css/pages')
         .sass('pages/posts.scss', 'public/css/pages')
         .sass('pages/post.scss', 'public/css/pages')
+        .sass('pages/error.scss', 'public/css/pages')
         .sass('partials/editor.scss', 'public/css/partials');
 });
