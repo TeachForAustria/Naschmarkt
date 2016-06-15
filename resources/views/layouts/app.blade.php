@@ -58,7 +58,7 @@
                             <!-- Authentication Links -->
                             @if (Auth::check())
                                 <li><a href="{{ url('/posts') }}"> Posts </a></li>
-                                <li><a href="{{ url('/project') }}"> Projekte </a></li>
+                                <li><a href="{{ url('/projects') }}"> Projekte </a></li>
                                 <li><a href="{{ url('/upload') }}">Upload</a></li>
                                 @can('register-user')
                                 <li><a href="{{ url('/register') }}">Register</a></li>

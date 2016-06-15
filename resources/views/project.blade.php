@@ -7,20 +7,18 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Suche
+                        Hinzuf&uuml;gen
                     </div>
                     <div class="panel-body">
-                        <form action="/project" method="GET" class="form-horizontal" enctype="multipart/form-data">
+                        <form action="/project/new" method="POST" class="form-horizontal" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                             <div class="form-group">
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control" name="projectQuery">
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-default" name="search">Suche / Hinzuf&uuml;gen</button>
-                                </div>
-                                <div class="col-md-4 pull-left new">
+                                <div class="col-md-10 pull-left new">
                                     <input type="text" name="newPro" placeholder="Projekt hinzuf&uuml;gen ..." class="form-control input-md">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-default" name="submit">Hinzuf&uuml;gen</button>
                                 </div>
                             </div>
                         </form>

@@ -79,16 +79,8 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function showProjectsView(Request $request)
+    public function newProject(Request $request)
     {
-        $full_query = $request->input('projectQuery');
-
-        $projects = Project::all();
-
-        if($full_query !== null){
-            $projects = $projects->where('name', $full_query);
-        }
-
         $new_pro_name = $request->input('newPro');
         if($new_pro_name != ''){
             $project = new Project();
@@ -97,8 +89,12 @@ class ProjectController extends Controller
             $project->save();
         }
 
-        return view('project', [
-            'projects' => $projects
+        return redirect('/projects');
+    }
+
+    public function showProjects(){
+        return view('project',[
+            'projects' => Project::all()
         ]);
     }
 
