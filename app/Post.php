@@ -83,6 +83,8 @@ class Post extends Model
                 $databaseDocument->name = $document['name'];
                 $this->documents()->save($databaseDocument);
 
+                self::assignDocumentToDocumentVersion($document['uuid'], $databaseDocument->id);
+
                 $lastDocumentVersion = $databaseDocument->documentVersions()->get()->last();
 
                 //save the extension
@@ -95,7 +97,6 @@ class Post extends Model
                     $this->dispatch(new GenerateKeywords($lastDocumentVersion, $document));
                 }
 
-                self::assignDocumentToDocumentVersion($document['uuid'], $databaseDocument->id);
             } else {
                 $databaseDocument = $databaseDocuments->where('name', $document['name'])->first();
                 $lastDocumentVersion = $databaseDocument->documentVersions()->get()->last();
@@ -110,8 +111,8 @@ class Post extends Model
                 $checkExtension = array('doc', 'docx', 'pdf', 'txt', 'html');
 
                 if (in_array($extension, $checkExtension)) {
-                    $document->keywords()->detach();
-                    $this->dispatch(new GenerateKeywords($lastDocumentVersion, $document));
+                    $databaseDocument->keywords()->detach();
+                    $this->dispatch(new GenerateKeywords($lastDocumentVersion, $databaseDocument));
                 }
             }
         }
