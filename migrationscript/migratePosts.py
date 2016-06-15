@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# -- coding: utf-8 --
+
 import os
 import urllib2
 import uuid
@@ -7,7 +9,6 @@ from ftplib import FTP
 import MySQLdb
 import re
 import time
-
 import textract
 import shutil
 
@@ -58,6 +59,18 @@ for post_row in oldDatabaseCursor.fetchall():
     date = post_row[3]
     old_user_id = post_row[4]
 
+    if old_user_id == 8:
+        print('RSS Feed \"' + title + '\" wird nicht migriert')
+        continue
+
+    newDatabaseCursor.execute(
+        "SELECT EXISTS(SELECT * FROM posts where name = '{0}')".format(
+            MySQLdb.escape_string(title)))
+
+    if newDatabaseCursor.fetchall()[0][0] == 1:
+        print('Already migrated \"' + title + '\"')
+        continue
+
     # Query for Getting tags from the wordpress database
     oldDatabaseCursor.execute(
         "SELECT term.name FROM (wp_terms AS term INNER JOIN wp_term_taxonomy AS tax "
@@ -69,15 +82,19 @@ for post_row in oldDatabaseCursor.fetchall():
 
     tags = []
     for tag_row in oldDatabaseCursor.fetchall():
-        tag = unicode(tag_row[0], "utf-8");
+        tag = tag_row[0]
         if tag in config.remove_tags:
             continue_var = True
+            print('Skipping \"' + title + '\" since it contains the removed tag \"' + tag + '\"')
             break
+
+        # delete leading _
+        if tag[0] is '_':
+            tag = tag[1:]
 
         tags.append(tag)
 
     if continue_var:
-        print('Skipped \"' + title + '\" since it contains a removed tag')
         continue
 
     try:
@@ -87,8 +104,9 @@ for post_row in oldDatabaseCursor.fetchall():
                 title, description, user_ids[str(old_user_id)], date))
         dbNew.commit()
     except Exception as e:
-        print("Error inserting posts into the Database")
+        print("Error inserting posts into the Database" + str(e))
         dbNew.rollback()
+        continue
 
     post_id = newDatabaseCursor.lastrowid
 
@@ -99,9 +117,6 @@ for post_row in oldDatabaseCursor.fetchall():
 
         # save tags into database
         for tag in tags:
-            # delete leading _
-            if tag[0] is '_':
-                tag = tag[1:]
 
             print("    " + tag)
 
@@ -158,7 +173,7 @@ for post_row in oldDatabaseCursor.fetchall():
 
     # print(all the first cell of all the rows
     for url_row in oldDatabaseCursor.fetchall():
-        attachmentURL = url_row[0]
+        attachmentURL = url_row[0].replace('der-naschmarkt.at', 'alt.dernaschmarkt.at')
 
         # Generate uuid for the filename and the database
         filename = uuid.uuid4()
@@ -172,7 +187,7 @@ for post_row in oldDatabaseCursor.fetchall():
         try:
             # Download file from url
             response = urllib2.urlopen(attachmentURL)
-        except urllib2.HTTPError, err:
+        except urllib2.HTTPError as err:
             print('    ' + str(err.code) + ' file not found on ' + err.url)
             continue
 
@@ -226,8 +241,8 @@ for post_row in oldDatabaseCursor.fetchall():
         # Insert keywords logic
         if 'text' in locals():
             for keyword in text.split():
-                if keyword is not '[pic]':
-                    keyword = re.sub('[^A-Za-z0-9ßäöüÄÖÜ]', '', keyword.lower())
+                if keyword is not '[pic]' and "http" not in keyword:
+                    keyword = re.sub('[^A-Za-z0-9ßäöüÄÖÜ]', '', keyword).lower()
 
                     newDatabaseCursor.execute(
                         "SELECT EXISTS(SELECT * FROM keywords where value = '{0}')".format(

@@ -59,5 +59,5 @@ for user_row in oldDatabaseCursor.fetchall():
 
     file_id.write(str(old_id) + '=' + str(user_id) + '\n')
     file_user_csv.write(
-        name + ';' + email + ';' + 'http://localhost:8000/activate?token=' + str(activation_token) + '&id=' + str(
+        name + ';' + email + ';' + 'http://der-naschmarkt.at/activate?token=' + str(activation_token) + '&id=' + str(
             user_id) + '\n')
