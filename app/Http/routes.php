@@ -95,5 +95,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/project/{id}/edit', 'ProjectController@showEditProjectView');
     Route::post('/project/{id}', 'ProjectController@update');
     Route::get('/postnames', 'ProjectController@postNames');
+    Route::get('/projects/{folder}/remove/{post}', 'ProjectController@detachPost');
+    Route::get('/projects/{folder}', 'ProjectController@deleteFolder');
 
 });

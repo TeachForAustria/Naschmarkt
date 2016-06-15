@@ -146,4 +146,38 @@ class ProjectController extends Controller
 
         return $names;
     }
+
+    /**
+     * Detach a Post form a Folder
+     *
+     * @param Folder $folder parent folder of the post
+     * @param Post $post post to detach from the folder
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector back tot the edit page
+     */
+    public function detachPost(Folder $folder, Post $post){
+        if(!Auth::user()->name == $folder->project->owner->name or !Auth::user()->is_staff){
+            abort(403);
+        }
+
+        $folder->posts()->detach($post);
+
+        return redirect('/project/'. $folder->project->id .'/edit');
+    }
+    
+    /**
+     * Delete a folder by id
+     *
+     * @param Folder $folder to delete
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
+    public function deleteFolder(Folder $folder){
+        if(!Auth::user()->name == $folder->project->owner->name or !Auth::user()->is_staff){
+            abort(403);
+        }
+
+        $folder->delete();
+
+        return redirect('/project/'. $folder->project->id .'/edit');
+    }
 }
