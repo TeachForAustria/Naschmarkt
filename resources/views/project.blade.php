@@ -7,7 +7,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Search
+                        Suche
                     </div>
                     <div class="panel-body">
                         <form action="/project" method="GET" class="form-horizontal" enctype="multipart/form-data">
@@ -17,10 +17,10 @@
                                     <input type="text" class="form-control" name="projectQuery">
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-default" name="search">Search / Add</button>
+                                    <button type="submit" class="btn btn-default" name="search">Suche / Hinzuf&uuml;gen</button>
                                 </div>
                                 <div class="col-md-4 pull-left new">
-                                    <input type="text" name="newPro" placeholder="Projekt hinzufügen ..." class="form-control input-md">
+                                    <input type="text" name="newPro" placeholder="Projekt hinzuf&uuml;gen ..." class="form-control input-md">
                                 </div>
                             </div>
                         </form>
@@ -47,7 +47,7 @@
                                     @endforeach
 
                                     @if($project->folders->count() > 4)
-                                        <span class="badge">+{{ $project->folders->count() -4 }}</span>
+                                        <span class="badge">+{{ $project->folders->count() - 4 }}</span>
                                     @endif
                                 </div>
                             </div>

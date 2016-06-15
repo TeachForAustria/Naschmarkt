@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Search</div>
+                    <div class="panel-heading">Suche</div>
                     <div class="panel-body">
                         <form action="/posts" method="GET" class="form-horizontal">
                             <div class="form-group">
@@ -37,7 +37,7 @@
                                     <input id="searchQuery" data-role="tagsinput" type="text"  name="q" class="form-control" value = "@if(isset($search_query)){{ $search_query }}@endif" >
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-default">Search</button>
+                                    <button type="submit" class="btn btn-default">Suche</button>
                                 </div>
                             </div>
                             <div class="col-md-2">

@@ -22,32 +22,37 @@ class ProjectController extends Controller
 
         $project->name = $request->input('title');
 
-        $folders = $project->folders;
+        $folders = $project->folders->all();
 
-        $current = 1;
+        foreach($folders as $folder){
 
-        while($current <= $project->folders->count()){
-            $postNames = explode(',', $request->input('newpost'.$current));
-            $folder = $folders->find($current);
+            $inputName = 'newpost' . $folder->id;
+            $postNames = explode(',', $request->input($inputName));
 
-            foreach ($postNames as $name){
-                $posts = Post::all()->where('name', $name );
+            if($postNames[0] !== '') {
+                foreach ($postNames as $name) {
 
-                foreach($posts as $post) {
-                    $folder->posts()->save($post);
+                    $posts = Post::all();
+
+                    foreach ($posts as $post) {
+                        if($post->name === $name) {
+                            $folder->posts()->save($post);
+                            $folder->save();
+                        }
+                    }
                 }
             }
-
-            $current++;
         }
 
         $newfolders = explode(',', $request->input('newfolder'));
-
-        foreach ($newfolders as $foldername){
-            $folder = new Folder();
-            $folder->name = $foldername;
-            $folder->save();
-            $project->folders()->save($folder);
+        if($newfolders[0] !== '') {
+            foreach ($newfolders as $foldername) {
+                $fold = new Folder();
+                $fold->name = $foldername;
+                $fold->save();
+                $project->folders()->save($fold);
+                $project->save();
+            }
         }
 
         $project->save();
@@ -57,7 +62,8 @@ class ProjectController extends Controller
             'content' => 'Deine &Auml;nderungen wurden erfolgreich gespeichert.'
         ]);
 
-        return redirect('project/' . $id);
+
+        return redirect('/project/' . $id);
     }
 
     public function showEditProjectView($id)
@@ -79,7 +85,7 @@ class ProjectController extends Controller
 
         $projects = Project::all();
 
-        if($full_query !== ''){
+        if($full_query !== null){
             $projects = $projects->where('name', $full_query);
         }
 
@@ -90,9 +96,6 @@ class ProjectController extends Controller
             $project->name = $new_pro_name;
             $project->save();
         }
-
-        $new_pro_name = '';
-        $full_query = '';
 
         return view('project', [
             'projects' => $projects
@@ -134,6 +137,17 @@ class ProjectController extends Controller
         return redirect('project');
     }
 
-}
+    /**
+     * @return array of all post names
+     */
+    public function postNames(){
+        $names = array();
+        $posts = Post::all();
 
-?>
+        foreach ($posts as $post){
+            array_push($names, $post->name);
+        }
+
+        return $names;
+    }
+}

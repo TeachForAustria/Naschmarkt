@@ -9,7 +9,7 @@
         <div class="col-sm-10 col-sm-offset-1">
             <div class="row">
                 <ul class="pager">
-                    <li class="previous"><a href="{{ url('/project') }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Projects</a></li>
+                    <li class="previous"><a href="{{ url('/project') }}"><i class="fa fa-angle-left" aria-hidden="true"></i>Projekte</a></li>
                 </ul>
 
                 <div class="page-header">
@@ -41,7 +41,7 @@
             </div>
 
             <div class="row">
-                <h3> Folder <span class="badge"> {{ $project->folders->count() }}</span></h3>
+                <h3> Ordner <span class="badge"> {{ $project->folders->count() }}</span></h3>
                 <div class="files panel panel-default">
                     <div class="panel-body">
                         @foreach($project->folders->all() as $folder)
