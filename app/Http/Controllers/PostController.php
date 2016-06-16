@@ -47,6 +47,18 @@ class PostController extends Controller
     public function uploadPost(Request $request)
     {
 
+        $rules = array(
+            'title' => 'required',
+            'tags' => 'required',
+        );
+
+        $messages = array(
+            'title.required' => 'Bitte Titel vergeben',
+            'tags.required' => 'Bitte Tags eingeben, damit der Post zugordnet werden kann anh&auml;ngen',
+        );
+
+        $this->validate($request, $rules, $messages);
+
         // TODO: file validation
         // get file
         $files = json_decode($request->input('files'), true);
@@ -57,8 +69,6 @@ class PostController extends Controller
         $post->description = $request->input('description');
         $post->owner_id = Auth::user()->id;
         $post->save();
-
-        $tmp_dir = ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir();
 
         foreach ($files as $file) {
             //create and save document
@@ -129,6 +139,8 @@ class PostController extends Controller
 
         $posts = Post::with('tags');
 
+        $fullTextSearch = $request->input('fullTextSearch');
+
         if($full_query !== '') {
             // search in title
             $posts->where('name', 'LIKE', '%' . $full_query . '%');
@@ -140,7 +152,7 @@ class PostController extends Controller
             });
 
             // search in keywords (Fulltext-search)
-            if ($request->input('fullTextSearch') === 'yes') {
+            if ($fullTextSearch === 'yes') {
                 $posts->orWhereHas('documents', function($query) use ($full_query){
                     $query->whereHas('keywords', function($query) use ($full_query) {
                         //select tags where value is in an array with each query
@@ -166,6 +178,7 @@ class PostController extends Controller
         return view('posts', [
             'search_query' => $full_query,
             'sorted_by' => $sort_by,
+            'fullTextSearch' => $fullTextSearch,
             'posts' => $posts
         ]);
     }
@@ -282,7 +295,8 @@ class PostController extends Controller
      * @param Post $post to download as a zip
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse zip download file
      */
-    public function getZipDownload(Post $post){
+    public function getZipDownload(Post $post)
+    {
 
         $documents = $post->documents;
 
