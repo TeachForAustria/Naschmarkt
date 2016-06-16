@@ -74,6 +74,19 @@ class UsersFromCSV extends Command
                     $user_check->first()->is_staff = 1;
 
                     $user_check->first()->save();
+
+                    if(isset($user_check->activation_token)){
+                        //send email
+                        Mail::send(
+                            'auth.emails.register',
+                            ['token' => $user_check->activation_token, 'id' => $user_check->id],
+                            function ($m) use ($user_check) {
+                                $m->from('no-reply@der-naschmarkt.at', 'Der Naschmarkt');
+
+                                $m->to($user_check->email, $user_check->name)->subject('Naschmarkt Account');
+                            }
+                        );
+                    }
                 }
             }
         }
