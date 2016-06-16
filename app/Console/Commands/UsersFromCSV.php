@@ -39,28 +39,43 @@ class UsersFromCSV extends Command
      */
     public function handle()
     {
+        //split file into an array with all rows
         $users = array_map('str_getcsv', file($this->argument('file')));
 
         foreach ($users as $user){
-            $data = explode(';', $user[0]);
 
-            $new_user = new User();
-            $new_user->name = $data[0];
-            $new_user->email = $data[1];
+            $user_check = User::where('email', $user[2])->get();
 
-            $new_user->activation_token = bin2hex(openssl_random_pseudo_bytes(50));
+            if ($user_check->isEmpty()){
+                //save user data
+                $new_user = new User();
+                $new_user->name = $user[0] . ' ' . $user[1];
+                $new_user->email = $user[2];
+                $new_user->activation_token = bin2hex(openssl_random_pseudo_bytes(50));
 
-            $new_user->save();
-
-            Mail::send(
-                'auth.emails.register',
-                ['token' => $new_user->activation_token, 'id' => $new_user->id],
-                function ($m) use ($new_user) {
-                    $m->from('no-reply@der-naschmarkt.at', 'Der Naschmarkt');
-
-                    $m->to($new_user->email, $new_user->name)->subject('Naschmarkt Account');
+                if($user[3] == 'Staff'){
+                    $new_user->is_staff = 1;
                 }
-            );
+
+                $new_user->save();
+
+                //send email
+                Mail::send(
+                    'auth.emails.register',
+                    ['token' => $new_user->activation_token, 'id' => $new_user->id],
+                    function ($m) use ($new_user) {
+                        $m->from('no-reply@der-naschmarkt.at', 'Der Naschmarkt');
+
+                        $m->to($new_user->email, $new_user->name)->subject('Naschmarkt Account');
+                    }
+                );
+            } else {
+                if($user[3] == 'Staff'){
+                    $user_check->first()->is_staff = 1;
+
+                    $user_check->first()->save();
+                }
+            }
         }
     }
 }
