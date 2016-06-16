@@ -58,37 +58,30 @@ class UsersFromCSV extends Command
                 }
 
                 $new_user->save();
-
-                //send email
-                Mail::send(
-                    'auth.emails.register',
-                    ['token' => $new_user->activation_token, 'id' => $new_user->id],
-                    function ($m) use ($new_user) {
-                        $m->from('no-reply@der-naschmarkt.at', 'Der Naschmarkt');
-
-                        $m->to($new_user->email, $new_user->name)->subject('Naschmarkt Account');
-                    }
-                );
+                $this->sendMail($new_user);
             } else {
                 if($user[3] == 'Staff'){
                     $user_check->first()->is_staff = 1;
-
                     $user_check->first()->save();
 
                     if(isset($user_check->activation_token)){
-                        //send email
-                        Mail::send(
-                            'auth.emails.register',
-                            ['token' => $user_check->activation_token, 'id' => $user_check->id],
-                            function ($m) use ($user_check) {
-                                $m->from('no-reply@der-naschmarkt.at', 'Der Naschmarkt');
-
-                                $m->to($user_check->email, $user_check->name)->subject('Naschmarkt Account');
-                            }
-                        );
+                        $this->sendMail($user_check);
                     }
                 }
             }
         }
+    }
+    
+    private function sendMail($user){
+        //send email
+        Mail::send(
+            'auth.emails.register',
+            ['token' => $user->activation_token, 'id' => $user->id],
+            function ($m) use ($user) {
+                $m->from('no-reply@der-naschmarkt.at', 'Der Naschmarkt');
+
+                $m->to($user->email, $user->name)->subject('Naschmarkt Account');
+            }
+        );
     }
 }
