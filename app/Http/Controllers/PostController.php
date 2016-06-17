@@ -46,7 +46,6 @@ class PostController extends Controller
      */
     public function uploadPost(Request $request)
     {
-
         $rules = array(
             'title' => 'required',
             'tags' => 'required',

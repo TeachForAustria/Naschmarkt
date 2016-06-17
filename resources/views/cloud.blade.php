@@ -18,8 +18,8 @@
                                 <form action="/" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <select class="form-control" id="select">
-                                            <option value="1">Auf Gut Gl&uumlck</option>
                                             <option value="2">Meist verwendet</option>
+                                            <option value="1">Auf Gut Gl&uuml;ck</option>
                                         </select>
                                     </div>
                                 </form>
