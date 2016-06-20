@@ -69,7 +69,7 @@ class UsersFromCSV extends Command
                 
                 $user_check->first()->save();
 
-                if(isset($user_check->activation_token)){
+                if($user_check->activation_token != null){
                     $this->sendMail($user_check);
                 }
             }
