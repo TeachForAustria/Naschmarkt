@@ -60,17 +60,20 @@ class UsersFromCSV extends Command
                 $new_user->save();
                 $this->sendMail($new_user);
             } else {
-                $user_check->name = $user[0] . ' ' . $user[1];
+                $update_user = $user_check->first();
+                $update_user->name = $user[0] . ' ' . $user[1];
+
+
 
                 if($user[3] == 'Staff'){
-                    $user_check->first()->is_staff = 1;
+                    $update_user->is_staff = 1;
 
                 }
-                
-                $user_check->first()->save();
 
-                if($user_check->activation_token != null){
-                    $this->sendMail($user_check);
+                $update_user->save();
+
+                if($update_user->activation_token != null){
+                    $this->sendMail($update_user);
                 }
             }
         }
