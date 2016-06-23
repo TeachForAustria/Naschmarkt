@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers;
+
+class AppController extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('home');
+    }
+
+    /**
+     * Show to uploadpage
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function upload()
+    {
+        return view('upload');
+    }
+
+    /**
+     * Show the tagcloud.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function cloud()
+    {
+        return view('cloud');
+    }
+
+    public function project()
+    {
+        return view('project');
+    }
+}
+

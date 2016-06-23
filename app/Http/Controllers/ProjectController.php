@@ -9,9 +9,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 
+/**
+ * Class ProjectController
+ * @package App\Http\Controllers
+ */
 class ProjectController extends Controller
 {
 
+    /**
+     * Updates Project name and its folders
+     *
+     * @param $id, the id of the project
+     * @param Request $request containing the information needed
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector to the updated project
+     */
     public function update($id, Request $request)
     {
         $project = Project::findOrFail($id);
@@ -66,6 +77,12 @@ class ProjectController extends Controller
         return redirect('/project/' . $id);
     }
 
+    /**
+     * Edit project view.
+     *
+     * @param $id of the project to edit
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showEditProjectView($id)
     {
         $project = Project::with('folders')->findOrFail($id);
@@ -79,16 +96,14 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function showProjectsView(Request $request)
+    /**
+     * Create a new Project
+     *
+     * @param Request $request containg the name
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector to the projects page
+     */
+    public function newProject(Request $request)
     {
-        $full_query = $request->input('projectQuery');
-
-        $projects = Project::all();
-
-        if($full_query !== null){
-            $projects = $projects->where('name', $full_query);
-        }
-
         $new_pro_name = $request->input('newPro');
         if($new_pro_name != ''){
             $project = new Project();
@@ -97,11 +112,26 @@ class ProjectController extends Controller
             $project->save();
         }
 
-        return view('project', [
-            'projects' => $projects
+        return redirect('/projects');
+    }
+
+    /**
+     * returns view containing all projects
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showProjects(){
+        return view('project',[
+            'projects' => Project::all()
         ]);
     }
 
+    /**
+     * Show a specific project
+     *
+     * @param $id of the project
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showViewProjectView($id)
     {
         $project = Project::with('folders')->findOrFail($id);
@@ -112,6 +142,13 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * Delete a project and it's folders
+     *
+     * @param $id of the project
+     * @param Request $request for showing the information
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector to the projects page
+     */
     public function deleteProject($id, Request $request)
     {
 
@@ -134,7 +171,7 @@ class ProjectController extends Controller
             'content' => 'Dein Project wurde erfolgreich gel&ouml;scht.'
         ]);
 
-        return redirect('project');
+        return redirect('/projects');
     }
 
     /**
@@ -149,5 +186,39 @@ class ProjectController extends Controller
         }
 
         return $names;
+    }
+
+    /**
+     * Detach a Post form a Folder
+     *
+     * @param Folder $folder parent folder of the post
+     * @param Post $post post to detach from the folder
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector back tot the edit page
+     */
+    public function detachPost(Folder $folder, Post $post){
+        if(!Auth::user()->name == $folder->project->owner->name or !Auth::user()->is_staff){
+            abort(403);
+        }
+
+        $folder->posts()->detach($post);
+
+        return redirect('/project/'. $folder->project->id .'/edit');
+    }
+
+    /**
+     * Delete a folder by id
+     *
+     * @param Folder $folder to delete
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
+    public function deleteFolder(Folder $folder){
+        if(!Auth::user()->name == $folder->project->owner->name or !Auth::user()->is_staff){
+            abort(403);
+        }
+
+        $folder->delete();
+
+        return redirect('/project/'. $folder->project->id .'/edit');
     }
 }

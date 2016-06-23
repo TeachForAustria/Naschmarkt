@@ -77,11 +77,25 @@
                                        aria-controls="collapse{{ $folder->id }}" data-toggle="collapse" aria-expanded="false">
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $folder->name }}
                                     </a>
+
+                                    <a class="remove_fields" href="/projects/{{ $folder->id }}">
+                                        <i class="fa fa-remove icon-trash icon-white"></i>
+                                    </a>
+
                                     <div class="collapse" id="collapse{{ $folder->id }}">
                                         <div class="well pro-edit">
                                             <div class="list-group">
                                                 @foreach($folder->posts->all() as $post)
-                                                    <a href="{{ url('/posts?q=' . $post->name) }}" class="list-group-item"> {{ $post->name }}</a>
+
+                                                    <div class="list-group-item">
+                                                        <a href="{{ url('/posts/' . $post->name) }}"> {{ $post->name }} </a>
+
+                                                        <a class="remove_fields pull-right" href="/projects/{{ $folder->id }}/remove/{{ $post->id }}">
+                                                            <i class="fa fa-remove icon-trash icon-white"></i>
+                                                        </a>
+                                                    </div>
+
+
                                                 @endforeach
                                                 <a class="list-group-item">
                                                     <i class="fa fa-plus-circle"></i>

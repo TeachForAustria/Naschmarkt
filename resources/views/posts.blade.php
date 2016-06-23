@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label>
-                                    <input name="fullTextSearch" type="checkbox" value="yes"> Volltextsuche
+                                    <input name="fullTextSearch" type="checkbox" value="yes" @if( isset($fullTextSearch) && $fullTextSearch == 'yes' ) checked @endif> Volltextsuche
                                 </label>
                             </div>
 

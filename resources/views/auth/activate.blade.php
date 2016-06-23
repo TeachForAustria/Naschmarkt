@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default activate-panel">
-                    <div class="panel-heading">Account Aktivieren</div>
+                    <div class="panel-heading">Account aktivieren</div>
                     <div class="panel-body">
                         <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#password-form" aria-expanded="false" aria-controls="password-form"><i class="fa fa-lock"></i>Passwort</button>
 

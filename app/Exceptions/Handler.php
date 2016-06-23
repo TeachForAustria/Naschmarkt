@@ -48,6 +48,8 @@ class Handler extends ExceptionHandler
     {
         if($e instanceof HttpException)
             return Response::view('errors.generic', ['status' => $e->getStatusCode()], $e->getStatusCode());
+        else if ($e instanceof ValidationException)
+            return parent::render($request, $e);
         else
             return Response::view('errors.generic', ['status' => 500], 500);
     }

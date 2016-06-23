@@ -1,0 +1,49 @@
+<?php
+
+namespace App;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+/**
+ * Model of representing users.
+ * @package App
+ */
+class User extends Authenticatable
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /**
+     * Relationship to the user's posts.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Posts', 'owner_id');
+    }
+
+    /**
+     * Relationship to social network associations of the user.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function socialLogins()
+    {
+        return $this->hasMany('App\SocialLogin');
+    }
+}
+

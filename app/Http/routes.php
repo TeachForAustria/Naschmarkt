@@ -88,12 +88,14 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/document-versions', 'DocumentVersionController@uploadFile');
 
     // projects pages
-    Route::get('/project', 'ProjectController@showProjectsView');
+    Route::get('/projects', 'ProjectController@showProjects');
+    Route::post('/project/new', 'ProjectController@newProject');
     Route::get('/project/{id}', 'ProjectController@showViewProjectView');
     Route::get('/project/deleteProject/{id}', 'ProjectController@deleteProject');
     Route::get('/project/{id}/edit', 'ProjectController@showEditProjectView');
     Route::post('/project/{id}', 'ProjectController@update');
-    Route::post('/project/new', 'ProjectController@newProject');
     Route::get('/postnames', 'ProjectController@postNames');
+    Route::get('/projects/{folder}/remove/{post}', 'ProjectController@detachPost');
+    Route::get('/projects/{folder}', 'ProjectController@deleteFolder');
 
 });

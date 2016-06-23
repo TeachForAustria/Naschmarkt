@@ -46,7 +46,7 @@
                                 <form action="{{ url('/posts') }}" method="GET" class="navbar-form navbar-left" role="search" enctype="multipart/form-data">
                                     {!! csrf_field() !!}
                                     <div class="form-group">
-                                        <input data-hotkey="q" name="q" placeholder="Search Posts" aria-label="Search Posts" data-unscoped-placeholder="Search Posts" data-scoped-placeholder="Search" tabindex="1" type="text" class="form-control header-search-input js-site-search-focus">
+                                        <input data-hotkey="q" name="q" placeholder="Durchsuchen ..." aria-label="Search Posts" data-unscoped-placeholder="Search Posts" data-scoped-placeholder="Search" tabindex="1" type="text" class="form-control header-search-input js-site-search-focus">
                                     </div>
                                 </form>
                             @endif
@@ -57,19 +57,19 @@
                         <ul class="nav navbar-nav navbar-right">
                             <!-- Authentication Links -->
                             @if (Auth::check())
+                                <li><a href="{{ url('/projects') }}"> Projekte </a></li>
                                 <li><a href="{{ url('/posts') }}"> Posts </a></li>
-                                <li><a href="{{ url('/project') }}"> Projekte </a></li>
-                                <li><a href="{{ url('/upload') }}">Upload</a></li>
+                                <li><a href="{{ url('/upload') }}"> Upload </a></li>
                                 @can('register-user')
-                                <li><a href="{{ url('/register') }}">Register</a></li>
+                                <li><a href="{{ url('/register') }}"> Registrieren </a></li>
                                 @endcan
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         {{ Auth::user()->name }} <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{ url('/user') }}"><i class="fa fa-btn"></i>Profile</a></li>
-                                        <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                        <li><a href="{{ url('/user') }}"><i class="fa fa-btn"></i>Profil</a></li>
+                                        <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Ausloggen</a></li>
                                     </ul>
                                 </li>
                             @endif
@@ -122,6 +122,5 @@
         <script src="{{ URL::asset('lib/jquery/jquery.min.js') }}" ></script>
         <script src="{{ URL::asset('lib/bootstrap/bootstrap.min.js') }}" ></script>
         @stack('scripts')
-        {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     </body>
 </html>

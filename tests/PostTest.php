@@ -28,6 +28,7 @@ class PostTest extends TestCase
             ->visit('/upload')
             ->type('test file', 'title')
             ->type('some text here', 'description')
+            ->type('testtag', 'tags')
             ->type('[{"name": "file_upload.txt", "uuid": "' . $documentVersion->uuid . '"}]', 'files')
             ->press('Hochladen')
             ->seePageIs('/upload')
