@@ -15,23 +15,25 @@
         (function() {
             var existingFiles = [];
             @foreach($post->documents->all() as $document)
-                existingFiles.push({
-                    name: '{{ $document->name }}',
-                    size: '{{ $document->documentversions->last()->filesizeBytes() }}',
-                    accepted: true
-                });
-
-                var i;
-                for(i = 0; i < existingFiles.length; i++) {
-                    // from: http://stackoverflow.com/questions/24009298/dropzone-js-display-existing-files-on-server
-                    dropzone.options.addedfile.call(dropzone, existingFiles[i]);
-                    dropzone.emit("added_existing", {
+                @if($document->documentVersions->count() > 0)
+                    existingFiles.push({
                         name: '{{ $document->name }}',
-                        uuid: '{{ $document->documentversions->last()->uuid }}'
+                        size: '{{ $document->documentversions->last()->filesizeBytes() }}',
+                        accepted: true
                     });
-                    dropzone.emit("complete", existingFiles[i]);
-                    dropzone.files.push(existingFiles[i]);
-                }
+
+                    var i;
+                    for(i = 0; i < existingFiles.length; i++) {
+                        // from: http://stackoverflow.com/questions/24009298/dropzone-js-display-existing-files-on-server
+                        dropzone.options.addedfile.call(dropzone, existingFiles[i]);
+                        dropzone.emit("added_existing", {
+                            name: '{{ $document->name }}',
+                            uuid: '{{ $document->documentversions->last()->uuid }}'
+                        });
+                        dropzone.emit("complete", existingFiles[i]);
+                        dropzone.files.push(existingFiles[i]);
+                    }
+                @endif
             @endforeach
         })();
     </script>
