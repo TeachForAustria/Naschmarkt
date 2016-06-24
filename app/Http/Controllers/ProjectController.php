@@ -154,7 +154,7 @@ class ProjectController extends Controller
 
         $projectToDelete = Project::findOrFail($id);
 
-        if(!Auth::user()->name == $projectToDelete->owner->name or !Auth::user()->is_staff){
+        if(!Auth::user()== $projectToDelete->owner && !Auth::user()->is_staff){
             abort(403);
         }
 
