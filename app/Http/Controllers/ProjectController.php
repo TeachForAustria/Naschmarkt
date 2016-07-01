@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Folder;
 use App\Project;
 use App\Post;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
@@ -25,7 +26,11 @@ class ProjectController extends Controller
      */
     public function update($id, Request $request)
     {
-        $project = Project::findOrFail($id);
+        try {
+            $project = Project::findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
 
         if(!Auth::user()->name == $project->owner->name && !Auth::user()->is_staff){
             abort(403);
@@ -85,7 +90,11 @@ class ProjectController extends Controller
      */
     public function showEditProjectView($id)
     {
-        $project = Project::with('folders')->findOrFail($id);
+        try {
+            $project = Project::with('folders')->findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
 
         if(!(Auth::user()->name == $project->owner->name or Auth::user()->is_staff)) {
             abort(403);
@@ -134,7 +143,12 @@ class ProjectController extends Controller
      */
     public function showViewProjectView($id)
     {
-        $project = Project::with('folders')->findOrFail($id);
+        try {
+            $project = Project::with('folders')->findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
+
         $project->save();
 
         return view('projects.view', [
@@ -151,10 +165,13 @@ class ProjectController extends Controller
      */
     public function deleteProject($id, Request $request)
     {
+        try {
+            $projectToDelete = Project::with('folders')->findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
 
-        $projectToDelete = Project::findOrFail($id);
-
-        if(!Auth::user()== $projectToDelete->owner && !Auth::user()->is_staff){
+        if(!Auth::user() == $projectToDelete->owner && !Auth::user()->is_staff){
             abort(403);
         }
 

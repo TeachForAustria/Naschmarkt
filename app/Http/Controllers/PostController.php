@@ -10,6 +10,7 @@ use App\Post;
 use App\Tag;
 use Auth;
 use DOMDocument;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Storage;
 use App\Http\Requests;
@@ -190,7 +191,13 @@ class PostController extends Controller
      */
     public function showViewPostView($id)
     {
-        $post = Post::with('documents.documentVersions')->findOrFail($id);
+
+        try {
+            $post = Post::with('documents.documentVersions')->findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
+
         $post->access_count++;
         $post->save();
 
@@ -208,7 +215,11 @@ class PostController extends Controller
      */
     public function showEditPostView($id)
     {
-        $post = Post::with('documents.documentVersions')->findOrFail($id);
+        try {
+            $post = Post::with('documents.documentVersions')->findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
 
         if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
             abort(403);
@@ -228,7 +239,11 @@ class PostController extends Controller
      */
     public function update($id, Request $request)
     {
-        $post = Post::findOrFail($id);
+        try {
+            $post = Post::findOrFail($id);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
 
         if(!(Auth::user()->name == $post->owner->name or Auth::user()->is_staff)) {
             abort(403);
@@ -258,8 +273,12 @@ class PostController extends Controller
      */
     public function deletePost($idToDelete, Request $request)
     {
-        //Find the post with the given id
-        $postToDelete = Post::findOrFail($idToDelete);
+        try {
+            //Find the post with the given id
+            $postToDelete = Post::findOrFail($idToDelete);
+        } catch (ModelNotFoundException $ex) {
+            abort(404);
+        }
 
         if(!(Auth::user()->name == $postToDelete->owner->name or Auth::user()->is_staff)) {
             abort(403);
